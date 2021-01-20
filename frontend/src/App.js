@@ -1,16 +1,25 @@
-import React from 'react'
-import { ChakraProvider, Box, theme, Heading, VStack } from '@chakra-ui/react'
-import { ColorModeSwitcher } from './ColorModeSwitcher'
+import {
+  ChakraProvider,
+  Heading,
+  Stack,
+  Text,
+  theme,
+  useColorModeValue
+} from '@chakra-ui/react'
+import { Layout } from './components/Layout'
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Box p={3}>
-        <VStack spacing={8}>
-          <ColorModeSwitcher alignSelf='flex-end' />
-          <Heading size='lg'>Welcome to the shop</Heading>
-        </VStack>
-      </Box>
+      <Layout>
+        <Stack mt={3}>
+          <Heading size='lg'>Welcome to dev-shop</Heading>
+          <Text color={useColorModeValue('gray.300', 'gray.500')}>
+            Browse the latest and greatest tech and gear to make you the best
+            developer you can be.
+          </Text>
+        </Stack>
+      </Layout>
     </ChakraProvider>
   )
 }
