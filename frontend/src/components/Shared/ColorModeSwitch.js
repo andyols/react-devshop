@@ -1,7 +1,7 @@
 import { IconButton, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { FiMoon, FiSun } from 'react-icons/fi'
 
-export const ColorModeSwitcher = (props) => {
+const ColorModeSwitch = (props) => {
   const { toggleColorMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const hoverBg = useColorModeValue('red.300', 'gray.600')
@@ -16,9 +16,12 @@ export const ColorModeSwitcher = (props) => {
       color='current'
       marginLeft='2'
       onClick={toggleColorMode}
+      onMouseDown={(e) => e.preventDefault()}
       icon={<SwitchIcon />}
       _hover={{ background: hoverBg }}
       {...props}
     />
   )
 }
+
+export default ColorModeSwitch

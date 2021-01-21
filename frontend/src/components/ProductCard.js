@@ -7,9 +7,9 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-import Rating from './Rating'
+import { Rating } from './Shared'
 
-const Product = ({ product }) => {
+const ProductCard = ({ product }) => {
   return (
     <Box
       as={RouterLink}
@@ -45,4 +45,4 @@ const Product = ({ product }) => {
   )
 }
 
-export default Product
+export default ProductCard

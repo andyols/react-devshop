@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { Link as RouterLink } from 'react-router-dom'
-import Rating from '../components/Rating'
+import { Rating } from '../components/Shared'
 import products from '../products'
 
 const Home = ({ match }) => {
