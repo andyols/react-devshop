@@ -1,28 +1,18 @@
-import {
-  ChakraProvider,
-  Heading,
-  Stack,
-  Text,
-  theme,
-  useColorModeValue
-} from '@chakra-ui/react'
+import { ChakraProvider, theme } from '@chakra-ui/react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Layout } from './components/Layout'
-import { Home } from './screens'
+import { Home, Product } from './screens'
 
 function App() {
   return (
-    <ChakraProvider theme={theme}>
-      <Layout>
-        <Stack mt={3}>
-          <Heading size='lg'>Welcome to dev-shop</Heading>
-          <Text color={useColorModeValue('gray.300', 'gray.500')}>
-            Browse the latest and greatest tech and gear to make you the best
-            developer you can be.
-          </Text>
-          <Home />
-        </Stack>
-      </Layout>
-    </ChakraProvider>
+    <Router>
+      <ChakraProvider theme={theme}>
+        <Layout>
+          <Route exact path='/' component={Home} />
+          <Route path='/product/:id' component={Product} />
+        </Layout>
+      </ChakraProvider>
+    </Router>
   )
 }
 

@@ -1,10 +1,15 @@
-import { Divider, Heading, SimpleGrid } from '@chakra-ui/react'
+import { Divider, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react'
 import Product from '../components/Product'
 import products from '../products'
 
 const Home = () => {
   return (
-    <>
+    <Stack>
+      <Heading size='lg'>Welcome to dev-shop</Heading>
+      <Text color='gray.500'>
+        Browse the latest and greatest tech and gear to make you the best
+        developer you can be.
+      </Text>
       <Heading size='md' pt={5}>
         Latest Products
       </Heading>
@@ -14,7 +19,7 @@ const Home = () => {
           <Product key={product._id} product={product} />
         ))}
       </SimpleGrid>
-    </>
+    </Stack>
   )
 }
 

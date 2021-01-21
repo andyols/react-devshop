@@ -2,19 +2,23 @@ import {
   Box,
   Heading,
   Image,
-  Link,
   Stack,
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
+import { Link as RouterLink } from 'react-router-dom'
 import Rating from './Rating'
 
 const Product = ({ product }) => {
   return (
     <Box
+      as={RouterLink}
+      to={`/product/${product._id}`}
       bg={useColorModeValue('white', 'gray.700')}
       borderRadius='md'
+      _hover={{ boxShadow: 'md' }}
       boxShadow='base'
+      transition='ease-in-out 150ms'
     >
       <Image src={product.image} alt={product.name} borderTopRadius='md' />
       <Box p={3}>
@@ -22,7 +26,6 @@ const Product = ({ product }) => {
           <Heading
             size='sm'
             fontWeight='semibold'
-            as={Link}
             href={`/product/${product._id}`}
           >
             {product.name}

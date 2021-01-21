@@ -1,5 +1,5 @@
 import { Flex, Icon, Link } from '@chakra-ui/react'
-import { FaGithub } from 'react-icons/fa'
+import { FiGithub } from 'react-icons/fi'
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
         href='https://github.com/andyols/react-mern-ecommerce'
         isExternal
       >
-        <Icon as={FaGithub} mr={1} w={4} h={4} />
+        <Icon as={FiGithub} mr={1} w={4} h={4} />
         Github
       </Link>
     </Flex>
