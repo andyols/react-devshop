@@ -7,6 +7,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { Layout } from './components/Layout'
+import { Home } from './screens'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             Browse the latest and greatest tech and gear to make you the best
             developer you can be.
           </Text>
+          <Home />
         </Stack>
       </Layout>
     </ChakraProvider>
