@@ -1,8 +1,18 @@
 import { Divider, Heading, SimpleGrid, Stack, Text } from '@chakra-ui/react'
+import axios from 'axios'
+import { useQuery } from 'react-query'
 import ProductCard from '../components/ProductCard'
-import products from '../products'
+
+const getProducts = async () => {
+  const { data } = await axios({
+    url: '/api/products',
+    method: 'GET'
+  })
+  return data
+}
 
 const Home = () => {
+  const { data: products, isSuccess } = useQuery('products', getProducts)
   return (
     <Stack>
       <Heading size='lg'>Welcome to dev-shop</Heading>
@@ -15,9 +25,10 @@ const Home = () => {
       </Heading>
       <Divider />
       <SimpleGrid columns={[1, 2, 3, 4]} spacing={[3, 4, 5]} pt={3}>
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
+        {isSuccess &&
+          products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
       </SimpleGrid>
     </Stack>
   )
