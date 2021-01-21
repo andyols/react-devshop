@@ -1,0 +1,22 @@
+{
+  "name": "react-devshop",
+  "version": "1.0.0",
+  "description": "backend api",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andyols/react-mern-ecommerce.git"
+  },
+  "author": "Andy Olson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andyols/react-mern-ecommerce/issues"
+  },
+  "homepage": "https://github.com/andyols/react-mern-ecommerce#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
