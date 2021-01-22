@@ -2,6 +2,7 @@ import {
   Box,
   Heading,
   Image,
+  Skeleton,
   Stack,
   Text,
   useColorModeValue
@@ -9,9 +10,10 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 import { Rating } from './Shared'
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, loadStatus }) => {
   return (
-    <Box
+    <Skeleton
+      isLoaded={loadStatus}
       as={RouterLink}
       to={`/product/${product._id}`}
       bg={useColorModeValue('white', 'gray.700')}
@@ -20,7 +22,13 @@ const ProductCard = ({ product }) => {
       boxShadow='base'
       transition='ease-in-out 150ms'
     >
-      <Image src={product.image} alt={product.name} borderTopRadius='md' />
+      <Image
+        src={product.image}
+        alt={product.name}
+        borderTopRadius='md'
+        fallbackSrc='https://via.placeholder.com/300'
+      />
+
       <Box p={3}>
         <Stack>
           <Heading
@@ -33,7 +41,7 @@ const ProductCard = ({ product }) => {
 
           <Rating
             value={product.rating}
-            text={`${product.numReviews} reviews`}
+            text={`${product.reviewCount} reviews`}
           />
 
           <Text fontSize='lg' fontWeight='bold'>
@@ -41,7 +49,7 @@ const ProductCard = ({ product }) => {
           </Text>
         </Stack>
       </Box>
-    </Box>
+    </Skeleton>
   )
 }
 
