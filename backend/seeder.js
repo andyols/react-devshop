@@ -1,11 +1,11 @@
 import dotenv from 'dotenv'
-import colors from 'colors'
 import users from './data/users.js'
 import products from './data/products.js'
 import User from './models/user.js'
 import Product from './models/product.js'
 import Order from './models/order.js'
 import connectDB from './config/db.js'
+import { logError, logSuccess } from './utils/logs.js'
 
 dotenv.config({ path: '.env.local' })
 
@@ -25,10 +25,10 @@ const importData = async () => {
 
     await Product.insertMany(sampleProducts)
 
-    console.log('💾 Data imported'.green.bold)
+    logSuccess('💾', 'Data imported')
     process.exit()
   } catch (error) {
-    console.error(`❌ ${error.message}`.red.bold)
+    logError(error.message)
   }
 }
 const destroyData = async () => {
@@ -37,10 +37,10 @@ const destroyData = async () => {
     await Product.deleteMany()
     await User.deleteMany()
 
-    console.log('💾 Data destroyed'.red.bold)
+    logSuccess('💾', 'Data destroyed')
     process.exit()
   } catch (error) {
-    console.error(`❌ ${error.message}`.red.bold)
+    logError(error.message)
   }
 }
 

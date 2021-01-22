@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { logError, logInfo } from '../utils/logs.js'
 
 const connectDB = async () => {
   try {
@@ -7,9 +8,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useCreateIndex: true
     })
-    console.log(`📡 MongoDB connected to ${conn.connection.host}`.cyan)
+    logInfo('📡', 'MongoDB', `connected to ${conn.connection.host}`)
   } catch (error) {
-    console.error(`❌ ${error.message}`.red.bold)
+    logError(error.message)
     process.exit(1)
   }
 }
