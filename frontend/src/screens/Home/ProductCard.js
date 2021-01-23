@@ -26,7 +26,7 @@ const ProductCard = ({ product, loadStatus }) => {
         src={product.image}
         alt={product.name}
         borderTopRadius='md'
-        fallbackSrc='https://via.placeholder.com/300'
+        fallbackSrc='https://placehold.it/300'
       />
 
       <Box p={3}>

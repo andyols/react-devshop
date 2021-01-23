@@ -1,7 +1,7 @@
 import { Container, Stack } from '@chakra-ui/react'
 
 const MainWrapper = ({ children }) => (
-  <Stack flex='1 1 0%' as='main'>
+  <Stack flex='1 1 0%' as='main' pt={6}>
     <Container maxW='5xl'>{children}</Container>
   </Stack>
 )

@@ -2,9 +2,11 @@ import {
   Box,
   Button,
   Divider,
+  FormControl,
   Heading,
   HStack,
   Image,
+  Select,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -16,7 +18,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { CustomAlert, QuantitySelect, Rating } from 'components/Shared'
+import { CustomAlert, PrimaryButton, Rating } from 'components/Shared'
 import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
@@ -44,17 +46,14 @@ const Product = ({ history, match }) => {
   const inStock = product?.stockCount > 0
   const inStockColor = useColorModeValue('green.600', 'green.300')
   const outOfStockColor = useColorModeValue('red.600', 'red.300')
-  const addToCartButtonColor = useColorModeValue('purple', 'cyan')
 
   const handleAddToCart = () => {
     history.push(`/cart/${id}?qty=${qty}`)
   }
 
-  const handleChange = (e) => setQty(e.target.value)
-
   return (
     <Stack>
-      <Box pt={7}>
+      <Box>
         <Button
           as={RouterLink}
           to='/'
@@ -111,20 +110,29 @@ const Product = ({ history, match }) => {
                   </StatHelpText>
                 </Stat>
                 {inStock && (
-                  <QuantitySelect {...{ product, qty, handleChange }} />
+                  <FormControl>
+                    <Select
+                      value={qty}
+                      onChange={(e) => setQty(e.target.value)}
+                    >
+                      {[...Array(product?.stockCount).keys()].map((o) => (
+                        <option key={o + 1} value={o + 1}>
+                          {o + 1}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
                 )}
               </HStack>
               <Divider />
-              <Button
+              <PrimaryButton
+                label='Add to Cart'
+                disabled={!inStock}
+                onClick={handleAddToCart}
+                rightIcon={<FiShoppingCart />}
                 mt={3}
                 w='100%'
-                colorScheme={addToCartButtonColor}
-                rightIcon={<FiShoppingCart />}
-                onClick={handleAddToCart}
-                disabled={!inStock}
-              >
-                Add to Cart
-              </Button>
+              />
             </Stack>
           </Skeleton>
         </SimpleGrid>
