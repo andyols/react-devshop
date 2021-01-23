@@ -26,7 +26,7 @@ const ProductCard = ({ product, loadStatus }) => {
         src={product.image}
         alt={product.name}
         borderTopRadius='md'
-        fallbackSrc='https://placehold.it/300'
+        ignoreFallback
       />
 
       <Box p={3}>

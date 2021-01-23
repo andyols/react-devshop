@@ -77,7 +77,7 @@ const Product = ({ history, match }) => {
               src={product?.image}
               alt={product?.name}
               borderRadius='base'
-              fallbackSrc='https://placehold.it/300'
+              ignoreFallback
             />
           </Skeleton>
           {/* Product Overview */}
@@ -98,7 +98,7 @@ const Product = ({ history, match }) => {
           </Skeleton>
           {/* Product Purchase Information */}
           <Skeleton isLoaded={loadStatus}>
-            <Stack d='block' spacing={5}>
+            <Stack d='block' spacing={5} boxShadow='base' p={3}>
               <HStack spacing={12}>
                 <Stat>
                   <StatLabel>Total Price</StatLabel>
