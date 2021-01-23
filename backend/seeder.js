@@ -25,7 +25,7 @@ const importData = async () => {
 
     await Product.insertMany(sampleProducts)
 
-    logSuccess('💾', 'Data imported')
+    logSuccess('Data imported')
     process.exit()
   } catch (error) {
     logError(error.message)
@@ -37,7 +37,7 @@ const destroyData = async () => {
     await Product.deleteMany()
     await User.deleteMany()
 
-    logSuccess('💾', 'Data destroyed')
+    logSuccess('Data destroyed')
     process.exit()
   } catch (error) {
     logError(error.message)

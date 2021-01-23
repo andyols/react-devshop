@@ -8,7 +8,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useCreateIndex: true
     })
-    logInfo('📡', 'MongoDB', `connected to ${conn.connection.host}`)
+    logInfo('mongodb', `connected to ${conn.connection.host}`)
   } catch (error) {
     logError(error.message)
     process.exit(1)
