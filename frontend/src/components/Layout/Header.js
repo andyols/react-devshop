@@ -1,7 +1,7 @@
 import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
+import { ColorModeSwitch, NavButton } from 'components/Shared'
 import { FiLogIn, FiShoppingBag } from 'react-icons/fi'
 import { Link as RouterLink } from 'react-router-dom'
-import { ColorModeSwitch, NavButton } from '../Shared'
 
 const Header = () => {
   return (

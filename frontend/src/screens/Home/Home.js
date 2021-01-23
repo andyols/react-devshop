@@ -7,9 +7,9 @@ import {
   Text
 } from '@chakra-ui/react'
 import axios from 'axios'
+import { CustomAlert } from 'components/Shared'
 import { useQuery } from 'react-query'
-import ProductCard from '../components/ProductCard'
-import { CustomAlert } from '../components/Shared'
+import ProductCard from './ProductCard'
 
 const getProducts = async () => {
   const { data } = await axios({

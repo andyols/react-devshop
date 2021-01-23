@@ -9,12 +9,12 @@ import {
   Text
 } from '@chakra-ui/react'
 import axios from 'axios'
+import { CustomAlert, QuantitySelect } from 'components/Shared'
 import { useEffect } from 'react'
 import { FiTrash } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import { CustomAlert, QuantitySelect } from '../components/Shared'
-import { addItem } from '../slices/cartSlice'
+import { addItem } from 'slices/cartSlice'
 
 const getProductById = async (id) => {
   const { data } = await axios({

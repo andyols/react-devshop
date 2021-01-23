@@ -16,11 +16,11 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import axios from 'axios'
+import { CustomAlert, QuantitySelect, Rating } from 'components/Shared'
 import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { Link as RouterLink } from 'react-router-dom'
-import { CustomAlert, QuantitySelect, Rating } from '../components/Shared'
 
 const getProductById = async (id) => {
   const { data } = await axios({

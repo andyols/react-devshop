@@ -7,8 +7,8 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
+import { Rating } from 'components/Shared'
 import { Link as RouterLink } from 'react-router-dom'
-import { Rating } from './Shared'
 
 const ProductCard = ({ product, loadStatus }) => {
   return (
