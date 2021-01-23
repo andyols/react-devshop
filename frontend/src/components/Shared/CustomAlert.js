@@ -4,13 +4,19 @@ import {
   AlertIcon,
   AlertTitle
 } from '@chakra-ui/react'
+import { Link as RouterLink } from 'react-router-dom'
 
-const CustomAlert = ({ status, title, description }) => {
+const CustomAlert = ({ status, title, description, to }) => {
   return (
-    <Alert status={status}>
+    <Alert
+      as={to ? RouterLink : Alert}
+      to={to && to}
+      status={status}
+      borderRadius='base'
+    >
       <AlertIcon />
-      <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>{description}</AlertDescription>
+      {title && <AlertTitle>{title}</AlertTitle>}
+      {description && <AlertDescription>{description}</AlertDescription>}
     </Alert>
   )
 }

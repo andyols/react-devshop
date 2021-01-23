@@ -2,6 +2,7 @@ dependencies:
   '@chakra-ui/react': 1.1.5_c6292d30f0f27fe2acbf83f47c7ccb0e
   '@emotion/react': 11.1.4_react@17.0.1
   '@emotion/styled': 11.0.0_69dd99bc46b1e036f631d5b040f38d6a
+  '@reduxjs/toolkit': 1.5.0
   '@testing-library/jest-dom': 5.11.9
   '@testing-library/react': 10.4.9_react-dom@17.0.1+react@17.0.1
   '@testing-library/user-event': 12.6.0
@@ -11,6 +12,7 @@ dependencies:
   react-dom: 17.0.1_react@17.0.1
   react-icons: 3.11.0_react@17.0.1
   react-query: 3.5.16_react-dom@17.0.1+react@17.0.1
+  react-redux: 7.2.2_react-dom@17.0.1+react@17.0.1
   react-router-dom: 5.2.0_react@17.0.1
   react-scripts: 4.0.1
   web-vitals: 0.2.4
@@ -2478,6 +2480,15 @@ packages:
       react-dom: ^16.8.0
     resolution:
       integrity: sha512-O67fK7jz01TYu/V57RiDsxKY29ReHdQkpq+OV0ijmXsv7g5r3Nys51Ry+IqPrJst4Ve5xxFbiJsTt/bGwxorrQ==
+  /@reduxjs/toolkit/1.5.0:
+    dependencies:
+      immer: 8.0.1
+      redux: 4.0.5
+      redux-thunk: 2.3.0
+      reselect: 4.0.0
+    dev: false
+    resolution:
+      integrity: sha512-E/FUraRx+8guw9Hlg/Ja8jI/hwCrmIKed8Annt9YsZw3BQp+F24t5I5b2OWR6pkEHY4hn1BgP08FrTZFRKsdaQ==
   /@rollup/plugin-node-resolve/7.1.3_rollup@1.32.1:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@1.32.1
@@ -7051,6 +7062,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Vs/gxoM4DqNAYR7pugIxi0Xc8XAun/uy7AQu4fLLqaTBHxjOP9pJ266Q9MWA/ly4z6rAFZbvViOtihxUZ7O28A==
+  /immer/8.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
   /import-cwd/2.1.0:
     dependencies:
       import-from: 2.1.0
@@ -10711,6 +10726,28 @@ packages:
         optional: true
     resolution:
       integrity: sha512-zOJimWPC0o2h8fta0uMc+pmFIBgfVkfCvEAeUbrlsbA6m42CFPgyRBJt6kiYjsZ/WRuJl+WIaAh/P27oUXETNw==
+  /react-redux/7.2.2_react-dom@17.0.1+react@17.0.1:
+    dependencies:
+      '@babel/runtime': 7.12.5
+      hoist-non-react-statics: 3.3.2
+      loose-envify: 1.4.0
+      prop-types: 15.7.2
+      react: 17.0.1
+      react-dom: 17.0.1_react@17.0.1
+      react-is: 16.13.1
+    dev: false
+    peerDependencies:
+      react: ^16.8.3 || ^17
+      react-dom: '*'
+      react-native: '*'
+      redux: ^2.0.0 || ^3.0.0 || ^4.0.0-0
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    resolution:
+      integrity: sha512-8+CQ1EvIVFkYL/vu6Olo7JFLWop1qRUeb46sGtIMDCSpgwPQq8fPLpirIB0iTqFe9XYEFPHssdX8/UwN6pAkEA==
   /react-refresh/0.8.3:
     dev: false
     engines:
@@ -10988,6 +11025,17 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==
+  /redux-thunk/2.3.0:
+    dev: false
+    resolution:
+      integrity: sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
+  /redux/4.0.5:
+    dependencies:
+      loose-envify: 1.4.0
+      symbol-observable: 1.2.0
+    dev: false
+    resolution:
+      integrity: sha512-VSz1uMAH24DM6MF72vcojpYPtrTUu3ByVWfPL1nPfVRb5mZVTve5GnNCUV53QM/BZ66xfWrm0CTWoM+Xlz8V1w==
   /regenerate-unicode-properties/8.2.0:
     dependencies:
       regenerate: 1.4.2
@@ -11175,6 +11223,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
+  /reselect/4.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-qUgANli03jjAyGlnbYVAV5vvnOmJnODyABz51RdBN7M4WaVu8mecZWgyQNkG8Yqe3KRGRt0l4K4B3XVEULC4CA==
   /resolve-cwd/2.0.0:
     dependencies:
       resolve-from: 3.0.0
@@ -12198,6 +12250,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-yhy/sQYxR5BkC98CY7o31VGsg014AKLEPxdfhora76l36hD9Rdy5NZA/Ocn6yayNPgSamYdtX2rFJdcv07AYVw==
+  /symbol-observable/1.2.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
   /symbol-tree/3.2.4:
     dev: false
     resolution:
@@ -13437,6 +13495,7 @@ specifiers:
   '@chakra-ui/react': ^1.1.5
   '@emotion/react': ^11.1.4
   '@emotion/styled': ^11.0.0
+  '@reduxjs/toolkit': ^1.5.0
   '@testing-library/jest-dom': ^5.11.9
   '@testing-library/react': ^10.4.9
   '@testing-library/user-event': ^12.6.0
@@ -13446,6 +13505,7 @@ specifiers:
   react-dom: ^17.0.1
   react-icons: ^3.11.0
   react-query: ^3.5.16
+  react-redux: ^7.2.2
   react-refresh: ^0.9.0
   react-router-dom: ^5.2.0
   react-scripts: 4.0.1

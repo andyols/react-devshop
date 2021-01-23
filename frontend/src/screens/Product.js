@@ -3,6 +3,7 @@ import {
   Button,
   Divider,
   Heading,
+  HStack,
   Image,
   SimpleGrid,
   Skeleton,
@@ -15,10 +16,11 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import axios from 'axios'
+import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { Link as RouterLink } from 'react-router-dom'
-import { CustomAlert, Rating } from '../components/Shared'
+import { CustomAlert, QuantitySelect, Rating } from '../components/Shared'
 
 const getProductById = async (id) => {
   const { data } = await axios({
@@ -28,7 +30,7 @@ const getProductById = async (id) => {
   return data
 }
 
-const Product = ({ match }) => {
+const Product = ({ history, match }) => {
   const id = match.params.id
   const { data: product, isSuccess, isFetchedAfterMount, isError } = useQuery(
     ['product', id],
@@ -36,11 +38,19 @@ const Product = ({ match }) => {
     { enabled: !!id }
   )
 
+  const [qty, setQty] = useState(1)
+
   const loadStatus = isSuccess && isFetchedAfterMount
   const inStock = product?.stockCount > 0
   const inStockColor = useColorModeValue('green.600', 'green.300')
   const outOfStockColor = useColorModeValue('red.600', 'red.300')
   const addToCartButtonColor = useColorModeValue('purple', 'cyan')
+
+  const handleAddToCart = () => {
+    history.push(`/cart/${id}?qty=${qty}`)
+  }
+
+  const handleChange = (e) => setQty(e.target.value)
 
   return (
     <Stack>
@@ -90,19 +100,27 @@ const Product = ({ match }) => {
           {/* Product Purchase Information */}
           <Skeleton isLoaded={loadStatus}>
             <Stack d='block' spacing={5}>
-              <Stat>
-                <StatLabel>Total Price</StatLabel>
-                <StatNumber>${product?.price}</StatNumber>
-                <StatHelpText color={inStock ? inStockColor : outOfStockColor}>
-                  {inStock ? 'In Stock' : 'Out of Stock'}
-                </StatHelpText>
-              </Stat>
+              <HStack spacing={12}>
+                <Stat>
+                  <StatLabel>Total Price</StatLabel>
+                  <StatNumber>${product?.price}</StatNumber>
+                  <StatHelpText
+                    color={inStock ? inStockColor : outOfStockColor}
+                  >
+                    {inStock ? 'In Stock' : 'Out of Stock'}
+                  </StatHelpText>
+                </Stat>
+                {inStock && (
+                  <QuantitySelect {...{ product, qty, handleChange }} />
+                )}
+              </HStack>
               <Divider />
               <Button
                 mt={3}
                 w='100%'
                 colorScheme={addToCartButtonColor}
                 rightIcon={<FiShoppingCart />}
+                onClick={handleAddToCart}
                 disabled={!inStock}
               >
                 Add to Cart

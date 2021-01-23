@@ -2,7 +2,7 @@ import { ChakraProvider, theme } from '@chakra-ui/react'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Layout } from './components/Layout'
-import { Home, Product, Cart } from './screens'
+import { Cart, Home, Product } from './screens'
 
 function App() {
   return (
@@ -12,9 +12,9 @@ function App() {
           <Route exact path='/' component={Home} />
           <Route path='/product/:id' component={Product} />
           <Route path='/cart/:id?' component={Cart} />
-          <ReactQueryDevtools initialIsOpen={false} />
         </Layout>
       </ChakraProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </Router>
   )
 }
