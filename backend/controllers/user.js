@@ -3,7 +3,7 @@ import User from '../models/user.js'
 import generateToken from '../utils/token.js'
 
 /**
- *  @desc    Authenticate user, then generate a unique jwt for said user
+ *  @desc    Authenticate user and generate jwt
  *  @route   POST /api/users/login
  *  @access  Public
  */
@@ -19,6 +19,35 @@ const authUser = asyncHandler(async (req, res) => {
   } else {
     res.status(401)
     throw new Error('Invalid email or password')
+  }
+})
+
+/**
+ *  @desc    Register a new user and generate jwt
+ *  @route   POST /api/users
+ *  @access  Public
+ */
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body
+
+  const userExists = await User.findOne({ email })
+
+  if (userExists) {
+    res.status(400)
+    throw new Error('User alredy exists')
+  }
+
+  // create new user, password will be hashed using middleware in schema
+  const user = await User.create({ name, email, password })
+
+  if (user) {
+    const { _id, name, email, isAdmin } = user
+    res
+      .status(201)
+      .json({ _id, name, email, isAdmin, token: generateToken(_id) })
+  } else {
+    res.status(400)
+    throw new Error('Invalid user data')
   }
 })
 
@@ -39,4 +68,4 @@ const userProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, userProfile }
+export { authUser, registerUser, userProfile }
