@@ -1,4 +1,4 @@
-export { default as ColorModeSwitch } from './Buttons/ColorModeButton'
+export { default as ColorModeButton } from './Buttons/ColorModeButton'
 export { default as NavButton } from './Buttons/NavButton'
 export { default as PrimaryButton } from './Buttons/PrimaryButton'
 export { default as SecondaryButton } from './Buttons/SecondaryButton'

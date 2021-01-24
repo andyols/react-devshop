@@ -44,4 +44,5 @@ export const login = (creds) => async (dispatch) => {
   }
 }
 
+export const { logout } = userSlice.actions
 export const userReducer = userSlice.reducer
