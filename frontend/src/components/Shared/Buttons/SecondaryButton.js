@@ -1,6 +1,6 @@
-import { Button, useColorModeValue } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 
-const PrimaryButton = ({
+const SecondaryButton = ({
   label,
   type,
   onClick,
@@ -9,10 +9,8 @@ const PrimaryButton = ({
   rightIcon,
   ...rest
 }) => {
-  const colorScheme = useColorModeValue('purple', 'cyan')
   return (
     <Button
-      colorScheme={colorScheme}
       type={type && type}
       onClick={onClick && onClick}
       disabled={disabled && disabled}
@@ -25,4 +23,4 @@ const PrimaryButton = ({
   )
 }
 
-export default PrimaryButton
+export default SecondaryButton

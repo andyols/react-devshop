@@ -1,5 +1,7 @@
 export { default as ColorModeSwitch } from './Buttons/ColorModeButton'
 export { default as NavButton } from './Buttons/NavButton'
 export { default as PrimaryButton } from './Buttons/PrimaryButton'
+export { default as SecondaryButton } from './Buttons/SecondaryButton'
 export { default as CustomAlert } from './Feedback/CustomAlert'
+export { default as Input } from './Form/Input'
 export { default as Rating } from './Product/Rating'
