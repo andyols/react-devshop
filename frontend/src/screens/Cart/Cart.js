@@ -54,7 +54,7 @@ const Cart = ({ match, location, history }) => {
       dispatch(addItem({ ...product, qty }))
       history.push('/cart')
     }
-  }, [dispatch, product, qty])
+  }, [dispatch, history, product, qty])
 
   const handleCheckout = () => {
     history.push('/login?redirect=shipping')
