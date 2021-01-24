@@ -12,13 +12,18 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email })
 
+  if (!user) {
+    res.status(401)
+    throw new Error('Email not found')
+  }
+
   // use bcrypt method defined in user schema to verify password
   if (user && (await user.match(password))) {
     const { _id, name, email, isAdmin } = user
     res.json({ _id, name, email, isAdmin, token: generateToken(_id) })
   } else {
     res.status(401)
-    throw new Error('Invalid email or password')
+    throw new Error('Invalid password')
   }
 })
 

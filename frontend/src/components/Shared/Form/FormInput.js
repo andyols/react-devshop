@@ -15,7 +15,7 @@ const FormInput = forwardRef((props, ref) => {
     <FormControl id={id} isInvalid={!!error}>
       <FormLabel>{label}</FormLabel>
       <InputGroup>
-        <Input ref={ref} name={id} label={id} />
+        <Input ref={ref} name={id} label={id} type={id} />
         {addon && <InputRightAddon children={addon} />}
       </InputGroup>
       {help && <FormHelperText>{help}</FormHelperText>}

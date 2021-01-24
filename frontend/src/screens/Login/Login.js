@@ -1,64 +1,101 @@
-import { Container, Divider, Heading, HStack, Stack } from '@chakra-ui/react'
+import {
+  Container,
+  Divider,
+  Heading,
+  Link,
+  Stack,
+  Text,
+  useBreakpointValue,
+  useColorModeValue
+} from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Input, PrimaryButton, SecondaryButton } from 'components/Shared'
+import {
+  Alert,
+  FormInput,
+  FormWrapper,
+  PrimaryButton,
+  SecondaryButton
+} from 'components/Shared'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { FiArrowLeft, FiLogIn } from 'react-icons/fi'
-import { useHistory } from 'react-router-dom'
-import * as yup from 'yup'
+import { FiLogIn } from 'react-icons/fi'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { login } from 'slices/userSlice'
+import schema from './loginSchema'
 
-const Login = () => {
+const Login = ({ location }) => {
+  const dispatch = useDispatch()
   const history = useHistory()
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email('Not a valid email')
-      .required('Email is required'),
-    password: yup.string().required('Password is required')
-  })
+  const user = useSelector((state) => state.user)
+  const redirect = location.search ? location.search.split('=')[1] : '/'
 
   const { register, handleSubmit, errors } = useForm({
-    mode: 'onBlur',
+    mode: 'onTouched',
     resolver: yupResolver(schema)
   })
 
-  if (errors.email?.message) console.log(errors.email.message)
+  const onSubmit = (data) => dispatch(login(data))
 
-  const onSubmit = (data) => console.log(data)
+  useEffect(() => {
+    if (user?.token) {
+      history.push(redirect)
+    }
+  }, [history, user, redirect])
 
   return (
     <Container maxW='lg'>
-      <Stack>
+      <Stack spacing={3}>
         <Heading as='h1' size='lg'>
           Sign In
         </Heading>
         <Divider />
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          <Input
+        {user?.error && (
+          <Alert status='error' title='Oops!' description={user.error} />
+        )}
+        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+          <FormInput
             id='email'
             label='Email Address'
             error={errors.email}
             ref={register}
           />
-          <Input
+          <FormInput
             id='password'
             label='Password'
             error={errors.password}
             ref={register}
           />
-          <HStack mt={5} justify='space-between'>
-            <SecondaryButton
-              type='button'
-              label='Back'
-              leftIcon={<FiArrowLeft />}
-              onClick={() => history.push('/')}
-            />
+          <Stack
+            direction={useBreakpointValue(['column', 'row'])}
+            py={3}
+            justify='space-between'
+          >
             <PrimaryButton
               type='submit'
               label='Sign In'
+              isLoading={user?.loading}
+              disabled={!!errors.email || !!errors.password}
               rightIcon={<FiLogIn />}
             />
-          </HStack>
-        </form>
+            <SecondaryButton
+              type='button'
+              label='Continue as Guest'
+              onClick={() => history.push('/')}
+            />
+          </Stack>
+        </FormWrapper>
+        <Divider />
+        <Text alignSelf='center'>
+          New customer?{' '}
+          <Link
+            as={RouterLink}
+            to={redirect ? `/register?redirect=${redirect}` : '/register'}
+            color={useColorModeValue('blue.500', 'blue.300')}
+          >
+            Register
+          </Link>{' '}
+        </Text>
       </Stack>
     </Container>
   )

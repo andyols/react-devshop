@@ -4,6 +4,7 @@ const PrimaryButton = ({
   label,
   type,
   onClick,
+  loading,
   disabled,
   leftIcon,
   rightIcon,
@@ -15,6 +16,7 @@ const PrimaryButton = ({
       colorScheme={colorScheme}
       type={type && type}
       onClick={onClick && onClick}
+      isLoading={loading && loading}
       disabled={disabled && disabled}
       leftIcon={leftIcon && leftIcon}
       rightIcon={rightIcon && rightIcon}
