@@ -21,21 +21,24 @@ import { useForm } from 'react-hook-form'
 import { FiLogIn } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
-import { login } from 'slices/userSlice'
-import schema from './loginSchema'
+import { authRequest } from 'slices/authSlice'
+import { loginSchema } from './formSchemas'
 
 const Login = ({ location }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const user = useSelector((state) => state.user)
+  const auth = useSelector((state) => state.auth)
+  const { user } = auth
   const redirect = location.search ? location.search.split('=')[1] : '/'
 
   const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(loginSchema)
   })
+  // check if any values in errors resolve truthy
+  const formInvalid = Object.values(errors).some(Boolean)
 
-  const onSubmit = (data) => dispatch(login(data))
+  const onSubmit = (data) => dispatch(authRequest(data))
 
   useEffect(() => {
     if (user?.token) {
@@ -50,8 +53,8 @@ const Login = ({ location }) => {
           Sign In
         </Heading>
         <Divider />
-        {user?.error && (
-          <Alert status='error' title='Oops!' description={user.error} />
+        {auth?.error && (
+          <Alert status='error' title='Oops!' description={auth.error} />
         )}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
           <FormInput
@@ -74,8 +77,8 @@ const Login = ({ location }) => {
             <PrimaryButton
               type='submit'
               label='Sign In'
-              isLoading={user?.loading}
-              disabled={!!errors.email || !!errors.password}
+              isLoading={auth?.loading}
+              disabled={formInvalid}
               rightIcon={<FiLogIn />}
             />
             <SecondaryButton

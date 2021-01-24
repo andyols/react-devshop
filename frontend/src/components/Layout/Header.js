@@ -13,12 +13,12 @@ import { ColorModeButton, NavButton } from 'components/Shared'
 import { FiChevronDown, FiLogIn, FiShoppingBag } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-import { logout } from 'slices/userSlice'
+import { logout } from 'slices/authSlice'
 
 const Header = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
-  const auth = user.token
+  const user = useSelector((state) => state.auth.user)
+  const isAuthenticated = user.token
   const headerBg = useColorModeValue('red.400', 'gray.700')
   const menuColor = useColorModeValue('gray.900', 'gray.50')
   const menuExpandedColor = useColorModeValue('gray.200', 'gray.400')
@@ -47,7 +47,7 @@ const Header = () => {
       </Text>
       <HStack spacing={7}>
         <NavButton label='Cart' icon={<FiShoppingBag />} to='/cart' />
-        {auth ? (
+        {isAuthenticated ? (
           <Menu isLazy placement='bottom'>
             <MenuButton
               as={Button}

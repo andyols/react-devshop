@@ -1,5 +1,11 @@
 import axios from 'axios'
 
+const config = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+}
+
 export const requestProducts = async () => {
   const { data } = await axios({
     url: '/api/products',
@@ -17,17 +23,24 @@ export const requestProduct = async (id) => {
 }
 
 export const requestUserLogin = async ({ email, password }) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
   const { data } = await axios(
     {
       url: '/api/users/login',
       method: 'POST',
       data: { email, password }
+    },
+    config
+  )
+
+  return data
+}
+
+export const requestUserRegister = async ({ name, email, password }) => {
+  const { data } = await axios(
+    {
+      url: '/api/users',
+      method: 'POST',
+      data: { name, email, password }
     },
     config
   )

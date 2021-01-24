@@ -10,12 +10,12 @@ import {
 import { forwardRef } from 'react'
 
 const FormInput = forwardRef((props, ref) => {
-  const { id, label, error, help, addon } = props
+  const { name, id, label, error, help, addon } = props
   return (
     <FormControl id={id} isInvalid={!!error}>
       <FormLabel>{label}</FormLabel>
       <InputGroup>
-        <Input ref={ref} name={id} label={id} type={id} />
+        <Input ref={ref} name={name || id} label={id} type={id} />
         {addon && <InputRightAddon children={addon} />}
       </InputGroup>
       {help && <FormHelperText>{help}</FormHelperText>}
