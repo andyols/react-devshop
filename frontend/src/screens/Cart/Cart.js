@@ -15,7 +15,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
-import { CustomAlert, PrimaryButton } from 'components/Shared'
+import { Alert, PrimaryButton } from 'components/Shared'
 import { useEffect } from 'react'
 import { FiCreditCard, FiTrash } from 'react-icons/fi'
 import { useQuery } from 'react-query'
@@ -61,9 +61,9 @@ const Cart = ({ match, location, history }) => {
         </Heading>
         <Stack spacing={3} divider={<Divider />}>
           {cart.length === 0 ? (
-            <CustomAlert
+            <Alert
               status='info'
-              description='Your cart is empty. Click to browse all products.'
+              description='Your cart is empty. Click to go back.'
               to='/'
             />
           ) : (

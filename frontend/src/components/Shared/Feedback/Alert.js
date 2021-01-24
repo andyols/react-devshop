@@ -8,15 +8,18 @@ import { Link as RouterLink } from 'react-router-dom'
 
 const CustomAlert = ({ status, title, description, to }) => {
   return (
-    <Alert
-      as={to ? RouterLink : Alert}
-      to={to && to}
-      status={status}
-      borderRadius='base'
-    >
+    <Alert status={status} borderRadius='base'>
       <AlertIcon />
       {title && <AlertTitle>{title}</AlertTitle>}
-      {description && <AlertDescription>{description}</AlertDescription>}
+      {description && (
+        <AlertDescription
+          _hover={{ textDecor: 'underline' }}
+          as={to ? RouterLink : AlertDescription}
+          to={to && to}
+        >
+          {description}
+        </AlertDescription>
+      )}
     </Alert>
   )
 }

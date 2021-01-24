@@ -7,7 +7,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { requestProducts } from 'api'
-import { CustomAlert } from 'components/Shared'
+import { Alert } from 'components/Shared'
 import { useQuery } from 'react-query'
 import ProductCard from './ProductCard'
 
@@ -31,7 +31,7 @@ const Home = () => {
       <Divider />
       <Box pt={3} alignSelf='center'>
         {isError ? (
-          <CustomAlert
+          <Alert
             status='error'
             title='Oops!'
             description='It looks like something went wrong with the server'

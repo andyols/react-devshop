@@ -18,7 +18,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
-import { CustomAlert, PrimaryButton, Rating } from 'components/Shared'
+import { Alert, PrimaryButton, Rating } from 'components/Shared'
 import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
@@ -56,7 +56,7 @@ const Product = ({ history, match }) => {
         </Button>
       </Box>
       {isError ? (
-        <CustomAlert
+        <Alert
           status='error'
           title='Oops!'
           description='It looks like something went wrong with the server'
