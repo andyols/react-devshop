@@ -6,7 +6,7 @@ import {
   Stack,
   Text
 } from '@chakra-ui/react'
-import { getProducts } from 'api'
+import { requestProducts } from 'api'
 import { CustomAlert } from 'components/Shared'
 import { useQuery } from 'react-query'
 import ProductCard from './ProductCard'
@@ -14,7 +14,7 @@ import ProductCard from './ProductCard'
 const Home = () => {
   const { data: products, isSuccess, isFetchedAfterMount, isError } = useQuery(
     'products',
-    getProducts
+    requestProducts
   )
   return (
     <Stack>

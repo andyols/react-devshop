@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const getProducts = async () => {
+export const requestProducts = async () => {
   const { data } = await axios({
     url: '/api/products',
     method: 'GET'
@@ -8,7 +8,7 @@ export const getProducts = async () => {
   return data
 }
 
-export const getProductById = async (id) => {
+export const requestProduct = async (id) => {
   const { data } = await axios({
     url: `/api/products/${id}`,
     method: 'GET'
@@ -16,7 +16,7 @@ export const getProductById = async (id) => {
   return data
 }
 
-export const loginUser = async (email, password) => {
+export const requestUserLogin = async ({ email, password }) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -26,9 +26,9 @@ export const loginUser = async (email, password) => {
   const { data } = await axios(
     {
       url: '/api/users/login',
-      method: 'POST'
+      method: 'POST',
+      data: { email, password }
     },
-    { email, password },
     config
   )
 

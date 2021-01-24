@@ -17,7 +17,7 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
-import { getProductById } from 'api'
+import { requestProduct } from 'api'
 import { CustomAlert, PrimaryButton, Rating } from 'components/Shared'
 import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
@@ -28,7 +28,7 @@ const Product = ({ history, match }) => {
   const id = match.params.id
   const { data: product, isSuccess, isFetchedAfterMount, isError } = useQuery(
     ['product', id],
-    () => getProductById(id),
+    () => requestProduct(id),
     { enabled: !!id }
   )
 

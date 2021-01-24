@@ -14,7 +14,7 @@ import {
   StatNumber,
   Text
 } from '@chakra-ui/react'
-import { getProductById } from 'api'
+import { requestProduct } from 'api'
 import { CustomAlert, PrimaryButton } from 'components/Shared'
 import { useEffect } from 'react'
 import { FiCreditCard, FiTrash } from 'react-icons/fi'
@@ -26,11 +26,12 @@ const Cart = ({ match, location, history }) => {
   const dispatch = useDispatch()
   const id = match.params.id
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
+  const cart = useSelector((state) => state.cart)
 
   // get item data using react-router url params if they exist
   const { data: product } = useQuery(
     ['product', id],
-    () => getProductById(id),
+    () => requestProduct(id),
     { enabled: !!id }
   )
   // add item on page mount using react-router url params
@@ -52,7 +53,6 @@ const Cart = ({ match, location, history }) => {
     history.push('/login?redirect=shipping')
   }
 
-  const cart = useSelector((state) => state.cart)
   return (
     <Grid templateColumns='repeat(12, 1fr)' gap={4}>
       <GridItem colSpan={[12, 8]}>
