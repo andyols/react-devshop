@@ -17,20 +17,12 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
-import axios from 'axios'
+import { getProductById } from 'api'
 import { CustomAlert, PrimaryButton, Rating } from 'components/Shared'
 import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { Link as RouterLink } from 'react-router-dom'
-
-const getProductById = async (id) => {
-  const { data } = await axios({
-    url: `/api/products/${id}`,
-    method: 'GET'
-  })
-  return data
-}
 
 const Product = ({ history, match }) => {
   const id = match.params.id

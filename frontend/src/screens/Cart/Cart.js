@@ -14,21 +14,13 @@ import {
   StatNumber,
   Text
 } from '@chakra-ui/react'
-import axios from 'axios'
+import { getProductById } from 'api'
 import { CustomAlert, PrimaryButton } from 'components/Shared'
 import { useEffect } from 'react'
 import { FiCreditCard, FiTrash } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem, removeItem } from 'slices/cartSlice'
-
-const getProductById = async (id) => {
-  const { data } = await axios({
-    url: `/api/products/${id}`,
-    method: 'GET'
-  })
-  return data
-}
 
 const Cart = ({ match, location, history }) => {
   const dispatch = useDispatch()

@@ -6,18 +6,10 @@ import {
   Stack,
   Text
 } from '@chakra-ui/react'
-import axios from 'axios'
+import { getProducts } from 'api'
 import { CustomAlert } from 'components/Shared'
 import { useQuery } from 'react-query'
 import ProductCard from './ProductCard'
-
-const getProducts = async () => {
-  const { data } = await axios({
-    url: '/api/products',
-    method: 'GET'
-  })
-  return data
-}
 
 const Home = () => {
   const { data: products, isSuccess, isFetchedAfterMount, isError } = useQuery(
