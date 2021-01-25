@@ -61,7 +61,7 @@ const registerUser = asyncHandler(async (req, res) => {
  *  @route   GET /api/users/profile
  *  @access  Public
  */
-const userProfile = asyncHandler(async (req, res) => {
+const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
   const { _id, name, email, isAdmin } = user
 
@@ -73,4 +73,33 @@ const userProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, registerUser, userProfile }
+/**
+ *  @desc    Update user profile
+ *  @route   PUT /api/users/profile
+ *  @access  Private
+ */
+const updateProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+
+  // replace any fields that were included in request
+  if (user) {
+    user.name = req.body.name || user.name
+    user.email = req.body.email || user.email
+
+    // not sure why this check is needed?
+    if (req.body.password) {
+      user.password = req.body.password
+    }
+
+    // save any changes and send back the updated user data
+    const updatedUser = await user.save()
+    const { _id, name, email, isAdmin } = updatedUser
+
+    res.json({ _id, name, email, isAdmin, token: generateToken(_id) })
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+export { authUser, registerUser, getProfile, updateProfile }
