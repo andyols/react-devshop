@@ -15,7 +15,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
-import { Alert, PrimaryButton } from 'components/Shared'
+import { Alert, GoBackButton, PrimaryButton } from 'components/Shared'
 import { useEffect } from 'react'
 import { FiCreditCard, FiTrash } from 'react-icons/fi'
 import { useQuery } from 'react-query'
@@ -56,6 +56,7 @@ const Cart = ({ match, location, history }) => {
   return (
     <Grid templateColumns='repeat(12, 1fr)' gap={4}>
       <GridItem colSpan={[12, 8]}>
+        <GoBackButton to='/' />
         <Heading as='h1' size='lg' mb={5}>
           Shopping Cart
         </Heading>

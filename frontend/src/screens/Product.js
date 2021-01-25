@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   FormControl,
   Heading,
@@ -18,11 +17,15 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
-import { Alert, PrimaryButton, ProductRating } from 'components/Shared'
+import {
+  Alert,
+  GoBackButton,
+  PrimaryButton,
+  ProductRating
+} from 'components/Shared'
 import { useState } from 'react'
-import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
+import { FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
-import { Link as RouterLink } from 'react-router-dom'
 
 const Product = ({ history, match }) => {
   const id = match.params.id
@@ -46,14 +49,7 @@ const Product = ({ history, match }) => {
   return (
     <Stack>
       <Box>
-        <Button
-          as={RouterLink}
-          to='/'
-          leftIcon={<FiArrowLeft />}
-          variant='ghost'
-        >
-          Go Back
-        </Button>
+        <GoBackButton to='/' />
       </Box>
       {isError ? (
         <Alert
