@@ -3,7 +3,6 @@ import {
   FormControl,
   Grid,
   GridItem,
-  Heading,
   IconButton,
   Image,
   Select,
@@ -14,7 +13,12 @@ import {
   StatNumber,
   Text
 } from '@chakra-ui/react'
-import { GoBackButton, PrimaryButton } from 'components/Shared'
+import {
+  GoBackButton,
+  PrimaryButton,
+  PrimaryHeading,
+  Subtitle
+} from 'components/Shared'
 import { FiCreditCard, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem, removeItem } from 'slices/cartSlice'
@@ -34,12 +38,8 @@ const Cart = ({ history }) => {
         <GridItem colSpan={[12, 8]}>
           <GoBackButton to='/' label='Continue Shopping' />
           <Stack spacing={3} divider={<Divider />}>
-            <Heading as='h1' size='lg'>
-              Shopping Cart
-            </Heading>
-            {emptyCart && (
-              <Text color='gray.500'>Your shopping cart is empty</Text>
-            )}
+            <PrimaryHeading text='Shopping Cart' />
+            {emptyCart && <Subtitle text='Your shopping cart is empty.' />}
             {cart.map((item) => (
               <Grid
                 key={item._id}

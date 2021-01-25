@@ -1,13 +1,6 @@
-import {
-  Box,
-  Divider,
-  Heading,
-  SimpleGrid,
-  Stack,
-  Text
-} from '@chakra-ui/react'
+import { Box, Divider, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { requestProducts } from 'api'
-import { Alert, ProductCard } from 'components/Shared'
+import { Alert, PrimaryHeading, ProductCard, Subtitle } from 'components/Shared'
 import { useQuery } from 'react-query'
 
 const Home = () => {
@@ -17,13 +10,11 @@ const Home = () => {
   )
   return (
     <Stack>
-      <Heading as='h1' size='lg'>
-        Welcome to dev-shop
-      </Heading>
-      <Text color='gray.500'>
-        Browse the latest and greatest tech and gear to make you the best
-        developer you can be.
-      </Text>
+      <PrimaryHeading text='Welcome to dev-shop' />
+      <Subtitle
+        text='Browse the latest and greatest tech and gear to make you the best
+        developer you can be.'
+      />
       <Heading size='md' pt={5}>
         Latest Products
       </Heading>

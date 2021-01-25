@@ -34,6 +34,7 @@ const ProductCard = ({ product, loadStatus }) => {
           <Heading
             size='sm'
             fontWeight='semibold'
+            as='h3'
             href={`/product/${product._id}`}
           >
             {product.name}

@@ -1,14 +1,14 @@
-import {
-  Divider,
-  Heading,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Text
-} from '@chakra-ui/react'
+import { Divider, SimpleGrid, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestUserProfile } from 'api'
-import { Alert, FormButtons, FormInput, FormWrapper } from 'components/Shared'
+import {
+  Alert,
+  FormButtons,
+  FormInput,
+  FormWrapper,
+  PrimaryHeading,
+  Subtitle
+} from 'components/Shared'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiArrowLeft, FiUserCheck } from 'react-icons/fi'
@@ -22,7 +22,7 @@ const Profile = ({ history }) => {
   const token = auth.user.token
   const authLoading = auth.loading
 
-  const { data: profile, isLoading, isError, error } = useQuery(
+  const { data: profile, isError, error } = useQuery(
     ['profile', { token }],
     () => requestUserProfile(token),
     {
@@ -32,7 +32,7 @@ const Profile = ({ history }) => {
     }
   )
 
-  const { register, handleSubmit, errors, reset, getValues } = useForm({
+  const { register, handleSubmit, errors, reset } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(registerSchema)
   })
@@ -60,16 +60,8 @@ const Profile = ({ history }) => {
 
   return (
     <Stack>
-      <Heading as='h1' size='lg'>
-        Hello,{' '}
-        <Skeleton d='inline-block' isLoaded={!isLoading}>
-          {profile?.name?.split(' ')[0]}.
-        </Skeleton>
-      </Heading>
-
-      <Text color='gray.500'>
-        Here you can view and customize your account profile
-      </Text>
+      <PrimaryHeading text={`Hello, ${profile?.name?.split(' ')[0]}`} />
+      <Subtitle text='Here you can view and customize your account profile.' />
 
       <SimpleGrid columns={[1, 2]} spacing={[3, 4, 5]} pt={3}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>

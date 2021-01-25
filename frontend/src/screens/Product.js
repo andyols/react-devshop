@@ -2,7 +2,6 @@ import {
   Box,
   Divider,
   FormControl,
-  Heading,
   HStack,
   Image,
   Select,
@@ -22,6 +21,7 @@ import {
   Alert,
   GoBackButton,
   PrimaryButton,
+  PrimaryHeading,
   ProductRating
 } from 'components/Shared'
 import { useEffect, useState } from 'react'
@@ -101,9 +101,7 @@ const Product = ({ match, history }) => {
           {/* Product Overview */}
           <Skeleton isLoaded={loadStatus}>
             <Stack spacing={3}>
-              <Heading as='h1' size='lg'>
-                {product?.name}
-              </Heading>
+              <PrimaryHeading text={product?.name} />
               <Divider />
               <ProductRating
                 value={product?.rating}

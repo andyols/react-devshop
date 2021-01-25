@@ -8,12 +8,13 @@ const PrimaryButton = ({
   disabled,
   leftIcon,
   rightIcon,
+  colorScheme,
   ...rest
 }) => {
-  const colorScheme = useColorModeValue('purple', 'cyan')
+  const defaultColor = useColorModeValue('purple', 'cyan')
   return (
     <Button
-      colorScheme={colorScheme}
+      colorScheme={colorScheme || defaultColor}
       type={type && type}
       onClick={onClick && onClick}
       isLoading={loading && loading}

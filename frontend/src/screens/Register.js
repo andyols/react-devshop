@@ -1,14 +1,19 @@
 import {
   Container,
   Divider,
-  Heading,
   Link,
   Stack,
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, FormButtons, FormInput, FormWrapper } from 'components/Shared'
+import {
+  Alert,
+  FormButtons,
+  FormInput,
+  FormWrapper,
+  PrimaryHeading
+} from 'components/Shared'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiUserPlus } from 'react-icons/fi'
@@ -42,9 +47,7 @@ const Register = ({ location }) => {
   return (
     <Container maxW='lg'>
       <Stack spacing={3}>
-        <Heading as='h1' size='lg'>
-          Create a new Account
-        </Heading>
+        <PrimaryHeading text='Create a new account' />
         <Divider />
         {auth?.error && (
           <Alert status='error' title='Oops!' description={auth.error} />

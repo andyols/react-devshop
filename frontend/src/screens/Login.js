@@ -1,14 +1,19 @@
 import {
   Container,
   Divider,
-  Heading,
   Link,
   Stack,
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, FormButtons, FormInput, FormWrapper } from 'components/Shared'
+import {
+  Alert,
+  FormButtons,
+  FormInput,
+  FormWrapper,
+  PrimaryHeading
+} from 'components/Shared'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiLogIn } from 'react-icons/fi'
@@ -42,9 +47,7 @@ const Login = ({ location }) => {
   return (
     <Container maxW='lg'>
       <Stack spacing={3}>
-        <Heading as='h1' size='lg'>
-          Sign In
-        </Heading>
+        <PrimaryHeading text='Sign In' />
         <Divider />
         {auth?.error && (
           <Alert status='error' title='Oops!' description={auth.error} />
