@@ -1,7 +1,7 @@
 import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
 import { UserMenu } from 'components/Auth'
 import { ColorModeButton, NavButton } from 'components/Shared'
-import { FiShoppingBag } from 'react-icons/fi'
+import { FiShoppingCart } from 'react-icons/fi'
 import { Link as RouterLink } from 'react-router-dom'
 
 const Header = () => {
@@ -30,7 +30,7 @@ const Header = () => {
         {'>dev-shop'}
       </Text>
       <HStack spacing={7}>
-        <NavButton label='Cart' icon={<FiShoppingBag />} to='/cart' />
+        <NavButton label='Cart' icon={<FiShoppingCart />} to='/cart' />
         <UserMenu />
         <ColorModeButton alignSelf='flex-end' />
       </HStack>

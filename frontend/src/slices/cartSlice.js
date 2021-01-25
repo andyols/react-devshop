@@ -9,35 +9,27 @@ const cartSlice = createSlice({
   initialState: fromLocalStorage,
   reducers: {
     addItem(state, action) {
-      // construct data for a cart item
-      const { _id, name, image, price, stockCount, qty } = action.payload
-      const itemToAdd = { _id, name, image, price, stockCount, qty }
+      const cartIndex = state.findIndex((i) => i._id === action.payload._id)
 
-      // look to see if item exists in state array
-      const itemInCart = state.find((item) => item._id === itemToAdd._id)
+      cartIndex > -1
+        ? (state[cartIndex].qty = action.payload.qty)
+        : state.push(action.payload)
 
-      if (itemInCart) {
-        // if item already in cart, update it with any new data
-        const updatedCart = state.map((item) =>
-          item._id === itemInCart._id ? itemToAdd : item
-        )
-        localStorage.setItem('cart', JSON.stringify(updatedCart))
-        return updatedCart
-      } else {
-        // else, just add the new item to state array
-        state.push(itemToAdd)
-        localStorage.setItem('cart', JSON.stringify(state))
-      }
+      localStorage.setItem('cart', JSON.stringify(state))
     },
 
     removeItem(state, action) {
-      const id = action.payload
-      const updatedCart = state.filter((item) => item._id !== id)
-      localStorage.setItem('cart', JSON.stringify(updatedCart))
-      return updatedCart
+      const cartIndex = state.findIndex((item) => item._id === action.payload)
+      state.splice(cartIndex, 1)
+      localStorage.setItem('cart', JSON.stringify(state))
+    },
+
+    emptyCart(state, action) {
+      state.length = 0
+      localStorage.removeItem('cart')
     }
   }
 })
 
 export const cartReducer = cartSlice.reducer
-export const { addItem, removeItem } = cartSlice.actions
+export const { addItem, removeItem, emptyCart } = cartSlice.actions

@@ -14,7 +14,7 @@ function App() {
           <Route path='/profile' component={Profile} />
           <Route path='/register' component={Register} />
           <Route path='/product/:id' component={Product} />
-          <Route path='/cart/:id?' component={Cart} />
+          <Route path='/cart' component={Cart} />
         </Layout>
       </ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />

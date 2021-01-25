@@ -14,61 +14,33 @@ import {
   StatNumber,
   Text
 } from '@chakra-ui/react'
-import { requestProduct } from 'api'
-import { Alert, GoBackButton, PrimaryButton } from 'components/Shared'
-import { useEffect } from 'react'
+import { GoBackButton, PrimaryButton } from 'components/Shared'
 import { FiCreditCard, FiTrash } from 'react-icons/fi'
-import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem, removeItem } from 'slices/cartSlice'
 
-const Cart = ({ match, location, history }) => {
+const Cart = ({ history }) => {
   const dispatch = useDispatch()
-  const id = match.params.id
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1
   const cart = useSelector((state) => state.cart)
-
-  // get item data using react-router url params if they exist
-  const { data: product } = useQuery(
-    ['product', id],
-    () => requestProduct(id),
-    { enabled: !!id }
-  )
-  // add item on page mount using react-router url params
-  useEffect(() => {
-    if (product) {
-      /**
-       * TODO: handle case when user deletes all items from
-       * cart while on the add cart to item url (change the url somehow)
-       *
-       * history.push() "works", however if the user attempts to go back
-       * using built-in browser controls it will loop back to /cart
-       *  */
-      dispatch(addItem({ ...product, qty }))
-      history.push('/cart')
-    }
-  }, [dispatch, history, product, qty])
+  const emptyCart = cart.length === 0
 
   const handleCheckout = () => {
     history.push('/login?redirect=shipping')
   }
 
   return (
-    <Grid templateColumns='repeat(12, 1fr)' gap={4}>
-      <GridItem colSpan={[12, 8]}>
-        <GoBackButton to='/' />
-        <Heading as='h1' size='lg' mb={5}>
-          Shopping Cart
-        </Heading>
-        <Stack spacing={3} divider={<Divider />}>
-          {cart.length === 0 ? (
-            <Alert
-              status='info'
-              description='Your cart is empty. Click to go back.'
-              to='/'
-            />
-          ) : (
-            cart.map((item) => (
+    <>
+      <Grid templateColumns='repeat(12, 1fr)' gap={4}>
+        <GridItem colSpan={[12, 8]}>
+          <GoBackButton to='/' label='Continue Shopping' />
+          <Stack spacing={3} divider={<Divider />}>
+            <Heading as='h1' size='lg'>
+              Shopping Cart
+            </Heading>
+            {emptyCart && (
+              <Text color='gray.500'>Your shopping cart is empty</Text>
+            )}
+            {cart.map((item) => (
               <Grid
                 key={item._id}
                 templateColumns='repeat(12, 1fr)'
@@ -122,35 +94,35 @@ const Cart = ({ match, location, history }) => {
                   />
                 </GridItem>
               </Grid>
-            ))
-          )}
-        </Stack>
-      </GridItem>
-      <GridItem colSpan={[12, 12, 4]}>
-        <Stack spacing={3} boxShadow='base' p={3} borderRadius='base'>
-          <Stat>
-            <StatLabel>Subtotal</StatLabel>
-            <StatNumber>
-              $
-              {cart
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-                .toFixed(2)}
-            </StatNumber>
-            <StatHelpText>
-              {cart.reduce((acc, item) => acc + item.qty, 0)} items
-            </StatHelpText>
-          </Stat>
-          <PrimaryButton
-            label='Proceed to Checkout'
-            disabled={cart.length === 0}
-            onClick={handleCheckout}
-            rightIcon={<FiCreditCard />}
-            mt={3}
-            w='100%'
-          />
-        </Stack>
-      </GridItem>
-    </Grid>
+            ))}
+          </Stack>
+        </GridItem>
+        <GridItem colSpan={[12, 12, 4]}>
+          <Stack spacing={3} boxShadow='base' p={3} borderRadius='base'>
+            <Stat>
+              <StatLabel>Subtotal</StatLabel>
+              <StatNumber>
+                $
+                {cart
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)}
+              </StatNumber>
+              <StatHelpText>
+                {cart.reduce((acc, item) => acc + item.qty, 0)} items
+              </StatHelpText>
+            </Stat>
+            <PrimaryButton
+              label='Proceed to Checkout'
+              disabled={cart.length === 0}
+              onClick={handleCheckout}
+              rightIcon={<FiCreditCard />}
+              mt={3}
+              w='100%'
+            />
+          </Stack>
+        </GridItem>
+      </Grid>
+    </>
   )
 }
 
