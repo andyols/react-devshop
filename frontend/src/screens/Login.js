@@ -5,17 +5,10 @@ import {
   Link,
   Stack,
   Text,
-  useBreakpointValue,
   useColorModeValue
 } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  Alert,
-  FormInput,
-  FormWrapper,
-  PrimaryButton,
-  SecondaryButton
-} from 'components/Shared'
+import { Alert, FormButtons, FormInput, FormWrapper } from 'components/Shared'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiLogIn } from 'react-icons/fi'
@@ -69,24 +62,14 @@ const Login = ({ location }) => {
             error={errors.password}
             ref={register}
           />
-          <Stack
-            direction={useBreakpointValue(['column', 'row'])}
-            py={3}
-            justify='space-between'
-          >
-            <PrimaryButton
-              type='submit'
-              label='Sign In'
-              isLoading={auth?.loading}
-              disabled={formInvalid}
-              rightIcon={<FiLogIn />}
-            />
-            <SecondaryButton
-              type='button'
-              label='Continue as Guest'
-              onClick={() => history.push('/')}
-            />
-          </Stack>
+          <FormButtons
+            isLoading={auth.loading}
+            disabled={formInvalid}
+            primaryIcon={<FiLogIn />}
+            primaryLabel='Sign In'
+            secondaryLabel='Continue as Guest'
+            secondaryAction={() => history.push('/')}
+          />
         </FormWrapper>
         <Divider />
         <Text alignSelf='center'>

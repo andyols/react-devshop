@@ -15,17 +15,18 @@ const authSlice = createSlice({
     authSuccess(state, action) {
       const user = action.payload
       localStorage.setItem('user', JSON.stringify(user))
-      state.loading = false
-      state.error = null
       state.user = user
+      state.error = null
+      state.loading = false
     },
     authFailure(state, action) {
-      state.loading = false
       state.error = action.payload
+      state.loading = false
     },
-    logout(state, action) {
+    logoutSuccess(state, action) {
       localStorage.removeItem('user')
       state.user = {}
+      state.loading = false
     }
   }
 })
@@ -49,5 +50,10 @@ export const authRequest = (data) => async (dispatch) => {
   }
 }
 
-export const { logout } = authSlice.actions
+export const logoutRequest = () => async (dispatch) => {
+  const { logoutSuccess, authLoading } = authSlice.actions
+  dispatch(authLoading())
+  setTimeout(() => dispatch(logoutSuccess()), 500)
+}
+
 export const authReducer = authSlice.reducer

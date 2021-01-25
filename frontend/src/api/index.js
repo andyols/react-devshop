@@ -1,9 +1,7 @@
 import axios from 'axios'
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json'
-  }
+const headers = {
+  'Content-Type': 'application/json'
 }
 
 export const requestProducts = async () => {
@@ -23,39 +21,33 @@ export const requestProduct = async (id) => {
 }
 
 export const requestUserLogin = async ({ email, password }) => {
-  const { data } = await axios(
-    {
-      url: '/api/users/login',
-      method: 'POST',
-      data: { email, password }
-    },
-    config
-  )
+  const { data } = await axios({
+    url: '/api/users/login',
+    method: 'POST',
+    data: { email, password },
+    headers
+  })
 
   return data
 }
 
 export const requestUserRegister = async ({ name, email, password }) => {
-  const { data } = await axios(
-    {
-      url: '/api/users',
-      method: 'POST',
-      data: { name, email, password }
-    },
-    config
-  )
+  const { data } = await axios({
+    url: '/api/users',
+    method: 'POST',
+    data: { name, email, password },
+    headers
+  })
 
   return data
 }
 
-export const requestUserProfile = async (id, token) => {
-  const { data } = await axios(
-    {
-      url: `/api/users/${id}`,
-      method: 'GET'
-    },
-    { ...config, headers: `Bearer ${token}` }
-  )
+export const requestUserProfile = async (token, id = 'profile') => {
+  const { data } = await axios({
+    url: `/api/users/${id}`,
+    method: 'GET',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
+  })
 
   return data
 }
