@@ -2,8 +2,8 @@ import { ColorModeScript } from '@chakra-ui/react'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux'
+import store from 'store'
 import App from './App'
-import store from './store'
 
 const client = new QueryClient()
 

@@ -18,7 +18,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
-import { Alert, PrimaryButton, Rating } from 'components/Shared'
+import { Alert, PrimaryButton, ProductRating } from 'components/Shared'
 import { useState } from 'react'
 import { FiArrowLeft, FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
@@ -79,7 +79,7 @@ const Product = ({ history, match }) => {
                 {product?.name}
               </Heading>
               <Divider />
-              <Rating
+              <ProductRating
                 value={product?.rating}
                 text={`${product?.reviewCount} reviews`}
               />

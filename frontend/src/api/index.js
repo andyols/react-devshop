@@ -47,3 +47,15 @@ export const requestUserRegister = async ({ name, email, password }) => {
 
   return data
 }
+
+export const requestUserProfile = async (id, token) => {
+  const { data } = await axios(
+    {
+      url: `/api/users/${id}`,
+      method: 'GET'
+    },
+    { ...config, headers: `Bearer ${token}` }
+  )
+
+  return data
+}

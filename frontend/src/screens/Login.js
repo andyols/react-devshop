@@ -21,22 +21,24 @@ import { useForm } from 'react-hook-form'
 import { FiLogIn } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { loginSchema } from 'schema/formSchemas'
 import { authRequest } from 'slices/authSlice'
-import { registerSchema } from './formSchemas'
 
-const Register = ({ location }) => {
+const Login = ({ location }) => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const redirect = location.search ? location.search.split('=')[1] : '/'
   const auth = useSelector((state) => state.auth)
   const { user } = auth
+  const redirect = location.search ? location.search.split('=')[1] : '/'
 
   const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
-    resolver: yupResolver(registerSchema)
+    resolver: yupResolver(loginSchema)
   })
   // check if any values in errors resolve truthy
   const formInvalid = Object.values(errors).some(Boolean)
+
+  const onSubmit = (data) => dispatch(authRequest(data))
 
   useEffect(() => {
     if (user?.token) {
@@ -44,25 +46,17 @@ const Register = ({ location }) => {
     }
   }, [history, user, redirect])
 
-  const onSubmit = (data) => dispatch(authRequest(data))
-
   return (
     <Container maxW='lg'>
       <Stack spacing={3}>
         <Heading as='h1' size='lg'>
-          Create a new Account
+          Sign In
         </Heading>
         <Divider />
         {auth?.error && (
           <Alert status='error' title='Oops!' description={auth.error} />
         )}
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-          <FormInput
-            id='name'
-            label='Name'
-            error={errors.name}
-            ref={register}
-          />
           <FormInput
             id='email'
             label='Email Address'
@@ -75,13 +69,6 @@ const Register = ({ location }) => {
             error={errors.password}
             ref={register}
           />
-          <FormInput
-            name='confirm'
-            id='password'
-            label='Confirm Password'
-            error={errors.confirm}
-            ref={register}
-          />
           <Stack
             direction={useBreakpointValue(['column', 'row'])}
             py={3}
@@ -90,7 +77,7 @@ const Register = ({ location }) => {
             <PrimaryButton
               type='submit'
               label='Sign In'
-              isLoading={user?.loading}
+              isLoading={auth?.loading}
               disabled={formInvalid}
               rightIcon={<FiLogIn />}
             />
@@ -103,13 +90,13 @@ const Register = ({ location }) => {
         </FormWrapper>
         <Divider />
         <Text alignSelf='center'>
-          Already have an account?{' '}
+          New customer?{' '}
           <Link
             as={RouterLink}
-            to={redirect ? `/login?redirect=${redirect}` : '/login'}
+            to={redirect ? `/register?redirect=${redirect}` : '/register'}
             color={useColorModeValue('blue.500', 'blue.300')}
           >
-            Login
+            Register
           </Link>{' '}
         </Text>
       </Stack>
@@ -117,4 +104,4 @@ const Register = ({ location }) => {
   )
 }
 
-export default Register
+export default Login

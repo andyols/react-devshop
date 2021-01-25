@@ -7,8 +7,8 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react'
-import { Rating } from 'components/Shared'
 import { Link as RouterLink } from 'react-router-dom'
+import { ProductRating } from '..'
 
 const ProductCard = ({ product, loadStatus }) => {
   return (
@@ -39,7 +39,7 @@ const ProductCard = ({ product, loadStatus }) => {
             {product.name}
           </Heading>
 
-          <Rating
+          <ProductRating
             value={product.rating}
             text={`${product.reviewCount} reviews`}
           />
