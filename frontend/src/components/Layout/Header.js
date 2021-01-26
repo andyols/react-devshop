@@ -1,8 +1,7 @@
-import { Flex, HStack, Text, useColorModeValue } from '@chakra-ui/react'
+import { Flex, HStack, useColorModeValue } from '@chakra-ui/react'
 import { UserMenu } from 'components/Auth'
 import { ColorModeButton, NavButton } from 'components/Shared'
-import { FiShoppingCart } from 'react-icons/fi'
-import { Link as RouterLink } from 'react-router-dom'
+import { FiShoppingCart, FiTerminal } from 'react-icons/fi'
 
 const Header = () => {
   const headerBg = useColorModeValue('red.400', 'gray.700')
@@ -20,17 +19,16 @@ const Header = () => {
       direction={['column', 'row']}
       bg={headerBg}
     >
-      <Text
-        as={RouterLink}
+      <NavButton
+        label='dev-shop'
+        leftIcon={<FiTerminal />}
         to='/'
-        fontWeight='semibold'
-        fontSize='xl'
-        _focus={{ outline: 0, textDecor: 'underline' }}
-      >
-        {'>dev-shop'}
-      </Text>
+        iconSpacing={0}
+        size='lg'
+      />
+
       <HStack spacing={7}>
-        <NavButton label='Cart' icon={<FiShoppingCart />} to='/cart' />
+        <NavButton label='Cart' rightIcon={<FiShoppingCart />} to='/cart' />
         <UserMenu />
         <ColorModeButton alignSelf='flex-end' />
       </HStack>

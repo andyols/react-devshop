@@ -1,11 +1,11 @@
 import {
   Divider,
   FormControl,
-  Grid,
-  GridItem,
+  HStack,
   IconButton,
   Image,
   Select,
+  SimpleGrid,
   Stack,
   Stat,
   StatHelpText,
@@ -13,13 +13,9 @@ import {
   StatNumber,
   Text
 } from '@chakra-ui/react'
-import {
-  GoBackButton,
-  PrimaryButton,
-  PrimaryHeading,
-  Subtitle
-} from 'components/Shared'
-import { FiCreditCard, FiTrash } from 'react-icons/fi'
+import { ContentSidebar } from 'components/Layout'
+import { PrimaryButton, PrimaryHeading, Subtitle } from 'components/Shared'
+import { FiCreditCard, FiShoppingBag, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem, removeItem } from 'slices/cartSlice'
 
@@ -32,98 +28,87 @@ const Cart = ({ history }) => {
     history.push('/login?redirect=shipping')
   }
 
-  return (
-    <>
-      <Grid templateColumns='repeat(12, 1fr)' gap={4}>
-        <GridItem colSpan={[12, 8]}>
-          <GoBackButton to='/' label='Continue Shopping' />
-          <Stack spacing={3} divider={<Divider />}>
-            <PrimaryHeading text='Shopping Cart' />
-            {emptyCart && <Subtitle text='Your shopping cart is empty.' />}
-            {cart.map((item) => (
-              <Grid
-                key={item._id}
-                templateColumns='repeat(12, 1fr)'
-                gap={6}
-                alignItems='center'
+  const Content = () => (
+    <Stack spacing={3} divider={<Divider />} w='90%' mb={5}>
+      <PrimaryHeading text='Shopping Cart' />
+      {emptyCart && <Subtitle text='Your shopping cart is empty.' />}
+      {cart.map((item) => (
+        <SimpleGrid minChildWidth='25ch' gap={8} key={item._id}>
+          {/* COL 1 */}
+          <HStack spacing={3} maxW='35ch'>
+            {item.image && (
+              <Image
+                src={item.image}
+                alt={item.name}
+                boxSize='65px'
+                fit='cover'
+                borderRadius='md'
+                boxShadow='base'
+                ignoreFallback
+              />
+            )}
+            <Text fontWeight='semibold' lineHeight='1.2rem'>
+              {item.name}
+            </Text>
+          </HStack>
+          {/* COL 2 */}
+          <HStack spacing={6}>
+            <FormControl>
+              <Select
+                value={item.qty}
+                onChange={(e) =>
+                  dispatch(addItem({ ...item, qty: Number(e.target.value) }))
+                }
               >
-                <GridItem colSpan={[5, 2]} justifySelf='center'>
-                  {item.image && (
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      boxSize='80px'
-                      fit='cover'
-                      borderRadius='full'
-                      boxShadow='base'
-                      ignoreFallback
-                    />
-                  )}
-                </GridItem>
-                <GridItem colSpan={[5, 3]}>
-                  <Text fontWeight='semibold'>{item.name}</Text>
-                </GridItem>
-                <GridItem colSpan={[5, 2]}>
-                  <FormControl>
-                    <Select
-                      value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addItem({ ...item, qty: Number(e.target.value) })
-                        )
-                      }
-                    >
-                      {[...Array(item?.stockCount).keys()].map((o) => (
-                        <option key={o + 1} value={o + 1}>
-                          {o + 1}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </GridItem>
-                <GridItem colSpan={[4, 2]} justifySelf='flex-end'>
-                  <Text>${item.price}</Text>
-                </GridItem>
-                <GridItem colSpan={[1, 2]} justifySelf='flex-end'>
-                  <IconButton
-                    aria-label='Remove item from cart'
-                    icon={<FiTrash />}
-                    variant='ghost'
-                    colorScheme='red'
-                    onClick={() => dispatch(removeItem(item._id))}
-                  />
-                </GridItem>
-              </Grid>
-            ))}
-          </Stack>
-        </GridItem>
-        <GridItem colSpan={[12, 12, 4]}>
-          <Stack spacing={3} boxShadow='base' p={3} borderRadius='base'>
-            <Stat>
-              <StatLabel>Subtotal</StatLabel>
-              <StatNumber>
-                $
-                {cart
-                  .reduce((acc, item) => acc + item.qty * item.price, 0)
-                  .toFixed(2)}
-              </StatNumber>
-              <StatHelpText>
-                {cart.reduce((acc, item) => acc + item.qty, 0)} items
-              </StatHelpText>
-            </Stat>
-            <PrimaryButton
-              label='Proceed to Checkout'
-              disabled={cart.length === 0}
-              onClick={handleCheckout}
-              rightIcon={<FiCreditCard />}
-              mt={3}
-              w='100%'
+                {[...Array(item?.stockCount).keys()].map((o) => (
+                  <option key={o + 1} value={o + 1}>
+                    {o + 1}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <Text>${item.price}</Text>
+            <IconButton
+              aria-label='Remove item from cart'
+              icon={<FiTrash />}
+              variant='ghost'
+              colorScheme='red'
+              onClick={() => dispatch(removeItem(item._id))}
             />
-          </Stack>
-        </GridItem>
-      </Grid>
-    </>
+          </HStack>
+        </SimpleGrid>
+      ))}
+    </Stack>
   )
+
+  const Sidebar = () => (
+    <Stack spacing={3} boxShadow='base' p={3} borderRadius='base' w='100%'>
+      <Stat>
+        <StatLabel>{'Subtotal'}</StatLabel>
+        <StatNumber>
+          $
+          {cart
+            .reduce((acc, item) => acc + item.qty * item.price, 0)
+            .toFixed(2)}
+        </StatNumber>
+        <StatHelpText>
+          {emptyCart
+            ? 'Cart is Empty'
+            : cart.reduce((acc, item) => acc + item.qty, 0) === 1
+            ? '1 item'
+            : `${cart.reduce((acc, item) => acc + item.qty, 0)} items`}
+        </StatHelpText>
+      </Stat>
+      <PrimaryButton
+        label={emptyCart ? 'Browse Products' : 'Proceed to Checkout'}
+        onClick={emptyCart ? () => history.push('/') : handleCheckout}
+        rightIcon={emptyCart ? <FiShoppingBag /> : <FiCreditCard />}
+        mt={3}
+      />
+    </Stack>
+  )
+
+  return <ContentSidebar content={<Content />} sidebar={<Sidebar />} />
 }
 
 export default Cart

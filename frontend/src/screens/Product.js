@@ -25,7 +25,7 @@ import {
   ProductRating
 } from 'components/Shared'
 import { useEffect, useState } from 'react'
-import { FiCheck, FiShoppingCart } from 'react-icons/fi'
+import { FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { addItem } from 'slices/cartSlice'
@@ -51,28 +51,20 @@ const Product = ({ match, history }) => {
 
   const handleAddToCart = () => {
     toast.closeAll()
-    if (inCart) {
-      toast({
-        title: 'Item already in cart',
-        description: `${product.name || ''}`,
-        status: 'error',
-        position: 'bottom-left'
-      })
-    } else {
-      dispatch(addItem({ ...product, qty }))
-      toast({
-        title: 'Item added to cart',
-        description: `${product.name || ''}`,
-        status: 'success',
-        position: 'bottom-left'
-      })
-      history.push('/cart')
-    }
+    dispatch(addItem({ ...product, qty }))
+    const title = qty > 1 ? `${qty} items added to cart` : 'Item added to cart'
+    toast({
+      title,
+      description: `${product.name || ''}`,
+      status: 'success'
+    })
   }
 
   useEffect(() => {
-    if (!!cart.find((item) => item._id === id)) {
+    const found = cart.find((item) => item._id === id)
+    if (found) {
       setInCart(true)
+      setQty(found.qty)
     }
   }, [cart, id])
 
@@ -94,7 +86,7 @@ const Product = ({ match, history }) => {
             <Image
               src={product?.image}
               alt={product?.name}
-              borderRadius='base'
+              borderRadius='md'
               ignoreFallback
             />
           </Skeleton>
@@ -122,14 +114,18 @@ const Product = ({ match, history }) => {
                   <StatHelpText
                     color={inStock ? inStockColor : outOfStockColor}
                   >
-                    {}
-                    {inStock ? 'In Stock' : 'Out of Stock'}
+                    {inCart
+                      ? `In Cart (${qty})`
+                      : inStock
+                      ? 'In Stock'
+                      : 'Out of Stock'}
                   </StatHelpText>
                 </Stat>
                 {inStock && (
                   <FormControl>
                     <Select
                       value={qty}
+                      disabled={inCart}
                       onChange={(e) => setQty(Number(e.target.value))}
                     >
                       {[...Array(product?.stockCount).keys()].map((o) => (
@@ -143,11 +139,11 @@ const Product = ({ match, history }) => {
               </HStack>
               <Divider />
               <PrimaryButton
-                label={inCart ? 'Item in cart' : 'Add to Cart'}
+                label={inCart ? 'Go to Cart' : 'Add to Cart'}
                 colorScheme={inCart && 'green'}
-                disabled={!inStock || inCart}
-                onClick={handleAddToCart}
-                rightIcon={inCart ? <FiCheck /> : <FiShoppingCart />}
+                disabled={!inStock}
+                onClick={inCart ? () => history.push('/cart') : handleAddToCart}
+                rightIcon={<FiShoppingCart />}
                 mt={3}
                 w='100%'
               />

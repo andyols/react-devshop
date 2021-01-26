@@ -86,7 +86,7 @@ const UserMenu = () => {
   )
 
   if (!auth.user.token)
-    return <NavButton label='Sign In' icon={<FiLogIn />} to='/login' />
+    return <NavButton label='Sign In' rightIcon={<FiLogIn />} to='/login' />
 
   return auth.loading ? (
     <Spinner size='xs' />

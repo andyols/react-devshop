@@ -73,7 +73,8 @@ const Register = ({ location }) => {
           />
           <FormInput
             name='confirm'
-            id='password'
+            type='password'
+            id='passwor2'
             label='Confirm Password'
             error={errors.confirm}
             ref={register}

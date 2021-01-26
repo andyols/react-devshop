@@ -27,7 +27,7 @@ const Home = () => {
             description='It looks like something went wrong with the server'
           />
         ) : (
-          <SimpleGrid columns={[1, 2, 3, 4]} spacing={[3, 4, 5]} pt={3}>
+          <SimpleGrid columns={[1, 2, 4]} spacing={3} pt={3}>
             {products?.map((product) => (
               <ProductCard
                 key={product._id}
