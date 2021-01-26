@@ -1,6 +1,7 @@
-import { Divider, SimpleGrid, Spinner, Stack } from '@chakra-ui/react'
+import { Divider, Spinner, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestUserProfile } from 'api'
+import { ContentSidebar } from 'components/Layout'
 import {
   Alert,
   FormButtons,
@@ -10,14 +11,15 @@ import {
   Subtitle
 } from 'components/Shared'
 import { useForm } from 'react-hook-form'
-import { FiArrowLeft, FiUserCheck } from 'react-icons/fi'
+import { FiKey, FiMail, FiUser, FiUserCheck } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import { registerSchema } from 'schema/formSchemas'
+import { useHistory, withRouter } from 'react-router-dom'
+import { updateSchema } from 'schema/formSchemas'
 
-const Profile = ({ history }) => {
+const Profile = () => {
   const auth = useSelector((state) => state.auth)
+  const history = useHistory()
   const token = auth.user.token
 
   const { data: profile, isError, error, isSuccess } = useQuery(
@@ -31,11 +33,69 @@ const Profile = ({ history }) => {
 
   const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
-    resolver: yupResolver(registerSchema)
+    resolver: yupResolver(updateSchema)
   })
   const formInvalid = Object.values(errors).some(Boolean)
-
   const onSubmit = (data) => console.log(data)
+
+  const Content = () => (
+    <>
+      {isSuccess ? (
+        <Stack w='90%'>
+          <PrimaryHeading text={`Hello, ${profile?.name?.split(' ')[0]}`} />
+          <Subtitle text='Here you can view and customize your profile.' />
+          <Divider />
+          <FormWrapper
+            onSubmit={handleSubmit(onSubmit)}
+            spacing={6}
+            maxW='40ch'
+          >
+            <FormInput
+              id='name'
+              error={errors.name}
+              ref={register}
+              variant='flushed'
+              value={profile.name}
+              leftElement={<FiUser />}
+            />
+            <FormInput
+              id='email'
+              error={errors.email}
+              ref={register}
+              variant='flushed'
+              value={profile.email}
+              leftElement={<FiMail />}
+            />
+            <FormInput
+              id='password'
+              error={errors.password}
+              ref={register}
+              variant='flushed'
+              leftElement={<FiKey />}
+            />
+            <FormButtons
+              isLoading={auth.loading}
+              disabled={formInvalid}
+              primaryIcon={<FiUserCheck />}
+              primaryLabel='Update Profile'
+              secondaryLabel='Go Back'
+              secondaryAction={() => history.push('/')}
+            />
+          </FormWrapper>
+        </Stack>
+      ) : (
+        <Spinner size='xl' />
+      )}
+    </>
+  )
+
+  const Sidebar = () => (
+    <Stack w='100%'>
+      <PrimaryHeading text='My Orders' as='h2' />
+      <Subtitle text='See the status of all your orders' />
+      <Divider />
+    </Stack>
+  )
 
   if (isError)
     return (
@@ -47,57 +107,11 @@ const Profile = ({ history }) => {
     )
 
   return (
-    <Stack>
-      {isSuccess ? (
-        <>
-          <PrimaryHeading text={`Hello, ${profile?.name?.split(' ')[0]}`} />
-          <Subtitle text='Here you can view and customize your account profile.' />
-        </>
-      ) : (
-        <Spinner size='xl' />
-      )}
-
-      <SimpleGrid columns={[1, 2]} spacing={[3, 4, 5]} pt={3}>
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-          <Divider />
-          <FormInput
-            value={profile?.name}
-            id='name'
-            label='Name'
-            error={errors.name}
-            ref={register}
-          />
-          <FormInput
-            value={profile?.email}
-            id='email'
-            label='Email Address'
-            error={errors.email}
-            ref={register}
-          />
-          <FormInput
-            id='password'
-            label='Password'
-            error={errors.password}
-            ref={register}
-          />
-          <FormInput
-            name='confirm'
-            id='password'
-            label='Confirm Password'
-            error={errors.confirm}
-            ref={register}
-          />
-          <FormButtons
-            disabled={formInvalid}
-            primaryIcon={<FiUserCheck />}
-            primaryLabel='Update'
-            secondaryIcon={<FiArrowLeft />}
-            secondaryLabel='Go Back'
-            secondaryAction={() => history.push('/')}
-          />
-        </FormWrapper>
-      </SimpleGrid>
-    </Stack>
+    <ContentSidebar
+      content={<Content />}
+      sidebar={<Sidebar />}
+      minSidebarW='30ch'
+    />
   )
 }
 

@@ -1,9 +1,9 @@
 import { Stack } from '@chakra-ui/react'
 
-const Wrapper = ({ onSubmit, children }) => {
+const Wrapper = ({ onSubmit, children, ...rest }) => {
   return (
     <form noValidate {...{ onSubmit }}>
-      <Stack spacing={3}>{children}</Stack>
+      <Stack {...rest}>{children}</Stack>
     </form>
   )
 }

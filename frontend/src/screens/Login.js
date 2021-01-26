@@ -52,7 +52,7 @@ const Login = ({ location }) => {
         {auth?.error && (
           <Alert status='error' title='Oops!' description={auth.error} />
         )}
-        <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <FormWrapper onSubmit={handleSubmit(onSubmit)} spacing={3}>
           <FormInput
             id='email'
             label='Email Address'

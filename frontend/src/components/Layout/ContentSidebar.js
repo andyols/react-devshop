@@ -1,13 +1,33 @@
-import { Flex, Stack } from '@chakra-ui/react'
+import { Flex, Stack, useBreakpointValue } from '@chakra-ui/react'
 
-const ContentSidebar = ({ content, contentWidth, sidebar, sidebarWidth }) => (
+const ContentSidebar = ({
+  content,
+  contentW,
+  minContentW,
+  maxContentW,
+  sidebar,
+  sidebarW,
+  minSidebarW,
+  maxSidebarW
+}) => (
   <Flex wrap='wrap'>
-    <Stack flex={`1 1 ${contentWidth || '60%'}`} align='flex-start'>
+    <Stack
+      align={useBreakpointValue({ base: 'center', sm: 'flex-start' })}
+      flex={`1 1 ${contentW || '60%'}`}
+      minW={minContentW && minContentW}
+      maxW={maxContentW && maxContentW}
+    >
       {content}
     </Stack>
 
-    <Stack flex={`1 1 ${sidebarWidth || '30%'}`} align='flex-start'>
-      {sidebar}
+    <Stack
+      mt={useBreakpointValue({ base: 5, sm: 0 })}
+      align={useBreakpointValue({ base: 'center', sm: 'flex-start' })}
+      flex={`1 1 ${sidebarW || '30%'}`}
+      minW={minSidebarW && minSidebarW}
+      maxW={maxSidebarW && maxSidebarW}
+    >
+      {sidebar}max
     </Stack>
   </Flex>
 )
