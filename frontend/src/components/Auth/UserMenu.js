@@ -17,8 +17,9 @@ import {
 import { NavButton } from 'components/Shared'
 import { useRef, useState } from 'react'
 import { FiChevronDown, FiLogIn, FiUser } from 'react-icons/fi'
+import { useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
 import { logoutRequest } from 'slices/authSlice'
 import { emptyCart } from 'slices/cartSlice'
 
@@ -27,6 +28,7 @@ const UserMenu = () => {
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const menuColor = useColorModeValue('gray.900', 'gray.50')
   const menuExpandedColor = useColorModeValue('gray.200', 'gray.400')
 
@@ -38,10 +40,8 @@ const UserMenu = () => {
   const handleConfirmLogout = () => {
     dispatch(emptyCart())
     dispatch(logoutRequest())
-
+    queryClient.removeQueries('profile')
     setLogoutAlert(false)
-
-    if (location.pathname.includes('cart')) history.push('/')
   }
 
   const LogoutAlert = () => (
@@ -64,9 +64,20 @@ const UserMenu = () => {
               <Button ref={cancelRef} onClick={handleCloseAlert}>
                 Cancel
               </Button>
-              <Button colorScheme='red' onClick={handleConfirmLogout}>
-                Sign Out
-              </Button>
+              {location.pathname.includes('product') ? (
+                <Button colorScheme='red' onClick={handleConfirmLogout}>
+                  Sign Out
+                </Button>
+              ) : (
+                <Button
+                  as={RouterLink}
+                  to='/'
+                  colorScheme='red'
+                  onClick={handleConfirmLogout}
+                >
+                  Sign Out
+                </Button>
+              )}
             </HStack>
           </AlertDialogFooter>
         </AlertDialogContent>

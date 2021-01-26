@@ -1,4 +1,4 @@
-import { Divider, SimpleGrid, Stack } from '@chakra-ui/react'
+import { Divider, SimpleGrid, Spinner, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestUserProfile } from 'api'
 import {
@@ -9,43 +9,31 @@ import {
   PrimaryHeading,
   Subtitle
 } from 'components/Shared'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiArrowLeft, FiUserCheck } from 'react-icons/fi'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { registerSchema } from 'schema/formSchemas'
 
 const Profile = ({ history }) => {
-  const queryClient = useQueryClient()
   const auth = useSelector((state) => state.auth)
   const token = auth.user.token
-  const authLoading = auth.loading
 
-  const { data: profile, isError, error } = useQuery(
+  const { data: profile, isError, error, isSuccess } = useQuery(
     ['profile', { token }],
     () => requestUserProfile(token),
     {
       enabled: !!token,
-      retry: 1,
       refetchOnWindowFocus: false
     }
   )
 
-  const { register, handleSubmit, errors, reset } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     mode: 'onTouched',
     resolver: yupResolver(registerSchema)
   })
-  // check if any values in errors resolve truthy
   const formInvalid = Object.values(errors).some(Boolean)
-
-  useEffect(() => {
-    if (!token && !authLoading) {
-      reset()
-      queryClient.removeQueries('profile')
-      history.push('/login')
-    }
-  }, [token, authLoading, queryClient, reset, history])
 
   const onSubmit = (data) => console.log(data)
 
@@ -60,8 +48,14 @@ const Profile = ({ history }) => {
 
   return (
     <Stack>
-      <PrimaryHeading text={`Hello, ${profile?.name?.split(' ')[0]}`} />
-      <Subtitle text='Here you can view and customize your account profile.' />
+      {isSuccess ? (
+        <>
+          <PrimaryHeading text={`Hello, ${profile?.name?.split(' ')[0]}`} />
+          <Subtitle text='Here you can view and customize your account profile.' />
+        </>
+      ) : (
+        <Spinner size='xl' />
+      )}
 
       <SimpleGrid columns={[1, 2]} spacing={[3, 4, 5]} pt={3}>
         <FormWrapper onSubmit={handleSubmit(onSubmit)}>
@@ -107,4 +101,4 @@ const Profile = ({ history }) => {
   )
 }
 
-export default Profile
+export default withRouter(Profile)
