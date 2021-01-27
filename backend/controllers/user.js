@@ -102,4 +102,22 @@ const updateProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { loginUser, registerUser, getProfile, updateProfile }
+/**
+ *  @desc    Verify a user password
+ *  @route   GET /api/users/verify
+ *  @access  Private
+ */
+const verifyPassword = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+  const { password } = req.body
+
+  // use bcrypt method defined in user schema to verify password
+  if (user && (await user.match(password))) {
+    res.json({ password: true })
+  } else {
+    res.status(401)
+    throw new Error('Invalid password')
+  }
+})
+
+export { loginUser, registerUser, getProfile, updateProfile, verifyPassword }
