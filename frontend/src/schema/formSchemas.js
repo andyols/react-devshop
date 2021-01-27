@@ -8,14 +8,26 @@ export const registerSchema = yup.object().shape({
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 })
+
 export const updateSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
-  email: yup.string().email('Not a valid email').required('Email is required'),
-  password: yup.string(),
-  confirm: yup
+  email: yup.string().email('Not a valid email').required('Email is required')
+})
+
+export const updatePasswordSchema = yup.object().shape({
+  passwordold: yup.string().required('Current password is required'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .notOneOf(
+      [yup.ref('passwordold'), null],
+      'New password cannot be the same as old password'
+    ),
+  passwordconfirm: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 })
+
 export const loginSchema = yup.object().shape({
   email: yup.string().email('Not a valid email').required('Email is required'),
   password: yup.string().required('Password is required')

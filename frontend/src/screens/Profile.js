@@ -1,16 +1,18 @@
 import { Divider, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { UpdatePasswordForm } from 'components/Auth'
 import { ContentSidebar } from 'components/Layout'
 import {
   FormButtons,
   FormInput,
   FormWrapper,
   PrimaryHeading,
+  SecondaryHeading,
   Subtitle
 } from 'components/Shared'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { FiMail, FiUser, FiUserCheck } from 'react-icons/fi'
+import { FiMail, FiUser } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateSchema } from 'schema/formSchemas'
@@ -22,11 +24,17 @@ const Profile = () => {
   const { _id, name, email, token } = auth.user
   const loaded = !auth.loading
 
+  /**
+   * TODO: fix strange re-render behavior of this form when
+   * changing field values
+   */
+
   const { register, handleSubmit, errors, reset } = useForm({
+    reValidateMode: 'onSubmit',
     resolver: yupResolver(updateSchema)
   })
 
-  const onSubmit = (data) =>
+  const onSubmit = async (data) => {
     dispatch(
       authRequest({
         ...data,
@@ -35,6 +43,7 @@ const Profile = () => {
         token
       })
     )
+  }
 
   useEffect(() => {
     if (loaded) {
@@ -44,17 +53,18 @@ const Profile = () => {
 
   const Content = () => (
     <Stack w='90%'>
-      <PrimaryHeading text={`Hello, ${loaded ? name.split(' ')[0] : ''}`} />
+      <PrimaryHeading text={`Hello, ${name.split(' ')[0]}`} />
       <Subtitle text='Here you can view and customize your profile.' />
       <Divider />
       <FormWrapper onSubmit={handleSubmit(onSubmit)}>
+        <SecondaryHeading text='Public Profile' fontSize='lg' pt={3} />
+        <Divider />
         <FormInput
           id='name'
           error={errors.name}
           ref={register}
           leftAddon={<FiUser />}
           label='Name'
-          size='sm'
           disabled={!loaded}
         />
         <FormInput
@@ -63,18 +73,16 @@ const Profile = () => {
           error={errors.email}
           ref={register}
           leftAddon={<FiMail />}
-          size='sm'
           disabled={!loaded}
         />
         <FormButtons
-          primaryIcon={<FiUserCheck />}
           primaryLabel='Update Profile'
-          secondaryLabel='Reset'
           isLoading={!loaded}
           disabled={!loaded}
           size='sm'
         />
       </FormWrapper>
+      <UpdatePasswordForm />
     </Stack>
   )
 

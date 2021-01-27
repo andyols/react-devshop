@@ -68,3 +68,13 @@ export const requestUpdateUserProfile = async ({
 
   return data
 }
+
+export const verifyPassword = async (password, token) => {
+  const { data } = await axios({
+    url: '/api/users/verify',
+    method: 'POST',
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    data: { password }
+  })
+  return data
+}

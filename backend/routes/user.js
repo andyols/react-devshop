@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.route('/').post(registerUser)
 router.post('/login', loginUser)
-router.get('/verify', verifyUser, verifyPassword)
+router.post('/verify', verifyUser, verifyPassword)
 router
   .route('/profile')
   .get(verifyUser, getProfile)
