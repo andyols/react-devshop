@@ -110,7 +110,7 @@ const Product = ({ match, history }) => {
             {loaded ? (
               <Text>{product?.description}</Text>
             ) : (
-              <SkeletonText noOfLines={5} />
+              <SkeletonText noOfLines={5} spacing={3} />
             )}
           </Stack>
           {/* Product Purchase Information */}

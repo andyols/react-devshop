@@ -11,12 +11,13 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Portal,
   Spinner,
   useColorModeValue
 } from '@chakra-ui/react'
 import { NavButton } from 'components/Shared'
 import { useRef, useState } from 'react'
-import { FiChevronDown, FiLogIn, FiUser } from 'react-icons/fi'
+import { FiChevronDown, FiLogIn } from 'react-icons/fi'
 import { useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
@@ -93,26 +94,30 @@ const UserMenu = () => {
   ) : (
     <>
       <LogoutAlert />
-      <Menu isLazy placement='bottom'>
+      <Menu isLazy>
         <MenuButton
           as={Button}
           variant='link'
-          leftIcon={<FiUser />}
           rightIcon={<FiChevronDown />}
           color='gray.50'
-          _expanded={{ color: menuExpandedColor }}
+          _expanded={{ color: menuExpandedColor, textDecor: 'underline' }}
           _focus={{ outline: 0, textDecor: 'underline' }}
         >
           {auth?.user?.name?.split(' ')[0]}
         </MenuButton>
-        <MenuList>
-          <MenuItem color={menuColor} onClick={() => history.push('/profile')}>
-            My Profile
-          </MenuItem>
-          <MenuItem color={menuColor} onClick={() => setLogoutAlert(true)}>
-            Sign Out
-          </MenuItem>
-        </MenuList>
+        <Portal>
+          <MenuList>
+            <MenuItem
+              color={menuColor}
+              onClick={() => history.push('/profile')}
+            >
+              My Profile
+            </MenuItem>
+            <MenuItem color={menuColor} onClick={() => setLogoutAlert(true)}>
+              Sign Out
+            </MenuItem>
+          </MenuList>
+        </Portal>
       </Menu>
     </>
   )

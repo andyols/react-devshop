@@ -33,7 +33,7 @@ const Home = () => {
               <ProductCard
                 key={product._id}
                 product={product}
-                loaded={isSuccess && isFetchedAfterMount}
+                loaded={loaded}
               />
             ))}
           </SimpleGrid>

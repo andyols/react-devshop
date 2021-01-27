@@ -1,4 +1,4 @@
-import { Stack, useBreakpointValue } from '@chakra-ui/react'
+import { ButtonGroup, useBreakpointValue } from '@chakra-ui/react'
 import { PrimaryButton, SecondaryButton } from 'components/Shared'
 import React from 'react'
 
@@ -9,14 +9,19 @@ const FormButtons = ({
   primaryLabel,
   secondaryIcon,
   secondaryLabel,
-  secondaryAction
+  secondaryAction,
+  variant,
+  ...rest
 }) => {
   const buttonLayout = useBreakpointValue(['column', 'row'])
   return (
-    <Stack
+    <ButtonGroup
+      d='flex'
       direction={secondaryAction ? buttonLayout : 'column'}
       py={3}
-      justify='space-between'
+      justifyContent='space-between'
+      variant={variant && variant}
+      {...rest}
     >
       {secondaryAction && (
         <SecondaryButton
@@ -33,7 +38,7 @@ const FormButtons = ({
         disabled={disabled}
         rightIcon={primaryIcon}
       />
-    </Stack>
+    </ButtonGroup>
   )
 }
 

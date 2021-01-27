@@ -27,7 +27,7 @@ const Header = () => {
         size='lg'
       />
 
-      <HStack spacing={7}>
+      <HStack spacing={6}>
         <NavButton label='Cart' rightIcon={<FiShoppingCart />} to='/cart' />
         <UserMenu />
         <ColorModeButton alignSelf='flex-end' />
