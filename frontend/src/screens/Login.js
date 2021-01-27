@@ -36,7 +36,7 @@ const Login = ({ location }) => {
   // check if any values in errors resolve truthy
   const formInvalid = Object.values(errors).some(Boolean)
 
-  const onSubmit = (data) => dispatch(authRequest(data))
+  const onSubmit = (data) => dispatch(authRequest({ ...data, type: 'login' }))
 
   useEffect(() => {
     if (user?.token) {

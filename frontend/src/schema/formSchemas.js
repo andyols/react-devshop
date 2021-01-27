@@ -9,8 +9,8 @@ export const registerSchema = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Passwords must match')
 })
 export const updateSchema = yup.object().shape({
-  name: yup.string(),
-  email: yup.string().email('Not a valid email'),
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Not a valid email').required('Email is required'),
   password: yup.string(),
   confirm: yup
     .string()

@@ -29,14 +29,16 @@ const FormButtons = ({
           label={secondaryLabel && secondaryLabel}
           onClick={secondaryAction && secondaryAction}
           leftIcon={secondaryIcon && secondaryIcon}
+          isLoading={isLoading}
+          disabled={disabled}
         />
       )}
       <PrimaryButton
         type='submit'
         label={primaryLabel}
+        rightIcon={primaryIcon}
         isLoading={isLoading}
         disabled={disabled}
-        rightIcon={primaryIcon}
       />
     </ButtonGroup>
   )

@@ -42,7 +42,8 @@ const Register = ({ location }) => {
     }
   }, [history, user, redirect])
 
-  const onSubmit = (data) => dispatch(authRequest(data))
+  const onSubmit = (data) =>
+    dispatch(authRequest({ ...data, type: 'register' }))
 
   return (
     <Container maxW='lg'>

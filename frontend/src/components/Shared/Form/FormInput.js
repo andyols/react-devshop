@@ -30,7 +30,7 @@ const FormInput = forwardRef((props, ref) => {
   } = props
   return (
     <FormControl id={id} isInvalid={!!error}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel fontSize={size && size}>{label}</FormLabel>
       <InputGroup size={size && size}>
         {leftAddon && <InputLeftAddon children={leftAddon} />}
         {leftElement && (

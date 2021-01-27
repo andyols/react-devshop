@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { requestUserLogin, requestUserRegister } from 'api'
+import {
+  requestUpdateUserProfile,
+  requestUserLogin,
+  requestUserRegister
+} from 'api'
 
 const fromLocalStorage = localStorage.getItem('user')
   ? { user: JSON.parse(localStorage.getItem('user')) }
@@ -37,9 +41,17 @@ export const authRequest = (data) => async (dispatch) => {
 
   dispatch(authLoading())
   try {
-    const user = data.name
-      ? await requestUserRegister(data)
-      : await requestUserLogin(data)
+    let user
+    switch (data.type) {
+      case 'login':
+        user = await requestUserLogin(data)
+        break
+      case 'register':
+        user = await requestUserRegister(data)
+        break
+      default:
+        user = await requestUpdateUserProfile(data)
+    }
     dispatch(authSuccess(user))
   } catch (err) {
     const message =

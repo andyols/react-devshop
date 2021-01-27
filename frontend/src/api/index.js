@@ -51,3 +51,20 @@ export const requestUserProfile = async (token, id = 'profile') => {
 
   return data
 }
+
+export const requestUpdateUserProfile = async ({
+  _id,
+  token,
+  name,
+  email,
+  password
+}) => {
+  const { data } = await axios({
+    url: '/api/users/profile',
+    method: 'PUT',
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    data: { _id, name, email, password }
+  })
+
+  return data
+}
