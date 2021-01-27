@@ -8,6 +8,7 @@ const Home = () => {
     'products',
     requestProducts
   )
+  const loaded = isSuccess && isFetchedAfterMount
   return (
     <Stack>
       <PrimaryHeading text='Welcome to dev-shop' />
@@ -27,12 +28,12 @@ const Home = () => {
             description='It looks like something went wrong with the server'
           />
         ) : (
-          <SimpleGrid columns={[1, 2, 4]} spacing={3} pt={3}>
+          <SimpleGrid columns={[1, 2, 3, 4]} spacing={3} pt={3}>
             {products?.map((product) => (
               <ProductCard
                 key={product._id}
                 product={product}
-                loadStatus={isSuccess && isFetchedAfterMount}
+                loaded={isSuccess && isFetchedAfterMount}
               />
             ))}
           </SimpleGrid>

@@ -1,25 +1,25 @@
 import {
-  Box,
   Divider,
   FormControl,
   HStack,
   Image,
   Select,
-  SimpleGrid,
   Skeleton,
+  SkeletonText,
   Stack,
   Stat,
   StatHelpText,
   StatLabel,
   StatNumber,
   Text,
+  useBreakpointValue,
   useColorModeValue,
   useToast
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
+import { EqualColumns } from 'components/Layout'
 import {
   Alert,
-  GoBackButton,
   PrimaryButton,
   PrimaryHeading,
   ProductRating
@@ -44,10 +44,11 @@ const Product = ({ match, history }) => {
   const [qty, setQty] = useState(1)
   const [inCart, setInCart] = useState(false)
 
-  const loadStatus = isSuccess && isFetchedAfterMount
+  const loaded = isSuccess && isFetchedAfterMount
   const inStock = product?.stockCount > 0
   const inStockColor = useColorModeValue('green.600', 'green.300')
   const outOfStockColor = useColorModeValue('red.600', 'red.300')
+  const toastPosition = useBreakpointValue({ base: 'top', md: 'bottom' })
 
   const handleAddToCart = () => {
     toast.closeAll()
@@ -56,7 +57,8 @@ const Product = ({ match, history }) => {
     toast({
       title,
       description: `${product.name || ''}`,
-      status: 'success'
+      status: 'success',
+      position: toastPosition
     })
   }
 
@@ -70,9 +72,6 @@ const Product = ({ match, history }) => {
 
   return (
     <Stack>
-      <Box>
-        <GoBackButton to='/' />
-      </Box>
       {isError ? (
         <Alert
           status='error'
@@ -80,35 +79,45 @@ const Product = ({ match, history }) => {
           description='It looks like something went wrong with the server'
         />
       ) : (
-        <SimpleGrid columns={[1, 2, 3]} spacing={12}>
+        <EqualColumns>
           {/* Product Image */}
-          <Skeleton isLoaded={loadStatus}>
+          {loaded ? (
             <Image
               src={product?.image}
               alt={product?.name}
               borderRadius='md'
               ignoreFallback
             />
-          </Skeleton>
+          ) : (
+            <Skeleton h='200px' isLoaded={loaded} />
+          )}
           {/* Product Overview */}
-          <Skeleton isLoaded={loadStatus}>
-            <Stack spacing={3}>
+          <Stack spacing={3}>
+            <Skeleton isLoaded={loaded}>
               <PrimaryHeading text={product?.name} />
-              <Divider />
+            </Skeleton>
+            <Divider />
+            <Skeleton isLoaded={loaded}>
               <ProductRating
                 value={product?.rating}
                 text={`${product?.reviewCount} reviews`}
               />
+            </Skeleton>
+            <Skeleton isLoaded={loaded}>
               <Text fontWeight='semibold'>Price: ${product?.price}</Text>
-              <Divider />
+            </Skeleton>
+            <Divider />
+            {loaded ? (
               <Text>{product?.description}</Text>
-            </Stack>
-          </Skeleton>
+            ) : (
+              <SkeletonText noOfLines={5} />
+            )}
+          </Stack>
           {/* Product Purchase Information */}
-          <Skeleton isLoaded={loadStatus}>
-            <Stack d='block' spacing={5} boxShadow='base' p={3}>
-              <HStack spacing={12}>
-                <Stat>
+          <Stack d='block' spacing={5} boxShadow='base' p={3}>
+            <HStack spacing={12}>
+              <Stat>
+                <Skeleton isLoaded={loaded}>
                   <StatLabel>Total Price</StatLabel>
                   <StatNumber>${product?.price}</StatNumber>
                   <StatHelpText
@@ -120,9 +129,11 @@ const Product = ({ match, history }) => {
                       ? 'In Stock'
                       : 'Out of Stock'}
                   </StatHelpText>
-                </Stat>
-                {inStock && (
-                  <FormControl>
+                </Skeleton>
+              </Stat>
+              {inStock && (
+                <FormControl>
+                  <Skeleton isLoaded={loaded}>
                     <Select
                       value={qty}
                       disabled={inCart}
@@ -134,22 +145,23 @@ const Product = ({ match, history }) => {
                         </option>
                       ))}
                     </Select>
-                  </FormControl>
-                )}
-              </HStack>
-              <Divider />
-              <PrimaryButton
-                label={inCart ? 'Go to Cart' : 'Add to Cart'}
-                colorScheme={inCart && 'green'}
-                disabled={!inStock}
-                onClick={inCart ? () => history.push('/cart') : handleAddToCart}
-                rightIcon={<FiShoppingCart />}
-                mt={3}
-                w='100%'
-              />
-            </Stack>
-          </Skeleton>
-        </SimpleGrid>
+                  </Skeleton>
+                </FormControl>
+              )}
+            </HStack>
+            <Divider />
+            <PrimaryButton
+              label={inCart ? 'Go to Cart' : 'Add to Cart'}
+              loading={!loaded}
+              colorScheme={inCart && 'green'}
+              disabled={!inStock}
+              onClick={inCart ? () => history.push('/cart') : handleAddToCart}
+              rightIcon={<FiShoppingCart />}
+              mt={3}
+              w='100%'
+            />
+          </Stack>
+        </EqualColumns>
       )}
     </Stack>
   )
