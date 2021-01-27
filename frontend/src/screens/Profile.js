@@ -1,9 +1,7 @@
-import { Divider, Stack, useBreakpointValue } from '@chakra-ui/react'
+import { Divider, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { requestUserProfile } from 'api'
 import { ContentSidebar } from 'components/Layout'
 import {
-  Alert,
   FormButtons,
   FormInput,
   FormWrapper,
@@ -13,56 +11,40 @@ import {
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiMail, FiUser, FiUserCheck } from 'react-icons/fi'
-import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { updateSchema } from 'schema/formSchemas'
 import { authRequest } from 'slices/authSlice'
 
 const Profile = () => {
-  const auth = useSelector((state) => state.auth)
-  const toastPosition = useBreakpointValue({ base: 'top', md: 'bottom' })
   const dispatch = useDispatch()
-  const token = auth.user.token
-
-  const {
-    data: profile,
-    isError,
-    error,
-    isSuccess,
-    isFetchedAfterMount
-  } = useQuery(['profile', { token }], () => requestUserProfile(token), {
-    enabled: !!token,
-    refetchOnWindowFocus: false
-  })
-  const loaded = isSuccess && isFetchedAfterMount && !auth.loading
+  const auth = useSelector((state) => state.auth)
+  const { _id, name, email, token } = auth.user
+  const loaded = !auth.loading
 
   const { register, handleSubmit, errors, reset } = useForm({
     resolver: yupResolver(updateSchema)
   })
-
-  useEffect(() => {
-    if (loaded) {
-      const name = profile.name
-      const email = profile.email
-      reset({ name, email })
-    }
-  }, [loaded, profile, reset, toastPosition, auth])
 
   const onSubmit = (data) =>
     dispatch(
       authRequest({
         ...data,
         type: 'update',
-        _id: auth.user._id,
-        token: auth.user.token
+        _id,
+        token
       })
     )
+
+  useEffect(() => {
+    if (loaded) {
+      reset({ name, email })
+    }
+  }, [loaded, name, email, reset])
+
   const Content = () => (
     <Stack w='90%'>
-      <PrimaryHeading
-        text={`Hello, ${loaded ? profile?.name?.split(' ')[0] : ''}`}
-      />
+      <PrimaryHeading text={`Hello, ${loaded ? name.split(' ')[0] : ''}`} />
       <Subtitle text='Here you can view and customize your profile.' />
       <Divider />
       <FormWrapper onSubmit={handleSubmit(onSubmit)}>
@@ -103,15 +85,6 @@ const Profile = () => {
       <Divider />
     </Stack>
   )
-
-  if (isError)
-    return (
-      <Alert
-        status='error'
-        title='Oops!'
-        description={error.response.data.message}
-      />
-    )
 
   return (
     <ContentSidebar

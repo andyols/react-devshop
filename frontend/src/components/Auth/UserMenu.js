@@ -25,16 +25,16 @@ import { logoutRequest } from 'slices/authSlice'
 import { emptyCart } from 'slices/cartSlice'
 
 const UserMenu = () => {
-  const auth = useSelector((state) => state.auth)
+  const cancelRef = useRef()
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
   const queryClient = useQueryClient()
   const menuColor = useColorModeValue('gray.900', 'gray.50')
   const menuExpandedColor = useColorModeValue('gray.200', 'gray.400')
-
+  const auth = useSelector((state) => state.auth)
+  const loaded = !auth.loading
   const [logoutAlert, setLogoutAlert] = useState(false)
-  const cancelRef = useRef()
 
   const handleCloseAlert = () => setLogoutAlert(false)
 
@@ -89,9 +89,7 @@ const UserMenu = () => {
   if (!auth.user.token)
     return <NavButton label='Sign In' rightIcon={<FiLogIn />} to='/login' />
 
-  return auth.loading ? (
-    <Spinner size='xs' />
-  ) : (
+  return loaded ? (
     <>
       <LogoutAlert />
       <Menu isLazy>
@@ -103,7 +101,7 @@ const UserMenu = () => {
           _expanded={{ color: menuExpandedColor, textDecor: 'underline' }}
           _focus={{ outline: 0, textDecor: 'underline' }}
         >
-          {auth?.user?.name?.split(' ')[0]}
+          {auth.user.name.split(' ')[0]}
         </MenuButton>
         <Portal>
           <MenuList>
@@ -120,6 +118,8 @@ const UserMenu = () => {
         </Portal>
       </Menu>
     </>
+  ) : (
+    <Spinner size='xs' />
   )
 }
 
