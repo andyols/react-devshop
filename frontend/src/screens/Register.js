@@ -18,7 +18,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiUserPlus } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link as RouterLink, useHistory } from 'react-router-dom'
+import { Link as RouterLink, useHistory, withRouter } from 'react-router-dom'
 import { registerSchema } from 'schema/formSchemas'
 import { authRequest } from 'slices/authSlice'
 
@@ -105,4 +105,4 @@ const Register = ({ location }) => {
   )
 }
 
-export default Register
+export default withRouter(Register)

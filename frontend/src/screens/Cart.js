@@ -17,6 +17,7 @@ import { ContentSidebar } from 'components/Layout'
 import { PrimaryButton, PrimaryHeading, Subtitle } from 'components/Shared'
 import { FiCreditCard, FiShoppingBag, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { addItem, removeItem } from 'slices/cartSlice'
 
 const Cart = ({ history }) => {
@@ -111,4 +112,4 @@ const Cart = ({ history }) => {
   return <ContentSidebar content={<Content />} sidebar={<Sidebar />} />
 }
 
-export default Cart
+export default withRouter(Cart)

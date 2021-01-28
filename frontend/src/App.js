@@ -10,12 +10,29 @@ function App() {
     <Router>
       <ChakraProvider theme={theme}>
         <Layout>
-          <Route exact path='/' component={Home} />
-          <Route path='/login' component={Login} />
-          <PrivateRoute path='/profile' component={Profile} />
-          <Route path='/register' component={Register} />
-          <Route path='/product/:id' component={Product} />
-          <Route path='/cart' component={Cart} />
+          <Route exact path='/'>
+            <Home />
+          </Route>
+
+          <Route path='/login'>
+            <Login />
+          </Route>
+
+          <Route path='/register'>
+            <Register />
+          </Route>
+
+          <Route path='/product/:id'>
+            <Product />
+          </Route>
+
+          <Route path='/cart'>
+            <Cart />
+          </Route>
+
+          <PrivateRoute path='/profile'>
+            <Profile />
+          </PrivateRoute>
         </Layout>
       </ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />

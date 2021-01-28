@@ -28,6 +28,7 @@ import { useEffect, useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { addItem } from 'slices/cartSlice'
 
 const Product = ({ match, history }) => {
@@ -154,7 +155,7 @@ const Product = ({ match, history }) => {
               label={inCart ? 'Go to Cart' : 'Add to Cart'}
               loading={!loaded}
               colorScheme={inCart && 'green'}
-              disabled={!inStock}
+              disabled={!inStock || !loaded}
               onClick={inCart ? () => history.push('/cart') : handleAddToCart}
               rightIcon={<FiShoppingCart />}
               mt={3}
@@ -167,4 +168,4 @@ const Product = ({ match, history }) => {
   )
 }
 
-export default Product
+export default withRouter(Product)
