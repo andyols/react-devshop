@@ -3,6 +3,7 @@ import { PrimaryButton, SecondaryButton } from 'components/Shared'
 import React from 'react'
 
 const FormButtons = ({
+  justify,
   isLoading,
   disabled,
   primaryIcon,
@@ -17,9 +18,9 @@ const FormButtons = ({
   return (
     <ButtonGroup
       d='flex'
+      justifyContent={justify || 'space-between'}
       direction={secondaryAction ? buttonLayout : 'column'}
       py={3}
-      justifyContent='space-between'
       variant={variant && variant}
       {...rest}
     >

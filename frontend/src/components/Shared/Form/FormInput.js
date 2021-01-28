@@ -26,6 +26,7 @@ const FormInput = forwardRef((props, ref) => {
     leftElement,
     rightAddon,
     rightElement,
+    disabled,
     ...rest
   } = props
   return (
@@ -33,21 +34,17 @@ const FormInput = forwardRef((props, ref) => {
       <FormLabel fontSize={size && size}>{label}</FormLabel>
       <InputGroup size={size && size}>
         {leftAddon && <InputLeftAddon children={leftAddon} />}
-        {leftElement && (
-          <InputLeftElement pointerEvents='none' children={leftElement} />
-        )}
+        {leftElement && <InputLeftElement children={leftElement} />}
         <Input
           ref={ref}
           name={name || id}
-          label={id}
           type={type || id}
           defaultValue={value || ''}
+          disabled={disabled && disabled}
           {...rest}
         />
         {rightAddon && <InputRightAddon children={rightAddon} />}
-        {rightElement && (
-          <InputRightElement pointerEvents='none' children={rightElement} />
-        )}
+        {rightElement && <InputRightElement children={rightElement} />}
       </InputGroup>
       {help && <FormHelperText>{help}</FormHelperText>}
       {error && <FormErrorMessage>{error.message}</FormErrorMessage>}

@@ -18,11 +18,11 @@ export const updatePasswordSchema = yup.object().shape({
   passwordold: yup.string().required('Current password is required'),
   password: yup
     .string()
-    .required('Password is required')
     .notOneOf(
       [yup.ref('passwordold'), null],
       'New password cannot be the same as old password'
-    ),
+    )
+    .required('Password is required'),
   passwordconfirm: yup
     .string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')

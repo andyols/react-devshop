@@ -3,10 +3,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { verifyPassword } from 'api'
 import {
   FormButtons,
-  FormInput,
   FormWrapper,
+  PasswordInput,
   SecondaryHeading
 } from 'components/Shared'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { updatePasswordSchema } from 'schema/formSchemas'
@@ -18,11 +19,14 @@ const UpdatePasswordForm = () => {
   const loaded = !auth.loading
   const { _id, token } = auth.user
 
-  /**
-   * TODO: password unmasking using a show password checkbox
-   */
-
-  const { register, handleSubmit, errors, setError, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setError,
+    clearErrors,
+    reset
+  } = useForm({
     reValidateMode: 'onSubmit',
     resolver: yupResolver(updatePasswordSchema)
   })
@@ -54,39 +58,52 @@ const UpdatePasswordForm = () => {
     }
   }
 
+  const [showOld, setShowOld] = useState(false)
+  const [show, setShow] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const handleShowOld = () => setShowOld(!showOld)
+  const handleShow = () => setShow(!show)
+  const handleShowConfirm = () => setShowConfirm(!showConfirm)
+
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>
       <SecondaryHeading text='Password' fontSize='lg' pt={3} />
       <Divider />
-      <FormInput
+      <PasswordInput
         id='passwordold'
         label='Old Password'
-        type='password'
         error={errors.passwordold}
         ref={register}
-        help='If you need to change your password, please verify your current password'
+        show={showOld}
+        handleClick={handleShowOld}
         disabled={!loaded}
       />
-      <FormInput
+      <PasswordInput
         id='password'
         label='New Password'
-        type='password'
         error={errors.password}
         ref={register}
+        show={show}
+        handleClick={handleShow}
         disabled={!loaded}
       />
-      <FormInput
+      <PasswordInput
         id='passwordconfirm'
         label='Confirm New Password'
-        type='password'
         error={errors.passwordconfirm}
         ref={register}
+        show={showConfirm}
+        handleClick={handleShowConfirm}
         disabled={!loaded}
       />
       <FormButtons
         primaryLabel='Update Password'
+        secondaryAction={() => reset()}
+        secondaryLabel='Reset'
         isLoading={!loaded}
         disabled={!loaded}
+        justify='flex-start'
         size='sm'
       />
     </FormWrapper>
