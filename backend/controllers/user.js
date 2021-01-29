@@ -12,18 +12,14 @@ const loginUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email })
 
-  if (!user) {
-    res.status(401)
-    throw new Error('Email not found')
-  }
-
   // use bcrypt method defined in user schema to verify password
   if (user && (await user.match(password))) {
-    const { _id, name, email, isAdmin } = user
-    res.json({ _id, name, email, isAdmin, token: generateToken(_id) })
+    const { _id, name, email } = user
+    // data to send back to client
+    res.json({ id: _id, name, email, token: generateToken(_id) })
   } else {
     res.status(401)
-    throw new Error('Invalid password')
+    throw new Error('Invalid email or password')
   }
 })
 
@@ -37,6 +33,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const userExists = await User.findOne({ email })
 
+  // check if user exists
   if (userExists) {
     res.status(400)
     throw new Error('User alredy exists')
@@ -45,15 +42,16 @@ const registerUser = asyncHandler(async (req, res) => {
   // create new user, password will be hashed using middleware in schema
   const user = await User.create({ name, email, password })
 
-  if (user) {
-    const { _id, name, email, isAdmin } = user
-    res
-      .status(201)
-      .json({ _id, name, email, isAdmin, token: generateToken(_id) })
-  } else {
+  // check if user was created
+  if (!user) {
     res.status(400)
     throw new Error('Invalid user data')
   }
+
+  const { _id } = user
+
+  // data to send back to client
+  res.status(201).json({ id: _id, name, email, token: generateToken(_id) })
 })
 
 /**
@@ -63,14 +61,17 @@ const registerUser = asyncHandler(async (req, res) => {
  */
 const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
-  const { _id, name, email, isAdmin } = user
 
-  if (user) {
-    res.json({ _id, name, email, isAdmin })
-  } else {
+  // check if user was found
+  if (!user) {
     res.status(404)
     throw new Error('User not found')
   }
+
+  const { _id, name, email, isAdmin } = user
+
+  // data to send back to client
+  res.json({ _id, name, email, isAdmin })
 })
 
 /**
@@ -81,25 +82,25 @@ const getProfile = asyncHandler(async (req, res) => {
 const updateProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
-  // replace any fields that were included in request
-  if (user) {
-    user.name = req.body.name || user.name
-    user.email = req.body.email || user.email
-
-    // not sure why this check is needed?
-    if (req.body.password) {
-      user.password = req.body.password
-    }
-
-    // save any changes and send back the updated user data
-    const updatedUser = await user.save()
-    const { _id, name, email, isAdmin } = updatedUser
-
-    res.json({ _id, name, email, isAdmin, token: generateToken(_id) })
-  } else {
+  // check if user was found
+  if (!user) {
     res.status(404)
     throw new Error('User not found')
   }
+
+  // replace any fields that were included in request
+  user.name = req.body.name || user.name
+  user.email = req.body.email || user.email
+  if (req.body.password) {
+    user.password = req.body.password
+  }
+
+  // save any changes
+  const updatedUser = await user.save()
+  const { _id, name, email } = updatedUser
+
+  // data to send back to client
+  res.json({ _id, name, email, token: generateToken(_id) })
 })
 
 /**
@@ -109,15 +110,21 @@ const updateProfile = asyncHandler(async (req, res) => {
  */
 const verifyPassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
-  const { password } = req.body
 
-  // use bcrypt method defined in user schema to verify password
-  if (user && (await user.match(password))) {
-    res.json({ password: true })
-  } else {
+  if (!user) {
+    res.status(404)
+    throw new Error('User not found')
+  }
+
+  const { password } = req.body
+  const verified = await user.match(password)
+
+  if (!verified) {
     res.status(401)
     throw new Error('Invalid password')
   }
+
+  res.status(200).json('success')
 })
 
 export { loginUser, registerUser, getProfile, updateProfile, verifyPassword }

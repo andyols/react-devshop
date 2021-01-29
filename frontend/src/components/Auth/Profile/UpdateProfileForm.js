@@ -1,5 +1,6 @@
 import { Divider } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { requestUserUpdate } from 'api'
 import {
   FormButtons,
   FormInput,
@@ -16,30 +17,20 @@ import { authRequest } from 'slices/authSlice'
 const UpdateProfileForm = () => {
   const dispatch = useDispatch()
   const auth = useSelector((state) => state.auth)
-  const { _id, name, email, token } = auth.user
-  const loaded = !auth.loading
+  const { name, email, token } = auth.user
 
   const { register, handleSubmit, errors, reset } = useForm({
     reValidateMode: 'onSubmit',
     resolver: yupResolver(updateSchema)
   })
-
-  const onSubmit = async (data) => {
-    dispatch(
-      authRequest({
-        ...data,
-        type: 'update',
-        _id,
-        token
-      })
-    )
-  }
+  const onSubmit = (data) =>
+    dispatch(authRequest(requestUserUpdate, { ...data, token }))
 
   useEffect(() => {
-    if (loaded) {
+    if (!auth.loading) {
       reset({ name, email })
     }
-  }, [loaded, name, email, reset])
+  }, [auth.loading, name, email, reset])
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>
@@ -51,7 +42,7 @@ const UpdateProfileForm = () => {
         ref={register}
         leftAddon={<FiUser />}
         label='Name'
-        disabled={!loaded}
+        disabled={auth.loading}
       />
       <FormInput
         id='email'
@@ -59,14 +50,14 @@ const UpdateProfileForm = () => {
         error={errors.email}
         ref={register}
         leftAddon={<FiMail />}
-        disabled={!loaded}
+        disabled={auth.loading}
       />
       <FormButtons
         primaryLabel='Update Profile'
         secondaryAction={() => reset()}
         secondaryLabel='Reset'
-        isLoading={!loaded}
-        disabled={!loaded}
+        isLoading={auth.loading}
+        disabled={auth.loading}
         size='sm'
         justify='flex-start'
       />

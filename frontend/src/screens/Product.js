@@ -68,6 +68,9 @@ const Product = ({ match, history }) => {
     if (found) {
       setInCart(true)
       setQty(found.qty)
+    } else {
+      setInCart(false)
+      setQty(1)
     }
   }, [cart, id])
 

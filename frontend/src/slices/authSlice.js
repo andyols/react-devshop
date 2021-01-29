@@ -1,71 +1,97 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {
-  requestUpdateUserProfile,
-  requestUserLogin,
-  requestUserRegister
-} from 'api'
+import { empty } from './cartSlice'
 
-const fromLocalStorage = localStorage.getItem('user')
-  ? { user: JSON.parse(localStorage.getItem('user')) }
-  : { user: {} }
+const initialState = {
+  loading: false,
+  error: null
+}
+
+const fromLocalStorage = {
+  ...initialState,
+  user: localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))
+    : {}
+}
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: { ...fromLocalStorage, loading: false, error: null },
+  initialState: fromLocalStorage,
   reducers: {
-    authLoading(state, action) {
+    loading(state) {
       state.loading = true
     },
-    authSuccess(state, action) {
-      const user = action.payload
-      localStorage.setItem('user', JSON.stringify(user))
-      state.user = user
+    success(state) {
       state.error = null
       state.loading = false
     },
-    authFailure(state, action) {
+    failure(state, action) {
       state.error = action.payload
       state.loading = false
     },
-    logoutSuccess(state, action) {
+    updateUser(state, action) {
+      const user = action.payload
+      localStorage.setItem('user', JSON.stringify(user))
+      state.user = user
+      state.verified = false
+    },
+    verifyUser(state) {
+      state.user.verified = true
+    },
+    logoutUser(state) {
       localStorage.removeItem('user')
       state.user = {}
-      state.loading = false
     }
   }
 })
 
-// async action to handle login / register requests
-export const authRequest = (data) => async (dispatch) => {
-  const { authSuccess, authLoading, authFailure } = authSlice.actions
+// async actions to handle login / register requests
+export const authRequest = (request, data) => async (dispatch) => {
+  const { loading, success, failure, updateUser } = authSlice.actions
 
-  dispatch(authLoading())
+  dispatch(loading())
   try {
-    let user
-    switch (data.type) {
-      case 'login':
-        user = await requestUserLogin(data)
-        break
-      case 'register':
-        user = await requestUserRegister(data)
-        break
-      default:
-        user = await requestUpdateUserProfile(data)
-    }
-    dispatch(authSuccess(user))
-  } catch (err) {
+    const user = data.token
+      ? await request(data, data.token)
+      : await request(data)
+
+    dispatch(updateUser(user))
+    dispatch(success())
+  } catch (e) {
     const message =
-      err.response && err.response.data.message
-        ? err.response.data.message
-        : err.message
-    dispatch(authFailure(message))
+      e.response && e.response.data.message
+        ? e.response.data.message
+        : e.message
+
+    dispatch(failure(message))
+  }
+}
+
+export const verifyPassword = (request, data) => async (dispatch) => {
+  const { loading, success, failure, verifyUser } = authSlice.actions
+
+  dispatch(loading())
+  try {
+    await request(data, data.token)
+    dispatch(verifyUser())
+    dispatch(success())
+  } catch (e) {
+    const message =
+      e.response && e.response.data.message
+        ? e.response.data.message
+        : e.message
+    dispatch(failure(message))
   }
 }
 
 export const logoutRequest = () => async (dispatch) => {
-  const { logoutSuccess, authLoading } = authSlice.actions
-  dispatch(authLoading())
-  setTimeout(() => dispatch(logoutSuccess()), 500)
+  const { loading, success, logoutUser } = authSlice.actions
+  dispatch(loading())
+  // simulate network request for ui purposes
+  setTimeout(() => {
+    dispatch(empty())
+    dispatch(logoutUser())
+    dispatch(success())
+  }, 500)
 }
 
 export const authReducer = authSlice.reducer

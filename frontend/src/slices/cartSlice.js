@@ -24,7 +24,7 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state))
     },
 
-    emptyCart(state, action) {
+    empty(state) {
       state.length = 0
       localStorage.removeItem('cart')
     }
@@ -32,4 +32,4 @@ const cartSlice = createSlice({
 })
 
 export const cartReducer = cartSlice.reducer
-export const { addItem, removeItem, emptyCart } = cartSlice.actions
+export const { addItem, removeItem, empty } = cartSlice.actions

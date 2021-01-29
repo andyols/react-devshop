@@ -18,30 +18,24 @@ import {
 import { NavButton } from 'components/Shared'
 import { useRef, useState } from 'react'
 import { FiChevronDown, FiLogIn } from 'react-icons/fi'
-import { useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
 import { logoutRequest } from 'slices/authSlice'
-import { emptyCart } from 'slices/cartSlice'
 
 const UserMenu = () => {
   const cancelRef = useRef()
   const history = useHistory()
   const location = useLocation()
   const dispatch = useDispatch()
-  const queryClient = useQueryClient()
   const menuColor = useColorModeValue('gray.900', 'gray.50')
   const menuExpandedColor = useColorModeValue('gray.200', 'gray.400')
   const auth = useSelector((state) => state.auth)
-  const loaded = !auth.loading
   const [logoutAlert, setLogoutAlert] = useState(false)
 
   const handleCloseAlert = () => setLogoutAlert(false)
 
   const handleConfirmLogout = () => {
-    dispatch(emptyCart())
     dispatch(logoutRequest())
-    queryClient.removeQueries('profile')
     setLogoutAlert(false)
   }
 
@@ -89,7 +83,9 @@ const UserMenu = () => {
   if (!auth.user.token)
     return <NavButton label='Sign In' rightIcon={<FiLogIn />} to='/login' />
 
-  return loaded ? (
+  return auth.loading ? (
+    <Spinner size='xs' />
+  ) : (
     <>
       <LogoutAlert />
       <Menu isLazy>
@@ -118,8 +114,6 @@ const UserMenu = () => {
         </Portal>
       </Menu>
     </>
-  ) : (
-    <Spinner size='xs' />
   )
 }
 

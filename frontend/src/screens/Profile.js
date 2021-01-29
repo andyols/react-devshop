@@ -1,5 +1,5 @@
 import { Divider, Stack } from '@chakra-ui/react'
-import { UpdatePasswordForm, UpdateProfileForm } from 'components/Auth'
+import { PasswordForm, UpdateProfileForm } from 'components/Auth'
 import { ContentSidebar } from 'components/Layout'
 import { PrimaryHeading, Subtitle } from 'components/Shared'
 import { useSelector } from 'react-redux'
@@ -14,7 +14,7 @@ const Profile = () => {
       <Subtitle text='Here you can view and customize your profile.' />
       <Divider />
       <UpdateProfileForm />
-      <UpdatePasswordForm />
+      <PasswordForm />
     </Stack>
   )
 

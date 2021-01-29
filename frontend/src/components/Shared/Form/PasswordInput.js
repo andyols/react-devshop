@@ -2,6 +2,7 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   forwardRef,
   Input,
@@ -10,7 +11,17 @@ import {
 } from '@chakra-ui/react'
 
 const PasswordInput = forwardRef((props, ref) => {
-  const { id, label, name, show, size, error, handleClick, disabled } = props
+  const {
+    id,
+    label,
+    name,
+    show,
+    size,
+    error,
+    help,
+    handleClick,
+    disabled
+  } = props
   return (
     <FormControl id={id} isInvalid={!!error}>
       <FormLabel fontSize={size && size}>{label}</FormLabel>
@@ -35,6 +46,7 @@ const PasswordInput = forwardRef((props, ref) => {
           </Button>
         </InputRightElement>
       </InputGroup>
+      {help && <FormHelperText>{help}</FormHelperText>}
       {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
     </FormControl>
   )
