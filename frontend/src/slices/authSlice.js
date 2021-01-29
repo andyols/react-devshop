@@ -3,7 +3,9 @@ import { empty } from './cartSlice'
 
 const initialState = {
   loading: false,
-  error: null
+  error: null,
+  verified: false,
+  toast: ''
 }
 
 const fromLocalStorage = {
@@ -23,6 +25,7 @@ const authSlice = createSlice({
     success(state) {
       state.error = null
       state.loading = false
+      state.toast = ''
     },
     failure(state, action) {
       state.error = action.payload
@@ -33,6 +36,7 @@ const authSlice = createSlice({
       localStorage.setItem('user', JSON.stringify(user))
       state.user = user
       state.verified = false
+      state.toast = 'Profile Updated'
     },
     verifyUser(state) {
       state.user.verified = true

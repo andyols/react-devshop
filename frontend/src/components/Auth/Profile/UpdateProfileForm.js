@@ -17,20 +17,23 @@ import { authRequest } from 'slices/authSlice'
 const UpdateProfileForm = () => {
   const dispatch = useDispatch()
   const auth = useSelector((state) => state.auth)
-  const { name, email, token } = auth.user
+  const { name, email } = auth.user
 
   const { register, handleSubmit, errors, reset } = useForm({
     reValidateMode: 'onSubmit',
     resolver: yupResolver(updateSchema)
   })
-  const onSubmit = (data) =>
-    dispatch(authRequest(requestUserUpdate, { ...data, token }))
+
+  const onSubmit = async (data) =>
+    dispatch(
+      authRequest(requestUserUpdate, { ...data, token: auth.user.token })
+    )
 
   useEffect(() => {
     if (!auth.loading) {
       reset({ name, email })
     }
-  }, [auth.loading, name, email, reset])
+  }, [auth.loading, reset, name, email])
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>
