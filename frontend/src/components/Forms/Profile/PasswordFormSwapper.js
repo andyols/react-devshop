@@ -1,7 +1,7 @@
-import { UpdatePasswordForm, VerifyPasswordForm } from 'components/Auth'
 import { useState } from 'react'
+import { UpdatePasswordForm, VerifyPasswordForm } from '.'
 
-const PasswordForm = () => {
+const PasswordFormSwapper = () => {
   const [verified, setVerified] = useState(false)
 
   return verified ? (
@@ -11,4 +11,4 @@ const PasswordForm = () => {
   )
 }
 
-export default PasswordForm
+export default PasswordFormSwapper

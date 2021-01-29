@@ -3,7 +3,15 @@ import { Layout } from 'components/Layout'
 import PrivateRoute from 'PrivateRoute'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Cart, Home, Login, Product, Profile, Register } from './screens'
+import {
+  Cart,
+  Home,
+  Login,
+  Product,
+  Profile,
+  Register,
+  Shipping
+} from './screens'
 
 function App() {
   return (
@@ -28,6 +36,10 @@ function App() {
 
           <Route path='/cart'>
             <Cart />
+          </Route>
+
+          <Route path='/shipping'>
+            <Shipping />
           </Route>
 
           <PrivateRoute path='/profile'>

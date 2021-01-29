@@ -1,7 +1,0 @@
-export { default as LoginForm } from './LoginForm'
-export { default as PasswordForm } from './PasswordForm'
-export { default as UpdatePasswordForm } from './Profile/UpdatePasswordForm'
-export { default as UpdateProfileForm } from './Profile/UpdateProfileForm'
-export { default as VerifyPasswordForm } from './Profile/VerifyPasswordForm'
-export { default as RegisterForm } from './RegisterForm'
-export { default as UserMenu } from './UserMenu'

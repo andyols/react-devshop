@@ -1,5 +1,8 @@
 import { Divider, Stack, useBreakpointValue, useToast } from '@chakra-ui/react'
-import { PasswordForm, UpdateProfileForm } from 'components/Auth'
+import {
+  PasswordFormSwapper,
+  UpdateProfileForm
+} from 'components/Forms/Profile'
 import { ContentSidebar } from 'components/Layout'
 import { PrimaryHeading, Subtitle } from 'components/Shared'
 import { useEffect } from 'react'
@@ -30,7 +33,7 @@ const Profile = () => {
       <Subtitle text='Here you can view and customize your profile.' />
       <Divider />
       <UpdateProfileForm />
-      <PasswordForm />
+      <PasswordFormSwapper />
     </Stack>
   )
 

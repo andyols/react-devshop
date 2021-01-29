@@ -1,6 +1,5 @@
 import { Flex, HStack, useColorModeValue } from '@chakra-ui/react'
-import { UserMenu } from 'components/Auth'
-import { ColorModeButton, NavButton } from 'components/Shared'
+import { ColorModeButton, NavButton, UserMenu } from 'components/Shared'
 import { FiShoppingCart, FiTerminal } from 'react-icons/fi'
 
 const Header = () => {
