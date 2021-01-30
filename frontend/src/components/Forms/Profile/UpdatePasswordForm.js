@@ -10,7 +10,7 @@ import {
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { newPasswordSchema } from 'schema/formSchemas'
+import { updatePasswordSchema } from 'schema/formSchemas'
 import { authRequest } from 'slices/authSlice'
 
 const UpdatePasswordForm = () => {
@@ -21,7 +21,7 @@ const UpdatePasswordForm = () => {
 
   const { register, handleSubmit, errors, reset } = useForm({
     reValidateMode: 'onSubmit',
-    resolver: yupResolver(newPasswordSchema)
+    resolver: yupResolver(updatePasswordSchema)
   })
   const onSubmit = (data) =>
     dispatch(authRequest(requestUserUpdate, { ...data, token }))

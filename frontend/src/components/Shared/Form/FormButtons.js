@@ -8,6 +8,7 @@ const FormButtons = ({
   disabled,
   primaryIcon,
   primaryLabel,
+  primaryAction,
   secondaryIcon,
   secondaryLabel,
   secondaryAction,
@@ -35,8 +36,9 @@ const FormButtons = ({
         />
       )}
       <PrimaryButton
-        type='submit'
+        type={primaryAction ? 'button' : 'submit'}
         label={primaryLabel}
+        onClick={primaryAction && primaryAction}
         rightIcon={primaryIcon}
         isLoading={isLoading}
         disabled={disabled}

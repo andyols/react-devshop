@@ -26,7 +26,7 @@ const Cart = ({ history }) => {
   const emptyCart = cart.length === 0
 
   const handleCheckout = () => {
-    history.push('/login?redirect=shipping')
+    history.push('/login?redirect=checkout')
   }
 
   const Content = () => (

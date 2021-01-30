@@ -1,10 +1,10 @@
-import { Text } from '@chakra-ui/react'
+import { Icon, Text } from '@chakra-ui/react'
 import React from 'react'
 
-const Subtitle = ({ text, ...rest }) => {
+const Subtitle = ({ text, icon, ...rest }) => {
   return (
     <Text color='gray.500' {...rest}>
-      {text}
+      {icon && <Icon as={icon} mb={1} mr={1} />} {text}
     </Text>
   )
 }

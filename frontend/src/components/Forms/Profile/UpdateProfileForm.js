@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiMail, FiUser } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateSchema } from 'schema/formSchemas'
+import { updateProfileSchema } from 'schema/formSchemas'
 import { authRequest } from 'slices/authSlice'
 
 const UpdateProfileForm = () => {
@@ -21,7 +21,7 @@ const UpdateProfileForm = () => {
 
   const { register, handleSubmit, errors, reset } = useForm({
     reValidateMode: 'onSubmit',
-    resolver: yupResolver(updateSchema)
+    resolver: yupResolver(updateProfileSchema)
   })
 
   const onSubmit = async (data) =>

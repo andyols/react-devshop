@@ -5,12 +5,12 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import {
   Cart,
+  Checkout,
   Home,
   Login,
   Product,
   Profile,
-  Register,
-  Shipping
+  Register
 } from './screens'
 
 function App() {
@@ -38,8 +38,8 @@ function App() {
             <Cart />
           </Route>
 
-          <Route path='/shipping'>
-            <Shipping />
+          <Route path='/checkout'>
+            <Checkout />
           </Route>
 
           <PrivateRoute path='/profile'>
