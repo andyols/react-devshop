@@ -1,4 +1,4 @@
-import { Button, useColorModeValue } from '@chakra-ui/react'
+import { Button } from '@chakra-ui/react'
 
 const PrimaryButton = ({
   label,
@@ -11,16 +11,16 @@ const PrimaryButton = ({
   colorScheme,
   ...rest
 }) => {
-  const defaultColor = useColorModeValue('purple', 'cyan')
   return (
     <Button
-      colorScheme={colorScheme || defaultColor}
+      colorScheme={colorScheme ? colorScheme : 'purple'}
       type={type && type}
       onClick={onClick && onClick}
       isLoading={loading && loading}
       disabled={disabled && disabled}
       leftIcon={leftIcon && leftIcon}
       rightIcon={rightIcon && rightIcon}
+      lineHeight={0}
       {...rest}
     >
       {label}

@@ -16,6 +16,7 @@ const SecondaryButton = ({
       disabled={disabled && disabled}
       leftIcon={leftIcon && leftIcon}
       rightIcon={rightIcon && rightIcon}
+      lineHeight={0}
       {...rest}
     >
       {label}

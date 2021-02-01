@@ -8,9 +8,10 @@ const ContentSidebar = ({
   sidebar,
   sidebarW,
   minSidebarW,
-  maxSidebarW
+  maxSidebarW,
+  ...rest
 }) => (
-  <Flex wrap='wrap'>
+  <Flex wrap='wrap' {...rest}>
     <Stack
       align={useBreakpointValue({ base: 'center', sm: 'flex-start' })}
       flex={`1 1 ${contentW || '60%'}`}
@@ -21,7 +22,7 @@ const ContentSidebar = ({
     </Stack>
 
     <Stack
-      mt={useBreakpointValue({ base: 5, sm: 0 })}
+      mt={useBreakpointValue({ base: 12, sm: 0 })}
       align={useBreakpointValue({ base: 'center', sm: 'flex-start' })}
       flex={`1 1 ${sidebarW || '30%'}`}
       minW={minSidebarW && minSidebarW}

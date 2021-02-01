@@ -7,9 +7,10 @@ import {
   Stack
 } from '@chakra-ui/react'
 import { FormButtons, FormWrapper, PrimaryHeading } from 'components/Shared'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'
-import { save } from 'slices/checkoutSlice'
+import { savePayment } from 'slices/checkoutSlice'
 
 const PaymentForm = ({ setStep }) => {
   // redux
@@ -20,14 +21,9 @@ const PaymentForm = ({ setStep }) => {
 
   const onSubmit = (e) => {
     e.preventDefault()
-    dispatch(save({ data: method, type: 'payment' }))
+    dispatch(savePayment(method))
     setStep(2)
   }
-
-  // save before component unmounts
-  useEffect(() => {
-    dispatch(save({ data: method, type: 'payment' }))
-  }, [dispatch, method])
 
   return (
     <FormWrapper
@@ -48,8 +44,10 @@ const PaymentForm = ({ setStep }) => {
         </RadioGroup>
       </InputGroup>
       <FormButtons
-        primaryLabel='Go to Confirmation'
+        primaryLabel='Next'
+        primaryIcon={<FiChevronRight />}
         secondaryLabel='Back'
+        secondaryIcon={<FiChevronLeft />}
         secondaryAction={() => setStep(0)}
       />
     </FormWrapper>

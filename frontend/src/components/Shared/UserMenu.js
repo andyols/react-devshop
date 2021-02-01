@@ -21,6 +21,7 @@ import { FiChevronDown, FiLogIn } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
 import { logoutRequest } from 'slices/authSlice'
+import { cancel } from 'slices/checkoutSlice'
 
 const UserMenu = () => {
   const cancelRef = useRef()
@@ -36,6 +37,7 @@ const UserMenu = () => {
 
   const handleConfirmLogout = () => {
     dispatch(logoutRequest())
+    dispatch(cancel())
     setLogoutAlert(false)
   }
 
@@ -47,11 +49,11 @@ const UserMenu = () => {
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader>Signing Out</AlertDialogHeader>
+          <AlertDialogHeader pb={0}>Before you go...</AlertDialogHeader>
 
           <AlertDialogBody>
-            Are you sure you want to sign out? Any outstanding cart items will
-            be removed.
+            Signing out will remove any outstanding cart items and checkout
+            information. Are you sure you want to?
           </AlertDialogBody>
 
           <AlertDialogFooter>

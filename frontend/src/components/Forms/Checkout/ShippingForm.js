@@ -8,10 +8,11 @@ import {
 } from 'components/Shared'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { shippingSchema } from 'schema/formSchemas'
-import { save } from 'slices/checkoutSlice'
+import { saveShipping } from 'slices/checkoutSlice'
 
 const ShippingForm = ({ setStep }) => {
   // redux
@@ -23,12 +24,12 @@ const ShippingForm = ({ setStep }) => {
   const history = useHistory()
 
   // react-hook-form
-  const { register, handleSubmit, errors, reset, getValues } = useForm({
+  const { register, handleSubmit, errors, reset } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(shippingSchema)
   })
   const onSubmit = (data) => {
-    dispatch(save({ data, type: 'shipping' }))
+    dispatch(saveShipping(data))
     setStep(1)
   }
 
@@ -38,15 +39,6 @@ const ShippingForm = ({ setStep }) => {
       reset({ address, city, postalcode, country })
     }
   }, [reset, checkout, address, city, postalcode, country])
-
-  // save before component unmounts
-  useEffect(
-    () => () => {
-      const data = getValues()
-      dispatch(save({ data, type: 'shipping' }))
-    },
-    [getValues, dispatch]
-  )
 
   return (
     <FormWrapper
@@ -86,8 +78,10 @@ const ShippingForm = ({ setStep }) => {
         ref={register}
       />
       <FormButtons
-        primaryLabel='Go To Payment'
-        secondaryLabel='Back to Cart'
+        primaryLabel='Next'
+        primaryIcon={<FiChevronRight />}
+        secondaryLabel='Back'
+        secondaryIcon={<FiChevronLeft />}
         secondaryAction={() => history.push('/cart')}
       />
     </FormWrapper>

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   shipping: {},
-  payment: {}
+  payment: ''
 }
 
 const fromLocalStorage = localStorage.getItem('checkout')
@@ -13,27 +13,21 @@ const checkoutSlice = createSlice({
   name: 'checkout',
   initialState: fromLocalStorage,
   reducers: {
-    save(state, action) {
-      switch (action.payload.type) {
-        case 'shipping':
-          state.shipping = action.payload.data
-          break
-        case 'payment':
-          state.payment = action.payload.data
-          break
-        default:
-          state = action.payload
-      }
-
+    saveShipping(state, action) {
+      state.shipping = action.payload
       localStorage.setItem('checkout', JSON.stringify(state))
     },
-
-    cancel(state, action) {
+    savePayment(state, action) {
+      state.payment = action.payload
+      localStorage.setItem('checkout', JSON.stringify(state))
+    },
+    cancel(state) {
       state.shipping = {}
+      state.payment = ''
       localStorage.removeItem('checkout')
     }
   }
 })
 
 export const checkoutReducer = checkoutSlice.reducer
-export const { save, cancel } = checkoutSlice.actions
+export const { saveShipping, savePayment, cancel } = checkoutSlice.actions

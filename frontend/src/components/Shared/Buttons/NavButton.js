@@ -12,7 +12,6 @@ const NavButton = forwardRef((props, ref) => {
       variant='link'
       leftIcon={leftIcon && leftIcon}
       rightIcon={rightIcon && rightIcon}
-      onMouseDown={(e) => e.preventDefault()}
       color='gray.50'
       _focus={{ outline: 0, textDecor: 'underline' }}
       {...rest}

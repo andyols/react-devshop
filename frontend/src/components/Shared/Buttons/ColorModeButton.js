@@ -16,7 +16,6 @@ const ColorModeButton = (props) => {
       color='current'
       marginLeft='2'
       onClick={toggleColorMode}
-      onMouseDown={(e) => e.preventDefault()}
       icon={<SwitchIcon />}
       _hover={{ background: hoverBg }}
       _focus={{ outline: 0, background: hoverBg }}

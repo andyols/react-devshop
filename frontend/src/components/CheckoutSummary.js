@@ -1,36 +1,76 @@
-import { Divider, HStack, Image, Stack, Text } from '@chakra-ui/react'
-import { FiCreditCard, FiHome, FiTruck } from 'react-icons/fi'
+import {
+  Divider,
+  HStack,
+  Image,
+  SimpleGrid,
+  Stack,
+  Text
+} from '@chakra-ui/react'
+import {
+  FiChevronLeft,
+  FiCreditCard,
+  FiEdit,
+  FiHome,
+  FiTruck
+} from 'react-icons/fi'
 import { useSelector } from 'react-redux'
 import { ContentSidebar } from './Layout'
-import { PrimaryButton, SecondaryHeading, Subtitle } from './Shared'
+import {
+  FormButtons,
+  PrimaryHeading,
+  SecondaryButton,
+  SecondaryHeading,
+  Subtitle
+} from './Shared'
 
-const CheckoutSummary = () => {
+const CheckoutSummary = ({ setStep }) => {
   const checkout = useSelector((state) => state.checkout)
   const { address, city, postalcode, country } = checkout.shipping
   const cart = useSelector((state) => state.cart)
 
-  // Calculate prices
-  const itemsPrice = cart.reduce((acc, item) => acc + item.price * item.qty, 0)
-  const shippingPrice = cart.itemsPrice > 100 ? 0 : 10
-  const taxPrice = Number((0.15 * itemsPrice).toFixed(2))
-  const totalPrice = itemsPrice + shippingPrice + taxPrice
+  // Calculate and format prices
+  const format = (price) => (Math.round(price * 100) / 100).toFixed(2)
+  const itemsPrice = format(
+    cart.reduce((acc, item) => acc + item.price * item.qty, 0)
+  )
+  const shippingPrice = format(cart.itemsPrice > 100 ? 0 : 10)
+  const taxPrice = format(Number((0.15 * itemsPrice).toFixed(2)))
+  const totalPrice = format(
+    Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)
+  )
 
   const Content = () => (
     <Stack w='90%' spacing={3}>
-      <SecondaryHeading text='Shipping' />
+      <PrimaryHeading text='Order Summary' />
+      <Divider />
+      <HStack justify='space-between'>
+        <SecondaryHeading text='Shipping' />
+        <SecondaryButton
+          variant='ghost'
+          rightIcon={<FiEdit />}
+          onClick={() => setStep(0)}
+        />
+      </HStack>
       <Subtitle
         text={`${address}, ${city} ${postalcode}, ${country}`}
         icon={FiHome}
       />
       <Divider />
-      <SecondaryHeading text='Payment Method' />
+      <HStack justify='space-between'>
+        <SecondaryHeading text='Payment Method' />
+        <SecondaryButton
+          variant='ghost'
+          rightIcon={<FiEdit />}
+          onClick={() => setStep(1)}
+        />
+      </HStack>
       <Subtitle text={`${checkout.payment}`} icon={FiCreditCard} />
       <Divider />
       <SecondaryHeading text='Items' />
-      <Stack spacing={3} divider={<Divider />} mb={5} px={3}>
+      <Stack spacing={3} divider={<Divider />}>
         {cart.map((item) => (
-          <HStack spacing={3} justify='space-between' key={item._id}>
-            <HStack spacing={6}>
+          <SimpleGrid minChildWidth='25ch' gap={3} key={item._id}>
+            <HStack spacing={6} maxW='35ch'>
               {item.image && (
                 <Image
                   src={item.image}
@@ -45,41 +85,44 @@ const CheckoutSummary = () => {
                 {item.name}
               </Text>
             </HStack>
-            <HStack>
-              <Text
-                color='gray.500'
-                fontSize='sm'
-              >{`${item.qty} x $${item.price} =`}</Text>
+            <HStack justifySelf='flex-end' fontSize='sm'>
+              <Text color='gray.500'>{`${item.qty} x $${item.price} =`}</Text>
               <Text>{`$${(item.price * item.qty).toFixed(2)}`}</Text>
             </HStack>
-          </HStack>
+          </SimpleGrid>
         ))}
       </Stack>
     </Stack>
   )
 
   const Sidebar = () => (
-    <Stack boxShadow='base' p={3} borderRadius='base' w='100%' spacing={3}>
-      <SecondaryHeading text='Order Summary' as='h2' />
+    <Stack boxShadow='base' p={3} borderRadius='base' w='100%'>
+      <SecondaryHeading text='Pricing Overview' as='h2' />
       <Divider />
-      <HStack justify='space-between' px={3}>
-        <Text color='gray.500'>Items</Text>
+      <HStack justify='space-between' px={3} color='gray.500'>
+        <Text>Items</Text>
         <Text>${itemsPrice}</Text>
       </HStack>
-      <HStack justify='space-between' px={3}>
-        <Text color='gray.500'>Shipping</Text>
+      <HStack justify='space-between' px={3} color='gray.500'>
+        <Text>Shipping</Text>
         <Text>${shippingPrice}</Text>
       </HStack>
-      <HStack justify='space-between' px={3}>
-        <Text color='gray.500'>Tax</Text>
+      <HStack justify='space-between' px={3} color='gray.500'>
+        <Text>Tax</Text>
         <Text>${taxPrice}</Text>
       </HStack>
+      <Divider />
       <HStack justify='space-between' px={3}>
         <Text fontWeight='semibold'>Total</Text>
         <Text>${totalPrice}</Text>
       </HStack>
-      <Divider />
-      <PrimaryButton label='Submit Order' rightIcon={<FiTruck />} />
+      <FormButtons
+        primaryLabel='Submit'
+        primaryIcon={<FiTruck />}
+        secondaryLabel='Back'
+        secondaryIcon={<FiChevronLeft />}
+        secondaryAction={() => setStep(1)}
+      />
     </Stack>
   )
 
@@ -88,6 +131,7 @@ const CheckoutSummary = () => {
       content={<Content />}
       sidebar={<Sidebar />}
       minSidebarW='30ch'
+      pt={3}
     />
   )
 }
