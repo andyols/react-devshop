@@ -11,9 +11,17 @@ import {
 import CheckoutSummary from 'components/CheckoutSummary'
 import { PaymentForm, ShippingForm } from 'components/Forms/Checkout'
 import { Subtitle } from 'components/Shared'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 const Checkout = () => {
+  // router
+  const history = useHistory()
+
+  // redux
+  const cart = useSelector((state) => state.cart)
+
   // local state
   const [step, setStep] = useState(0)
   const handleStepChange = (index) => setStep(index)
@@ -23,6 +31,10 @@ const Checkout = () => {
     1: 'Payment',
     2: 'Confirmation'
   }
+
+  useEffect(() => {
+    if (cart.length === 0) history.replace('/')
+  }, [cart, history])
 
   return (
     <Tabs index={step} onChange={handleStepChange} colorScheme='pink'>

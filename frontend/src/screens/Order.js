@@ -21,13 +21,12 @@ import { FiCreditCard, FiHome, FiMail, FiUser } from 'react-icons/fi'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { clear as clearCart } from 'slices/cartSlice'
 import { formatPrice, generatePaypalSDKScript } from 'utils'
 
 const Order = () => {
   // router
-  const history = useHistory()
   const { id } = useParams()
   const token = useSelector((state) => state.auth.user.token)
 
