@@ -5,7 +5,7 @@ const initialState = {
   error: null,
   success: false,
   toast: '',
-  current: {}
+  id: null
 }
 
 const orderSlice = createSlice({
@@ -16,7 +16,7 @@ const orderSlice = createSlice({
       state.loading = true
     },
     success(state, action) {
-      state.current = action.payload
+      state.id = action.payload
       state.error = null
       state.loading = false
       state.toast = ''
@@ -34,8 +34,8 @@ export const orderRequest = (request, data, token) => async (dispatch) => {
 
   dispatch(loading())
   try {
-    const order = await request(data, token)
-    dispatch(success(order))
+    const orderId = await request(data, token)
+    dispatch(success(orderId))
   } catch (e) {
     const message =
       e.response && e.response.data.message

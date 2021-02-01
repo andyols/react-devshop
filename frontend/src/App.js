@@ -8,6 +8,7 @@ import {
   Checkout,
   Home,
   Login,
+  Order,
   Product,
   Profile,
   Register
@@ -35,6 +36,10 @@ function App() {
 
           <Route path='/product/:id'>
             <Product />
+          </Route>
+
+          <Route path='/order/:id'>
+            <Order />
           </Route>
 
           <Route path='/cart'>

@@ -76,12 +76,23 @@ export const requestPasswordVerificaton = async (password, token) => {
   return data
 }
 
-export const requestOrder = async (order, token) => {
+export const requestCreateOrder = async (order, token) => {
   const { data } = await axios({
     url: '/api/orders',
     method: 'POST',
     headers: { ...headers, Authorization: `Bearer ${token}` },
     data: order
+  })
+  return data
+}
+
+export const requestOrderById = async ({ queryKey }) => {
+  // eslint-disable-next-line
+  const [_key, { id, token }] = queryKey
+  const { data } = await axios({
+    url: `/api/orders/${id}`,
+    method: 'get',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
   })
   return data
 }
