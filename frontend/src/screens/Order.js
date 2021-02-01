@@ -48,7 +48,7 @@ const Order = () => {
 
   const { address, city, postalcode, country } = data.shippingAddress
   const {
-    isPayed,
+    isPaid,
     isDelivered,
     paymentMethod,
     orderItems,
@@ -86,7 +86,7 @@ const Order = () => {
       <HStack>
         <SecondaryHeading text='Payment' />
         <Badge colorScheme={isDelivered ? 'green' : 'red'}>
-          {isPayed ? 'paid' : 'not paid'}
+          {isPaid ? 'paid' : 'not paid'}
         </Badge>
       </HStack>
       <Subtitle text={`${paymentMethod}`} icon={FiCreditCard} />
