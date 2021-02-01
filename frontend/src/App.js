@@ -1,4 +1,4 @@
-import { ChakraProvider, theme } from '@chakra-ui/react'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { Layout } from 'components/Layout'
 import PrivateRoute from 'PrivateRoute'
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -12,6 +12,9 @@ import {
   Profile,
   Register
 } from './screens'
+import appTheme from './theme'
+
+const theme = extendTheme({ appTheme })
 
 function App() {
   return (

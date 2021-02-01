@@ -1,4 +1,5 @@
 import { ColorModeScript } from '@chakra-ui/react'
+import 'focus-visible/dist/focus-visible'
 import ReactDOM from 'react-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Provider } from 'react-redux'
