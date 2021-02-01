@@ -6,7 +6,7 @@ import {
   Stack,
   Text
 } from '@chakra-ui/react'
-import { requestOrder } from 'api'
+import { requestCreateOrder } from 'api'
 import { useEffect } from 'react'
 import {
   FiChevronLeft,
@@ -18,6 +18,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { orderRequest } from 'slices/orderSlice'
+import { formatPrice } from 'utils'
 import { ContentSidebar } from './Layout'
 import {
   Alert,
@@ -41,20 +42,19 @@ const CheckoutSummary = ({ setStep }) => {
   const history = useHistory()
 
   // Calculate and format prices
-  const format = (price) => (Math.round(price * 100) / 100).toFixed(2)
-  const itemsPrice = format(
+  const itemsPrice = formatPrice(
     cart.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
-  const shippingPrice = format(cart.itemsPrice > 100 ? 0 : 10)
-  const taxPrice = format(Number((0.15 * itemsPrice).toFixed(2)))
-  const totalPrice = format(
+  const shippingPrice = formatPrice(cart.itemsPrice > 100 ? 0 : 10)
+  const taxPrice = formatPrice(Number((0.15 * itemsPrice).toFixed(2)))
+  const totalPrice = formatPrice(
     Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)
   )
 
   const handleOrderSubmit = () =>
     dispatch(
       orderRequest(
-        requestOrder,
+        requestCreateOrder,
         {
           orderItems: cart,
           shippingAddress: checkout.shipping,
@@ -70,9 +70,9 @@ const CheckoutSummary = ({ setStep }) => {
 
   useEffect(() => {
     if (order.success) {
-      history.replace(`/order/${order.current._id}`)
+      history.replace(`/order/${order.id}`)
     }
-  }, [order.success, order.current._id, history])
+  }, [order, history])
 
   const Content = () => (
     <Stack w='90%' spacing={3}>
