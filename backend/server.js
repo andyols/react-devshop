@@ -1,9 +1,10 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import connectDB from './config/db.js'
+import { errorHandler, notFound } from './middleware/errors.js'
+import orderRoutes from './routes/order.js'
 import productRoutes from './routes/product.js'
 import userRoutes from './routes/user.js'
-import { notFound, errorHandler } from './middleware/errors.js'
 import { logInfo } from './utils/logs.js'
 
 dotenv.config({ path: '.env.local' })
@@ -15,6 +16,7 @@ app.use(express.json())
 
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/orders', orderRoutes)
 
 app.use(notFound)
 app.use(errorHandler)
