@@ -75,3 +75,13 @@ export const requestPasswordVerificaton = async (password, token) => {
   })
   return data
 }
+
+export const requestOrder = async (order, token) => {
+  const { data } = await axios({
+    url: '/api/orders',
+    method: 'POST',
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    data: order
+  })
+  return data
+}

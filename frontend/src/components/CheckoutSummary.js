@@ -6,6 +6,8 @@ import {
   Stack,
   Text
 } from '@chakra-ui/react'
+import { requestOrder } from 'api'
+import { useEffect } from 'react'
 import {
   FiChevronLeft,
   FiCreditCard,
@@ -13,9 +15,12 @@ import {
   FiHome,
   FiTruck
 } from 'react-icons/fi'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { orderRequest } from 'slices/orderSlice'
 import { ContentSidebar } from './Layout'
 import {
+  Alert,
   FormButtons,
   PrimaryHeading,
   SecondaryButton,
@@ -24,9 +29,16 @@ import {
 } from './Shared'
 
 const CheckoutSummary = ({ setStep }) => {
+  // redux
+  const dispatch = useDispatch()
   const checkout = useSelector((state) => state.checkout)
   const { address, city, postalcode, country } = checkout.shipping
   const cart = useSelector((state) => state.cart)
+  const user = useSelector((state) => state.auth.user)
+  const order = useSelector((state) => state.order)
+
+  // router
+  const history = useHistory()
 
   // Calculate and format prices
   const format = (price) => (Math.round(price * 100) / 100).toFixed(2)
@@ -38,6 +50,29 @@ const CheckoutSummary = ({ setStep }) => {
   const totalPrice = format(
     Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)
   )
+
+  const handleOrderSubmit = () =>
+    dispatch(
+      orderRequest(
+        requestOrder,
+        {
+          orderItems: cart,
+          shippingAddress: checkout.shipping,
+          paymentMethod: checkout.payment,
+          itemsPrice,
+          shippingPrice,
+          taxPrice,
+          totalPrice
+        },
+        user.token
+      )
+    )
+
+  useEffect(() => {
+    if (order.success) {
+      history.replace(`/order/${order.current._id}`)
+    }
+  }, [order.success, order.current._id, history])
 
   const Content = () => (
     <Stack w='90%' spacing={3}>
@@ -116,9 +151,13 @@ const CheckoutSummary = ({ setStep }) => {
         <Text fontWeight='semibold'>Total</Text>
         <Text>${totalPrice}</Text>
       </HStack>
+      {order.error && (
+        <Alert title='Oops!' description={order.error} status='error' />
+      )}
       <FormButtons
         primaryLabel='Submit'
         primaryIcon={<FiTruck />}
+        primaryAction={handleOrderSubmit}
         secondaryLabel='Back'
         secondaryIcon={<FiChevronLeft />}
         secondaryAction={() => setStep(1)}
