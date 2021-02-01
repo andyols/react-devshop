@@ -21,7 +21,7 @@ import { FiChevronDown, FiLogIn } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
 import { logoutRequest } from 'slices/authSlice'
-import { cancel } from 'slices/checkoutSlice'
+import { clear } from 'slices/checkoutSlice'
 
 const UserMenu = () => {
   const cancelRef = useRef()
@@ -37,7 +37,7 @@ const UserMenu = () => {
 
   const handleConfirmLogout = () => {
     dispatch(logoutRequest())
-    dispatch(cancel())
+    dispatch(clear())
     setLogoutAlert(false)
   }
 

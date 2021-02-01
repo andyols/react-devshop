@@ -8,11 +8,13 @@ dependencies:
   '@testing-library/react': 10.4.9_react-dom@17.0.1+react@17.0.1
   '@testing-library/user-event': 12.6.0
   axios: 0.21.1
+  focus-visible: 5.2.0
   framer-motion: 3.2.1_react-dom@17.0.1+react@17.0.1
   react: 17.0.1
   react-dom: 17.0.1_react@17.0.1
   react-hook-form: 6.14.2_react@17.0.1
   react-icons: 3.11.0_react@17.0.1
+  react-paypal-button-v2: 2.6.2_react-dom@17.0.1+react@17.0.1
   react-query: 3.5.16_react-dom@17.0.1+react@17.0.1
   react-redux: 7.2.2_react-dom@17.0.1+react@17.0.1
   react-router-dom: 5.2.0_react@17.0.1
@@ -6347,6 +6349,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-LI7v2mH02R55SekHYdv9pRHR9RajVNyIJ2N5IEkWbg7FT5ZmJ9Hw4mWxHeEUcd+dJo0QmzztHvDvWcc7prVFsw==
+  /focus-visible/5.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==
   /follow-redirects/1.13.1_debug@4.3.1:
     dependencies:
       debug: 4.3.1_supports-color@6.1.0
@@ -10739,6 +10745,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
+  /react-paypal-button-v2/2.6.2_react-dom@17.0.1+react@17.0.1:
+    dependencies:
+      prop-types: 15.7.2
+      react: 17.0.1
+      react-dom: 17.0.1_react@17.0.1
+      rimraf: 3.0.2
+    dev: false
+    peerDependencies:
+      react: ^0.14.6 || 15.x.x || 16.x.x
+      react-dom: ^0.14.6 || 15.x.x || 16.x.x
+    resolution:
+      integrity: sha512-+IgmfbKRdlfopX8YHfPcCrbuQnaA4mCRPQV3VbFXVHDOEiEHvROJ8arQc/JTa1ppRc95u/SweKeVRK1c65JWqA==
   /react-query/3.5.16_react-dom@17.0.1+react@17.0.1:
     dependencies:
       '@babel/runtime': 7.12.5
@@ -13550,11 +13568,13 @@ specifiers:
   '@testing-library/react': ^10.4.9
   '@testing-library/user-event': ^12.6.0
   axios: ^0.21.1
+  focus-visible: ^5.2.0
   framer-motion: ^3.2.1
   react: ^17.0.1
   react-dom: ^17.0.1
   react-hook-form: ^6.14.2
   react-icons: ^3.11.0
+  react-paypal-button-v2: ^2.6.2
   react-query: ^3.5.16
   react-redux: ^7.2.2
   react-refresh: ^0.9.0

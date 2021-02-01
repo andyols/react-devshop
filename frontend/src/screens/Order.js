@@ -9,33 +9,36 @@ import {
   Stack,
   Text
 } from '@chakra-ui/react'
-import { requestOrderById } from 'api'
+import {
+  requestOrderById,
+  requestOrderUpdate,
+  requestPaypalClientId
+} from 'api'
 import { ContentSidebar } from 'components/Layout'
-import {
-  FormButtons,
-  PrimaryHeading,
-  SecondaryHeading,
-  Subtitle
-} from 'components/Shared'
-import {
-  FiChevronLeft,
-  FiCreditCard,
-  FiHome,
-  FiMail,
-  FiTruck,
-  FiUser
-} from 'react-icons/fi'
-import { useQuery } from 'react-query'
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { formatPrice } from 'utils'
+import { PrimaryHeading, SecondaryHeading, Subtitle } from 'components/Shared'
+import { useEffect, useState } from 'react'
+import { FiCreditCard, FiHome, FiMail, FiUser } from 'react-icons/fi'
+import { PayPalButton } from 'react-paypal-button-v2'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from 'react-router-dom'
+import { clear as clearCart } from 'slices/cartSlice'
+import { formatPrice, generatePaypalSDKScript } from 'utils'
 
 const Order = () => {
-  // extract necessary variables from react-router and redux
+  // router
+  const history = useHistory()
   const { id } = useParams()
   const token = useSelector((state) => state.auth.user.token)
 
-  // use react-query to get current order data
+  // redux
+  const dispatch = useDispatch()
+
+  // local state
+  const [paypalReady, setPaypalReady] = useState(false)
+
+  // use react-query to order data
+  const queryClient = useQueryClient()
   const { data, status } = useQuery(
     ['order', { id, token }],
     requestOrderById,
@@ -43,12 +46,40 @@ const Order = () => {
       refetchOnWindowFocus: false
     }
   )
+  const { mutateAsync, status: mutationStatus } = useMutation(
+    requestOrderUpdate
+  )
 
-  if (status === 'loading') return <Spinner />
+  const handlePaymentSuccess = async (paymentResult) => {
+    await mutateAsync({ paymentResult, id, token })
+    dispatch(clearCart())
+    queryClient.invalidateQueries('order')
+  }
+
+  // build paypal script if order has not been paid
+  useEffect(() => {
+    const paypalScript = async () => {
+      const clientId = await requestPaypalClientId()
+      const script = generatePaypalSDKScript(clientId)
+      script.onload = () => setPaypalReady(true)
+      document.body.appendChild(script)
+    }
+    if (data) {
+      const { isPaid } = data
+      if (!isPaid && !window.paypal) {
+        paypalScript()
+      } else {
+        setPaypalReady(true)
+      }
+    }
+  }, [data])
+
+  if (status === 'loading' || mutationStatus === 'loading') return <Spinner />
 
   const { address, city, postalcode, country } = data.shippingAddress
   const {
     isPaid,
+    paidAt,
     isDelivered,
     paymentMethod,
     orderItems,
@@ -85,8 +116,8 @@ const Order = () => {
       <Divider />
       <HStack>
         <SecondaryHeading text='Payment' />
-        <Badge colorScheme={isDelivered ? 'green' : 'red'}>
-          {isPaid ? 'paid' : 'not paid'}
+        <Badge colorScheme={isPaid ? 'green' : 'red'}>
+          {isPaid ? `paid on ${new Date(paidAt).toLocaleString()}` : 'not paid'}
         </Badge>
       </HStack>
       <Subtitle text={`${paymentMethod}`} icon={FiCreditCard} />
@@ -144,12 +175,17 @@ const Order = () => {
       {/* {order.error && (
         <Alert title='Oops!' description={order.error} status='error' />
       )} */}
-      <FormButtons
-        primaryLabel='Submit'
-        primaryIcon={<FiTruck />}
-        secondaryLabel='Back'
-        secondaryIcon={<FiChevronLeft />}
-      />
+      <Stack py={3} px={3}>
+        {!isPaid &&
+          (!paypalReady ? (
+            <Spinner />
+          ) : (
+            <PayPalButton
+              amount={totalPrice}
+              onSuccess={handlePaymentSuccess}
+            />
+          ))}
+      </Stack>
     </Stack>
   )
 

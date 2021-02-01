@@ -91,8 +91,26 @@ export const requestOrderById = async ({ queryKey }) => {
   const [_key, { id, token }] = queryKey
   const { data } = await axios({
     url: `/api/orders/${id}`,
-    method: 'get',
+    method: 'GET',
     headers: { ...headers, Authorization: `Bearer ${token}` }
+  })
+  return data
+}
+
+export const requestOrderUpdate = async ({ paymentResult, id, token }) => {
+  const { data } = await axios({
+    url: `/api/orders/${id}/pay`,
+    method: 'PUT',
+    headers: { ...headers, Authorization: `Bearer ${token}` },
+    data: paymentResult
+  })
+  return data
+}
+
+export const requestPaypalClientId = async () => {
+  const { data } = await axios({
+    url: '/api/config/paypal',
+    method: 'GET'
   })
   return data
 }

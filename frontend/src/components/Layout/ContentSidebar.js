@@ -22,7 +22,7 @@ const ContentSidebar = ({
     </Stack>
 
     <Stack
-      mt={useBreakpointValue({ base: 12, sm: 0 })}
+      mt={useBreakpointValue({ base: 12, md: 0 })}
       align={useBreakpointValue({ base: 'center', sm: 'flex-start' })}
       flex={`1 1 ${sidebarW || '30%'}`}
       minW={minSidebarW && minSidebarW}

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { empty } from './cartSlice'
+import { clear } from './cartSlice'
 
 const initialState = {
   loading: false,
@@ -92,7 +92,7 @@ export const logoutRequest = () => async (dispatch) => {
   dispatch(loading())
   // simulate network request for ui purposes
   setTimeout(() => {
-    dispatch(empty())
+    dispatch(clear())
     dispatch(logoutUser())
     dispatch(success())
   }, 500)
