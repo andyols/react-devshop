@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { clearCart } from './cartSlice'
+import { clear } from './cartSlice'
 
 const initialState = {
   loading: false,
@@ -30,8 +30,9 @@ const orderSlice = createSlice({
       state.toast = 'Payment Received'
       state.paid = true
     },
-    success(state) {
+    cleanup(state) {
       state.toast = ''
+      state.created = false
     },
     failure(state, action) {
       state.error = action.payload
@@ -41,14 +42,14 @@ const orderSlice = createSlice({
 })
 
 export const create = (request, data, token) => async (dispatch) => {
-  const { loading, create, success, failure } = orderSlice.actions
+  const { loading, create, cleanup, failure } = orderSlice.actions
 
   dispatch(loading())
   try {
     const orderId = await request(data, token)
     await dispatch(create(orderId))
-    dispatch(clearCart())
-    dispatch(success())
+    dispatch(clear())
+    dispatch(cleanup())
   } catch (e) {
     const message =
       e.response && e.response.data.message
@@ -59,14 +60,14 @@ export const create = (request, data, token) => async (dispatch) => {
   }
 }
 export const pay = (request, data, token) => async (dispatch) => {
-  const { loading, pay, success, failure } = orderSlice.actions
+  const { loading, pay, cleanup, failure } = orderSlice.actions
 
   dispatch(loading())
   try {
     await request(data, token)
     await dispatch(pay())
-    dispatch(clearCart())
-    dispatch(success())
+    dispatch(clear())
+    dispatch(cleanup())
   } catch (e) {
     const message =
       e.response && e.response.data.message

@@ -10,18 +10,18 @@ import { FormButtons, FormWrapper, PrimaryHeading } from 'components/Shared'
 import { useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'
-import { savePayment } from 'slices/checkoutSlice'
+import { save } from 'slices/checkoutSlice'
 
 const PaymentForm = ({ setStep }) => {
   // redux
   const dispatch = useDispatch()
 
   // local state
-  const [method, setMethod] = useState('PayPal')
+  const [paymentMethod, setPaymentMethod] = useState('PayPal')
 
   const onSubmit = (e) => {
     e.preventDefault()
-    dispatch(savePayment(method))
+    dispatch(save(paymentMethod))
     setStep(2)
   }
 
@@ -35,7 +35,7 @@ const PaymentForm = ({ setStep }) => {
       <PrimaryHeading text='Payment Method' />
       <Divider />
       <InputGroup>
-        <RadioGroup onChange={setMethod} value={method}>
+        <RadioGroup onChange={setPaymentMethod} value={paymentMethod}>
           <FormLabel>Select a payment method</FormLabel>
           <Stack>
             <Radio value='PayPal'>PayPal or Credit Card</Radio>

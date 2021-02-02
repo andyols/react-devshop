@@ -7,7 +7,9 @@ import store from 'store'
 import App from './App'
 
 const client = new QueryClient({
-  defaultOptions: { queries: { staleTime: 600000 } }
+  defaultOptions: {
+    queries: { staleTime: 600000, retry: 3, refetchOnWindowFocus: false }
+  }
 })
 
 ReactDOM.render(

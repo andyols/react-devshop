@@ -26,7 +26,6 @@ const cartSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.items))
     },
-
     remove(state, action) {
       const cartIndex = state.items.findIndex(
         (item) => item._id === action.payload
@@ -37,28 +36,26 @@ const cartSlice = createSlice({
 
       localStorage.setItem('cart', JSON.stringify(state.items))
     },
-
-    success(state) {
-      state.toast = ''
-    },
-
-    clearCart(state) {
+    clear(state) {
       state.items.length = 0
       localStorage.removeItem('cart')
+    },
+    cleanup(state) {
+      state.toast = ''
     }
   }
 })
 
 export const cartAction = (item) => async (dispatch) => {
-  const { add, remove, success } = cartSlice.actions
+  const { add, remove, cleanup } = cartSlice.actions
 
   try {
     item.qty ? await dispatch(add(item)) : await dispatch(remove(item))
-    dispatch(success())
+    dispatch(cleanup())
   } catch (e) {
     console.error(e)
   }
 }
 
 export const cartReducer = cartSlice.reducer
-export const { clearCart } = cartSlice.actions
+export const { clear } = cartSlice.actions

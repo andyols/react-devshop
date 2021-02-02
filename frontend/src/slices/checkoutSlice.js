@@ -13,15 +13,14 @@ const checkoutSlice = createSlice({
   name: 'checkout',
   initialState: fromLocalStorage,
   reducers: {
-    saveShipping(state, action) {
-      state.shipping = action.payload
+    save(state, action) {
+      action.payload.type === 'shipping'
+        ? (state.shipping = action.payload)
+        : (state.payment = action.payload)
+
       localStorage.setItem('checkout', JSON.stringify(state))
     },
-    savePayment(state, action) {
-      state.payment = action.payload
-      localStorage.setItem('checkout', JSON.stringify(state))
-    },
-    clearCheckout(state) {
+    reset(state) {
       state.shipping = {}
       state.payment = ''
       localStorage.removeItem('checkout')
@@ -30,8 +29,4 @@ const checkoutSlice = createSlice({
 })
 
 export const checkoutReducer = checkoutSlice.reducer
-export const {
-  saveShipping,
-  savePayment,
-  clearCheckout
-} = checkoutSlice.actions
+export const { save, reset } = checkoutSlice.actions

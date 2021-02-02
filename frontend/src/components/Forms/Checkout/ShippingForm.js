@@ -12,7 +12,7 @@ import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { shippingSchema } from 'schema/formSchemas'
-import { saveShipping } from 'slices/checkoutSlice'
+import { save } from 'slices/checkoutSlice'
 
 const ShippingForm = ({ setStep }) => {
   // redux
@@ -29,7 +29,7 @@ const ShippingForm = ({ setStep }) => {
     resolver: yupResolver(shippingSchema)
   })
   const onSubmit = (data) => {
-    dispatch(saveShipping(data))
+    dispatch(save({ ...data, type: 'shipping' }))
     setStep(1)
   }
 

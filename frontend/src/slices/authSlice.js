@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { clearCart } from './cartSlice'
-import { clearCheckout } from './checkoutSlice'
+import { clear } from './cartSlice'
+import { reset } from './checkoutSlice'
 
 const initialState = {
   loading: false,
@@ -23,7 +23,7 @@ const authSlice = createSlice({
     loading(state) {
       state.loading = true
     },
-    success(state) {
+    cleanup(state) {
       state.error = null
       state.loading = false
       state.toast = ''
@@ -58,14 +58,14 @@ const authSlice = createSlice({
 
 // async actions to handle login / register requests
 export const authRequest = (request, data, token) => async (dispatch) => {
-  const { loading, success, failure, login, update } = authSlice.actions
+  const { loading, cleanup, failure, login, update } = authSlice.actions
 
   dispatch(loading())
   try {
     const user = token ? await request(data, token) : await request(data)
 
     token ? dispatch(update(user)) : dispatch(login(user))
-    dispatch(success())
+    dispatch(cleanup())
   } catch (e) {
     const message =
       e.response && e.response.data.message
@@ -77,13 +77,13 @@ export const authRequest = (request, data, token) => async (dispatch) => {
 }
 
 export const verifyPassword = (request, data) => async (dispatch) => {
-  const { loading, success, failure, verify } = authSlice.actions
+  const { loading, cleanup, failure, verify } = authSlice.actions
 
   dispatch(loading())
   try {
     await request(data, data.token)
     dispatch(verify())
-    dispatch(success())
+    dispatch(cleanup())
   } catch (e) {
     const message =
       e.response && e.response.data.message
@@ -94,14 +94,14 @@ export const verifyPassword = (request, data) => async (dispatch) => {
 }
 
 export const logoutRequest = () => async (dispatch) => {
-  const { loading, success, logout } = authSlice.actions
+  const { loading, cleanup, logout } = authSlice.actions
   dispatch(loading())
   // simulate network request for ui purposes
   setTimeout(() => {
-    dispatch(clearCart())
-    dispatch(clearCheckout())
+    dispatch(clear())
+    dispatch(reset())
     dispatch(logout())
-    dispatch(success())
+    dispatch(cleanup())
   }, 500)
 }
 

@@ -16,7 +16,7 @@ const Toast = () => {
       toast.closeAll()
       toast({
         description: authToast || cartToast || orderToast,
-        status: 'info',
+        status: 'success',
         position: 'top'
       })
     }

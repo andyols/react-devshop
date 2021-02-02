@@ -4,19 +4,19 @@ import {
   AlertIcon,
   AlertTitle,
   CloseButton,
-  HStack
+  Container
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
 
 const CustomAlert = ({ status, title, description, to, handleClose }) => {
   return (
-    <Alert
-      status={status}
-      borderRadius='base'
-      d='flex'
-      justifyContent='space-between'
-    >
-      <HStack spacing={0}>
+    <Container maxW='xl'>
+      <Alert
+        status={status}
+        borderRadius='base'
+        variant='subtle'
+        flexDirection={['column', 'row']}
+      >
         <AlertIcon />
         {title && <AlertTitle>{title}</AlertTitle>}
         {description && (
@@ -28,9 +28,9 @@ const CustomAlert = ({ status, title, description, to, handleClose }) => {
             {description}
           </AlertDescription>
         )}
-      </HStack>
-      {handleClose && <CloseButton onClick={handleClose} />}
-    </Alert>
+        {handleClose && <CloseButton onClick={handleClose} />}
+      </Alert>
+    </Container>
   )
 }
 
