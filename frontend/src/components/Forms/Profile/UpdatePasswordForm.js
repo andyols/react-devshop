@@ -24,7 +24,7 @@ const UpdatePasswordForm = () => {
     resolver: yupResolver(updatePasswordSchema)
   })
   const onSubmit = (data) =>
-    dispatch(authRequest(requestUserUpdate, { ...data, token }))
+    dispatch(authRequest(requestUserUpdate, data, token))
 
   const [showPassword, setShow] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)

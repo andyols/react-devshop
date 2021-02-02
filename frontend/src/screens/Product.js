@@ -12,9 +12,7 @@ import {
   StatLabel,
   StatNumber,
   Text,
-  useBreakpointValue,
-  useColorModeValue,
-  useToast
+  useColorModeValue
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
 import { EqualColumns } from 'components/Layout'
@@ -22,19 +20,19 @@ import {
   Alert,
   PrimaryButton,
   PrimaryHeading,
-  ProductRating
+  ProductRating,
+  Toast
 } from 'components/Shared'
 import { useEffect, useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { addItem } from 'slices/cartSlice'
+import { cartAction } from 'slices/cartSlice'
 
 const Product = ({ match, history }) => {
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
-  const toast = useToast()
   const id = match.params.id
   const { data: product, isSuccess, isFetchedAfterMount, isError } = useQuery(
     ['product', id],
@@ -49,22 +47,11 @@ const Product = ({ match, history }) => {
   const inStock = product?.stockCount > 0
   const inStockColor = useColorModeValue('green.600', 'green.300')
   const outOfStockColor = useColorModeValue('red.600', 'red.300')
-  const toastPosition = useBreakpointValue({ base: 'top', md: 'bottom' })
 
-  const handleAddToCart = () => {
-    toast.closeAll()
-    dispatch(addItem({ ...product, qty }))
-    const title = qty > 1 ? `${qty} items added to cart` : 'Item added to cart'
-    toast({
-      title,
-      description: `${product.name || ''}`,
-      status: 'success',
-      position: toastPosition
-    })
-  }
+  const handleAddToCart = () => dispatch(cartAction({ ...product, qty }))
 
   useEffect(() => {
-    const found = cart.find((item) => item._id === id)
+    const found = cart.items.find((item) => item._id === id)
     if (found) {
       setInCart(true)
       setQty(found.qty)
@@ -76,6 +63,7 @@ const Product = ({ match, history }) => {
 
   return (
     <Stack>
+      <Toast />
       {isError ? (
         <Alert
           status='error'

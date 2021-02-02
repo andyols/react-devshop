@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { clear } from './cartSlice'
+import { clearCart } from './cartSlice'
 
 const initialState = {
   loading: false,
@@ -44,7 +44,7 @@ export const create = (request, data, token) => async (dispatch) => {
   try {
     const orderId = await request(data, token)
     dispatch(createSuccess(orderId))
-    dispatch(clear())
+    dispatch(clearCart())
   } catch (e) {
     const message =
       e.response && e.response.data.message
@@ -61,7 +61,7 @@ export const pay = (request, data, token) => async (dispatch) => {
   try {
     await request(data, token)
     dispatch(paySuccess())
-    dispatch(clear())
+    dispatch(clearCart())
   } catch (e) {
     const message =
       e.response && e.response.data.message

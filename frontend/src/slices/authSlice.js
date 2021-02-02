@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { clear } from './cartSlice'
+import { clearCart } from './cartSlice'
+import { clearCheckout } from './checkoutSlice'
 
 const initialState = {
   loading: false,
@@ -31,17 +32,17 @@ const authSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
-    updateUser(state, action) {
+    update(state, action) {
       const user = action.payload
       localStorage.setItem('user', JSON.stringify(user))
       state.user = user
       state.verified = false
       state.toast = 'Profile Updated'
     },
-    verifyUser(state) {
+    verify(state) {
       state.user.verified = true
     },
-    logoutUser(state) {
+    logout(state) {
       localStorage.removeItem('user')
       state.user = {}
     }
@@ -49,16 +50,14 @@ const authSlice = createSlice({
 })
 
 // async actions to handle login / register requests
-export const authRequest = (request, data) => async (dispatch) => {
-  const { loading, success, failure, updateUser } = authSlice.actions
+export const authRequest = (request, data, token) => async (dispatch) => {
+  const { loading, success, failure, update } = authSlice.actions
 
   dispatch(loading())
   try {
-    const user = data.token
-      ? await request(data, data.token)
-      : await request(data)
+    const user = token ? await request(data, token) : await request(data)
 
-    dispatch(updateUser(user))
+    dispatch(update(user))
     dispatch(success())
   } catch (e) {
     const message =
@@ -71,12 +70,12 @@ export const authRequest = (request, data) => async (dispatch) => {
 }
 
 export const verifyPassword = (request, data) => async (dispatch) => {
-  const { loading, success, failure, verifyUser } = authSlice.actions
+  const { loading, success, failure, verify } = authSlice.actions
 
   dispatch(loading())
   try {
     await request(data, data.token)
-    dispatch(verifyUser())
+    dispatch(verify())
     dispatch(success())
   } catch (e) {
     const message =
@@ -88,12 +87,13 @@ export const verifyPassword = (request, data) => async (dispatch) => {
 }
 
 export const logoutRequest = () => async (dispatch) => {
-  const { loading, success, logoutUser } = authSlice.actions
+  const { loading, success, logout } = authSlice.actions
   dispatch(loading())
   // simulate network request for ui purposes
   setTimeout(() => {
-    dispatch(clear())
-    dispatch(logoutUser())
+    dispatch(clearCart())
+    dispatch(clearCheckout())
+    dispatch(logout())
     dispatch(success())
   }, 500)
 }

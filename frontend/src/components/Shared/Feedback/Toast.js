@@ -1,4 +1,4 @@
-import { useBreakpointValue, useToast } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -10,18 +10,17 @@ const Toast = () => {
   const orderToast = order.toast
 
   const toast = useToast()
-  const toastPosition = useBreakpointValue({ base: 'top', md: 'bottom' })
 
   useEffect(() => {
     if (authToast || cartToast || orderToast) {
       toast.closeAll()
       toast({
-        title: authToast || cartToast || orderToast,
-        status: 'success',
-        position: toastPosition
+        description: authToast || cartToast || orderToast,
+        status: 'info',
+        position: 'top'
       })
     }
-  }, [authToast, cartToast, orderToast, toast, toastPosition])
+  }, [authToast, cartToast, orderToast, toast])
 
   return true
 }

@@ -14,16 +14,21 @@ import {
   Text
 } from '@chakra-ui/react'
 import { ContentSidebar } from 'components/Layout'
-import { PrimaryButton, PrimaryHeading, Subtitle } from 'components/Shared'
+import {
+  PrimaryButton,
+  PrimaryHeading,
+  Subtitle,
+  Toast
+} from 'components/Shared'
 import { FiCreditCard, FiShoppingBag, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { addItem, removeItem } from 'slices/cartSlice'
+import { cartAction } from 'slices/cartSlice'
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
-  const emptyCart = cart.length === 0
+  const emptyCart = cart.items.length === 0
 
   const handleCheckout = () => {
     history.push('/login?redirect=checkout')
@@ -33,7 +38,7 @@ const Cart = ({ history }) => {
     <Stack spacing={3} divider={<Divider />} w='90%' mb={5}>
       <PrimaryHeading text='Shopping Cart' />
       {emptyCart && <Subtitle text='Your shopping cart is empty.' />}
-      {cart.map((item) => (
+      {cart.items.map((item) => (
         <SimpleGrid minChildWidth='25ch' gap={8} key={item._id}>
           {/* COL 1 */}
           <HStack spacing={3} maxW='35ch'>
@@ -58,7 +63,7 @@ const Cart = ({ history }) => {
               <Select
                 value={item.qty}
                 onChange={(e) =>
-                  dispatch(addItem({ ...item, qty: Number(e.target.value) }))
+                  dispatch(cartAction({ ...item, qty: Number(e.target.value) }))
                 }
               >
                 {[...Array(item?.stockCount).keys()].map((o) => (
@@ -74,7 +79,7 @@ const Cart = ({ history }) => {
               icon={<FiTrash />}
               variant='ghost'
               colorScheme='red'
-              onClick={() => dispatch(removeItem(item._id))}
+              onClick={() => dispatch(cartAction(item._id))}
             />
           </HStack>
         </SimpleGrid>
@@ -84,20 +89,21 @@ const Cart = ({ history }) => {
 
   const Sidebar = () => (
     <Stack spacing={3} boxShadow='base' p={3} borderRadius='base' w='100%'>
+      <Toast />
       <Stat>
         <StatLabel>{'Subtotal'}</StatLabel>
         <StatNumber>
           $
-          {cart
+          {cart.items
             .reduce((acc, item) => acc + item.qty * item.price, 0)
             .toFixed(2)}
         </StatNumber>
         <StatHelpText>
           {emptyCart
             ? 'Cart is Empty'
-            : cart.reduce((acc, item) => acc + item.qty, 0) === 1
+            : cart.items.reduce((acc, item) => acc + item.qty, 0) === 1
             ? '1 item'
-            : `${cart.reduce((acc, item) => acc + item.qty, 0)} items`}
+            : `${cart.items.reduce((acc, item) => acc + item.qty, 0)} items`}
         </StatHelpText>
       </Stat>
       <PrimaryButton

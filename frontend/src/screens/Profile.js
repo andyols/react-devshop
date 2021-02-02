@@ -1,31 +1,15 @@
-import { Divider, Stack, useBreakpointValue, useToast } from '@chakra-ui/react'
+import { Divider, Stack } from '@chakra-ui/react'
 import {
   PasswordFormSwapper,
   UpdateProfileForm
 } from 'components/Forms/Profile'
 import { ContentSidebar } from 'components/Layout'
-import { PrimaryHeading, Subtitle } from 'components/Shared'
-import { useEffect } from 'react'
+import { PrimaryHeading, Subtitle, Toast } from 'components/Shared'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 const Profile = () => {
   const auth = useSelector((state) => state.auth)
-
-  // display toast notification upon success
-  const toast = useToast()
-  const toastPosition = useBreakpointValue({ base: 'top', md: 'bottom' })
-
-  useEffect(() => {
-    if (auth.toast) {
-      toast.closeAll()
-      toast({
-        title: auth.toast,
-        status: 'success',
-        position: toastPosition
-      })
-    }
-  }, [auth.toast, toast, toastPosition])
 
   const Content = () => (
     <Stack w='90%'>
@@ -46,11 +30,14 @@ const Profile = () => {
   )
 
   return (
-    <ContentSidebar
-      content={<Content />}
-      sidebar={<Sidebar />}
-      minSidebarW='30ch'
-    />
+    <>
+      <Toast />
+      <ContentSidebar
+        content={<Content />}
+        sidebar={<Sidebar />}
+        minSidebarW='30ch'
+      />
+    </>
   )
 }
 

@@ -1,35 +1,64 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const initialState = { items: [], toast: '' }
+
 const fromLocalStorage = localStorage.getItem('cart')
-  ? JSON.parse(localStorage.getItem('cart'))
-  : []
+  ? { ...initialState, items: JSON.parse(localStorage.getItem('cart')) }
+  : { items: [], toast: '' }
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: fromLocalStorage,
   reducers: {
-    addItem(state, action) {
-      const cartIndex = state.findIndex((i) => i._id === action.payload._id)
+    add(state, action) {
+      const cartIndex = state.items.findIndex(
+        (i) => i._id === action.payload._id
+      )
 
-      cartIndex > -1
-        ? (state[cartIndex].qty = action.payload.qty)
-        : state.push(action.payload)
+      if (cartIndex > -1) {
+        // item found
+        state.items[cartIndex].qty = action.payload.qty
+        state.toast = 'Item updated'
+      } else {
+        state.items.push(action.payload)
+        state.toast = 'Item added to cart'
+      }
 
-      localStorage.setItem('cart', JSON.stringify(state))
+      localStorage.setItem('cart', JSON.stringify(state.items))
     },
 
-    removeItem(state, action) {
-      const cartIndex = state.findIndex((item) => item._id === action.payload)
-      state.splice(cartIndex, 1)
-      localStorage.setItem('cart', JSON.stringify(state))
+    remove(state, action) {
+      const cartIndex = state.items.findIndex(
+        (item) => item._id === action.payload
+      )
+
+      state.items.splice(cartIndex, 1)
+      state.toast = 'Item removed from cart'
+
+      localStorage.setItem('cart', JSON.stringify(state.items))
     },
 
-    clear(state) {
-      state.length = 0
+    success(state) {
+      state.toast = ''
+    },
+
+    clearCart(state) {
+      state.items.length = 0
       localStorage.removeItem('cart')
     }
   }
 })
 
+export const cartAction = (item) => async (dispatch) => {
+  const { add, remove, success } = cartSlice.actions
+
+  try {
+    item.qty ? await dispatch(add(item)) : await dispatch(remove(item))
+    dispatch(success())
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export const cartReducer = cartSlice.reducer
-export const { addItem, removeItem, clear } = cartSlice.actions
+export const { clearCart } = cartSlice.actions

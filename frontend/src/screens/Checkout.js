@@ -33,7 +33,7 @@ const Checkout = () => {
   }
 
   useEffect(() => {
-    if (cart.length === 0) history.replace('/')
+    if (cart.items.length === 0) history.replace('/')
   }, [cart, history])
 
   return (

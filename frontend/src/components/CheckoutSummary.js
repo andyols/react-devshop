@@ -43,9 +43,9 @@ const CheckoutSummary = ({ setStep }) => {
 
   // Calculate and format prices
   const itemsPrice = formatPrice(
-    cart.reduce((acc, item) => acc + item.price * item.qty, 0)
+    cart.items.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
-  const shippingPrice = formatPrice(cart.itemsPrice > 100 ? 0 : 10)
+  const shippingPrice = formatPrice(cart.items.itemsPrice > 100 ? 0 : 10)
   const taxPrice = formatPrice(Number((0.15 * itemsPrice).toFixed(2)))
   const totalPrice = formatPrice(
     Number(itemsPrice) + Number(shippingPrice) + Number(taxPrice)
@@ -103,7 +103,7 @@ const CheckoutSummary = ({ setStep }) => {
       <Divider />
       <SecondaryHeading text='Items' />
       <Stack spacing={3} divider={<Divider />}>
-        {cart.map((item) => (
+        {cart.items.map((item) => (
           <SimpleGrid minChildWidth='25ch' gap={3} key={item._id}>
             <HStack spacing={6} maxW='35ch'>
               {item.image && (

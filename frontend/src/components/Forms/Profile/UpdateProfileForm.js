@@ -25,9 +25,7 @@ const UpdateProfileForm = () => {
   })
 
   const onSubmit = async (data) =>
-    dispatch(
-      authRequest(requestUserUpdate, { ...data, token: auth.user.token })
-    )
+    dispatch(authRequest(requestUserUpdate, data, auth.user.token))
 
   useEffect(() => {
     if (!auth.loading) {
