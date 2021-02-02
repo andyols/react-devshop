@@ -33,7 +33,7 @@ const Product = ({ match, history }) => {
   const dispatch = useDispatch()
   const cart = useSelector((state) => state.cart)
   const id = match.params.id
-  const { data: product, isSuccess, isFetchedAfterMount, isError } = useQuery(
+  const { data: product, isLoading, isError } = useQuery(
     ['product', id],
     () => requestProduct(id),
     { enabled: !!id }
@@ -42,7 +42,7 @@ const Product = ({ match, history }) => {
   const [qty, setQty] = useState(1)
   const [inCart, setInCart] = useState(false)
 
-  const loaded = isSuccess && isFetchedAfterMount
+  const loaded = !isLoading
   const inStock = product?.stockCount > 0
   const inStockColor = useColorModeValue('green.600', 'green.300')
   const outOfStockColor = useColorModeValue('red.600', 'red.300')
@@ -71,16 +71,14 @@ const Product = ({ match, history }) => {
       ) : (
         <EqualColumns>
           {/* Product Image */}
-          {loaded ? (
+          <Skeleton h='200px' isLoaded={loaded}>
             <Image
               src={product?.image}
               alt={product?.name}
               borderRadius='md'
               ignoreFallback
             />
-          ) : (
-            <Skeleton h='200px' isLoaded={loaded} />
-          )}
+          </Skeleton>
           {/* Product Overview */}
           <Stack spacing={3}>
             <Skeleton isLoaded={loaded}>
@@ -97,11 +95,9 @@ const Product = ({ match, history }) => {
               <Text fontWeight='semibold'>Price: ${product?.price}</Text>
             </Skeleton>
             <Divider />
-            {loaded ? (
+            <SkeletonText isLoaded={loaded}>
               <Text>{product?.description}</Text>
-            ) : (
-              <SkeletonText noOfLines={5} spacing={3} />
-            )}
+            </SkeletonText>
           </Stack>
           {/* Product Purchase Information */}
           <Stack d='block' spacing={5} boxShadow='base' p={3}>

@@ -6,7 +6,9 @@ import { Provider } from 'react-redux'
 import store from 'store'
 import App from './App'
 
-const client = new QueryClient()
+const client = new QueryClient({
+  defaultOptions: { queries: { staleTime: 600000 } }
+})
 
 ReactDOM.render(
   <QueryClientProvider {...{ client }}>

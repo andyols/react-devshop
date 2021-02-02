@@ -4,11 +4,11 @@ import { Alert, PrimaryHeading, ProductCard, Subtitle } from 'components/Shared'
 import { useQuery } from 'react-query'
 
 const Home = () => {
-  const { data: products, isSuccess, isFetchedAfterMount, isError } = useQuery(
+  const { data: products, isLoading, isError } = useQuery(
     'products',
     requestProducts
   )
-  const loaded = isSuccess && isFetchedAfterMount
+  const loaded = !isLoading
   return (
     <Stack>
       <PrimaryHeading text='Welcome to dev-shop' />
