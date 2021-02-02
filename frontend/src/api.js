@@ -97,7 +97,7 @@ export const requestOrderById = async ({ queryKey }) => {
   return data
 }
 
-export const requestOrderUpdate = async ({ paymentResult, id, token }) => {
+export const requestOrderUpdate = async ({ paymentResult, id }, token) => {
   const { data } = await axios({
     url: `/api/orders/${id}/pay`,
     method: 'PUT',

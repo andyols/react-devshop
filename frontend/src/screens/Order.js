@@ -15,44 +15,45 @@ import {
   requestPaypalClientId
 } from 'api'
 import { ContentSidebar } from 'components/Layout'
-import { PrimaryHeading, SecondaryHeading, Subtitle } from 'components/Shared'
+import {
+  PrimaryHeading,
+  SecondaryHeading,
+  Subtitle,
+  Toast
+} from 'components/Shared'
 import { useEffect, useState } from 'react'
 import { FiCreditCard, FiHome, FiMail, FiUser } from 'react-icons/fi'
 import { PayPalButton } from 'react-paypal-button-v2'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { clear as clearCart } from 'slices/cartSlice'
-import { formatPrice, generatePaypalSDKScript } from 'utils'
+import { pay } from 'slices/orderSlice'
+import { formatPrice } from 'utils/functions'
+import { generatePaypalSDKScript } from 'utils/paypal'
 
 const Order = () => {
   // router
   const { id } = useParams()
-  const token = useSelector((state) => state.auth.user.token)
 
   // redux
   const dispatch = useDispatch()
+  const token = useSelector((state) => state.auth.user.token)
+  const order = useSelector((state) => state.order)
 
   // local state
   const [paypalReady, setPaypalReady] = useState(false)
 
-  // use react-query to order data
+  // use react-query to fetch/cache order data
   const queryClient = useQueryClient()
-  const { data, status } = useQuery(
-    ['order', { id, token }],
-    requestOrderById,
-    {
-      refetchOnWindowFocus: false
-    }
-  )
-  const { mutateAsync, status: mutationStatus } = useMutation(
-    requestOrderUpdate
-  )
+  const { data, status } = useQuery(['order', { id, token }], requestOrderById)
+
+  // invalidate order data upon payment success
+  useEffect(() => {
+    if (order.paid) queryClient.invalidateQueries('order')
+  }, [order, queryClient])
 
   const handlePaymentSuccess = async (paymentResult) => {
-    await mutateAsync({ paymentResult, id, token })
-    dispatch(clearCart())
-    queryClient.invalidateQueries('order')
+    dispatch(pay(requestOrderUpdate, { paymentResult, id }, token))
   }
 
   // build paypal script if order has not been paid
@@ -73,7 +74,7 @@ const Order = () => {
     }
   }, [data])
 
-  if (status === 'loading' || mutationStatus === 'loading') return <Spinner />
+  if (status === 'loading' || order.loading) return <Spinner />
 
   const { address, city, postalcode, country } = data.shippingAddress
   const {
@@ -189,12 +190,15 @@ const Order = () => {
   )
 
   return (
-    <ContentSidebar
-      content={<Content />}
-      sidebar={<Sidebar />}
-      minSidebarW='30ch'
-      pt={3}
-    />
+    <>
+      <Toast />
+      <ContentSidebar
+        content={<Content />}
+        sidebar={<Sidebar />}
+        minSidebarW='30ch'
+        pt={3}
+      />
+    </>
   )
 }
 

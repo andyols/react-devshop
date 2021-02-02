@@ -17,8 +17,8 @@ import {
 } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { orderRequest } from 'slices/orderSlice'
-import { formatPrice } from 'utils'
+import { create } from 'slices/orderSlice'
+import { formatPrice } from 'utils/functions'
 import { ContentSidebar } from './Layout'
 import {
   Alert,
@@ -53,7 +53,7 @@ const CheckoutSummary = ({ setStep }) => {
 
   const handleOrderSubmit = () =>
     dispatch(
-      orderRequest(
+      create(
         requestCreateOrder,
         {
           orderItems: cart,
@@ -69,7 +69,7 @@ const CheckoutSummary = ({ setStep }) => {
     )
 
   useEffect(() => {
-    if (order.success) {
+    if (order.created) {
       history.replace(`/order/${order.id}`)
     }
   }, [order, history])
