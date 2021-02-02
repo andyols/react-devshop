@@ -4,7 +4,7 @@ import {
   UpdateProfileForm
 } from 'components/Forms/Profile'
 import { ContentSidebar } from 'components/Layout'
-import { PrimaryHeading, Subtitle, Toast } from 'components/Shared'
+import { PrimaryHeading, Subtitle } from 'components/Shared'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
@@ -30,14 +30,11 @@ const Profile = () => {
   )
 
   return (
-    <>
-      <Toast />
-      <ContentSidebar
-        content={<Content />}
-        sidebar={<Sidebar />}
-        minSidebarW='30ch'
-      />
-    </>
+    <ContentSidebar
+      content={<Content />}
+      sidebar={<Sidebar />}
+      minSidebarW='30ch'
+    />
   )
 }
 

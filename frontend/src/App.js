@@ -1,5 +1,6 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { Layout } from 'components/Layout'
+import { Toast } from 'components/Shared'
 import PrivateRoute from 'PrivateRoute'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -53,6 +54,8 @@ function App() {
           <PrivateRoute path='/profile'>
             <Profile />
           </PrivateRoute>
+
+          <Toast />
         </Layout>
       </ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />

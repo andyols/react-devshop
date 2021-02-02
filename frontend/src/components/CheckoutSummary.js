@@ -8,13 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { requestCreateOrder } from 'api'
 import { useEffect } from 'react'
-import {
-  FiChevronLeft,
-  FiCreditCard,
-  FiEdit,
-  FiHome,
-  FiTruck
-} from 'react-icons/fi'
+import { FiChevronLeft, FiCreditCard, FiEdit, FiHome } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { create } from 'slices/orderSlice'
@@ -56,7 +50,7 @@ const CheckoutSummary = ({ setStep }) => {
       create(
         requestCreateOrder,
         {
-          orderItems: cart,
+          orderItems: cart.items,
           shippingAddress: checkout.shipping,
           paymentMethod: checkout.payment,
           itemsPrice,
@@ -70,13 +64,13 @@ const CheckoutSummary = ({ setStep }) => {
 
   useEffect(() => {
     if (order.created) {
-      history.replace(`/order/${order.id}`)
+      history.push(`/order/${order.id}`)
     }
-  }, [order, history])
+  }, [order.created, order.id, history])
 
   const Content = () => (
     <Stack w='90%' spacing={3}>
-      <PrimaryHeading text='Order Summary' />
+      <PrimaryHeading text='Checkout Summary' />
       <Divider />
       <HStack justify='space-between'>
         <SecondaryHeading text='Shipping' />
@@ -155,8 +149,7 @@ const CheckoutSummary = ({ setStep }) => {
         <Alert title='Oops!' description={order.error} status='error' />
       )}
       <FormButtons
-        primaryLabel='Submit'
-        primaryIcon={<FiTruck />}
+        primaryLabel='Confirm Order'
         primaryAction={handleOrderSubmit}
         secondaryLabel='Back'
         secondaryIcon={<FiChevronLeft />}

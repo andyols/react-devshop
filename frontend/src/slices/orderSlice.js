@@ -17,18 +17,21 @@ const orderSlice = createSlice({
     loading(state) {
       state.loading = true
     },
-    createSuccess(state, action) {
+    create(state, action) {
       state.id = action.payload
       state.error = null
       state.loading = false
       state.toast = 'Order Created'
       state.created = true
     },
-    paySuccess(state) {
+    pay(state) {
       state.error = null
       state.loading = false
       state.toast = 'Payment Received'
       state.paid = true
+    },
+    success(state) {
+      state.toast = ''
     },
     failure(state, action) {
       state.error = action.payload
@@ -38,13 +41,14 @@ const orderSlice = createSlice({
 })
 
 export const create = (request, data, token) => async (dispatch) => {
-  const { loading, createSuccess, failure } = orderSlice.actions
+  const { loading, create, success, failure } = orderSlice.actions
 
   dispatch(loading())
   try {
     const orderId = await request(data, token)
-    dispatch(createSuccess(orderId))
+    await dispatch(create(orderId))
     dispatch(clearCart())
+    dispatch(success())
   } catch (e) {
     const message =
       e.response && e.response.data.message
@@ -55,13 +59,14 @@ export const create = (request, data, token) => async (dispatch) => {
   }
 }
 export const pay = (request, data, token) => async (dispatch) => {
-  const { loading, paySuccess, failure } = orderSlice.actions
+  const { loading, pay, success, failure } = orderSlice.actions
 
   dispatch(loading())
   try {
     await request(data, token)
-    dispatch(paySuccess())
+    await dispatch(pay())
     dispatch(clearCart())
+    dispatch(success())
   } catch (e) {
     const message =
       e.response && e.response.data.message

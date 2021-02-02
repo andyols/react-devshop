@@ -14,12 +14,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { ContentSidebar } from 'components/Layout'
-import {
-  PrimaryButton,
-  PrimaryHeading,
-  Subtitle,
-  Toast
-} from 'components/Shared'
+import { PrimaryButton, PrimaryHeading, Subtitle } from 'components/Shared'
 import { FiCreditCard, FiShoppingBag, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -89,7 +84,6 @@ const Cart = ({ history }) => {
 
   const Sidebar = () => (
     <Stack spacing={3} boxShadow='base' p={3} borderRadius='base' w='100%'>
-      <Toast />
       <Stat>
         <StatLabel>{'Subtotal'}</StatLabel>
         <StatNumber>

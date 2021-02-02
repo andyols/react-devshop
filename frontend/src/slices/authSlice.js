@@ -32,6 +32,17 @@ const authSlice = createSlice({
       state.error = action.payload
       state.loading = false
     },
+    login(state, action) {
+      const user = action.payload
+      localStorage.setItem('user', JSON.stringify(user))
+      state.user = user
+      state.toast = `Welcome, ${user.name}`
+    },
+    logout(state) {
+      localStorage.removeItem('user')
+      state.user = {}
+      state.toast = 'Have a nice day!'
+    },
     update(state, action) {
       const user = action.payload
       localStorage.setItem('user', JSON.stringify(user))
@@ -41,23 +52,19 @@ const authSlice = createSlice({
     },
     verify(state) {
       state.user.verified = true
-    },
-    logout(state) {
-      localStorage.removeItem('user')
-      state.user = {}
     }
   }
 })
 
 // async actions to handle login / register requests
 export const authRequest = (request, data, token) => async (dispatch) => {
-  const { loading, success, failure, update } = authSlice.actions
+  const { loading, success, failure, login, update } = authSlice.actions
 
   dispatch(loading())
   try {
     const user = token ? await request(data, token) : await request(data)
 
-    dispatch(update(user))
+    token ? dispatch(update(user)) : dispatch(login(user))
     dispatch(success())
   } catch (e) {
     const message =

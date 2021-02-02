@@ -20,8 +20,7 @@ import {
   Alert,
   PrimaryButton,
   PrimaryHeading,
-  ProductRating,
-  Toast
+  ProductRating
 } from 'components/Shared'
 import { useEffect, useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
@@ -63,7 +62,6 @@ const Product = ({ match, history }) => {
 
   return (
     <Stack>
-      <Toast />
       {isError ? (
         <Alert
           status='error'

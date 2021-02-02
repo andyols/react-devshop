@@ -15,12 +15,7 @@ import {
   requestPaypalClientId
 } from 'api'
 import { ContentSidebar } from 'components/Layout'
-import {
-  PrimaryHeading,
-  SecondaryHeading,
-  Subtitle,
-  Toast
-} from 'components/Shared'
+import { PrimaryHeading, SecondaryHeading, Subtitle } from 'components/Shared'
 import { useEffect, useState } from 'react'
 import { FiCreditCard, FiHome, FiMail, FiUser } from 'react-icons/fi'
 import { PayPalButton } from 'react-paypal-button-v2'
@@ -190,15 +185,12 @@ const Order = () => {
   )
 
   return (
-    <>
-      <Toast />
-      <ContentSidebar
-        content={<Content />}
-        sidebar={<Sidebar />}
-        minSidebarW='30ch'
-        pt={3}
-      />
-    </>
+    <ContentSidebar
+      content={<Content />}
+      sidebar={<Sidebar />}
+      minSidebarW='30ch'
+      pt={3}
+    />
   )
 }
 
