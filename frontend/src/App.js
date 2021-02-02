@@ -39,17 +39,17 @@ function App() {
             <Product />
           </Route>
 
-          <Route path='/order/:id'>
-            <Order />
-          </Route>
-
           <Route path='/cart'>
             <Cart />
           </Route>
 
-          <Route path='/checkout'>
+          <PrivateRoute path='/checkout'>
             <Checkout />
-          </Route>
+          </PrivateRoute>
+
+          <PrivateRoute path='/order/:id'>
+            <Order />
+          </PrivateRoute>
 
           <PrivateRoute path='/profile'>
             <Profile />
