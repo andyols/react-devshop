@@ -1,5 +1,9 @@
 import express from 'express'
-import { createOrder, getOrderById, updateOrder } from '../controllers/order.js'
+import {
+  createOrder,
+  getOrderById,
+  updateOrder
+} from '../controllers/orderController.js'
 import { verifyUser } from '../middleware/auth.js'
 
 const router = express.Router()

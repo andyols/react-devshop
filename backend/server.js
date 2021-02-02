@@ -2,9 +2,9 @@ import dotenv from 'dotenv'
 import express from 'express'
 import connectDB from './config/db.js'
 import { errorHandler, notFound } from './middleware/errors.js'
-import orderRoutes from './routes/order.js'
-import productRoutes from './routes/product.js'
-import userRoutes from './routes/user.js'
+import orderRoutes from './routes/orderRoutes.js'
+import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 import { logInfo } from './utils/logs.js'
 
 dotenv.config({ path: '.env.local' })

@@ -5,7 +5,7 @@ import {
   registerUser,
   updateProfile,
   verifyPassword
-} from '../controllers/user.js'
+} from '../controllers/userController.js'
 import { verifyUser } from '../middleware/auth.js'
 
 const router = express.Router()

@@ -74,7 +74,7 @@ export const updateOrder = asyncHandler(async (req, res) => {
       email_address: req.body.payer.email_address
     }
     await order.save()
-    res.status(201).json({ msg: 'success' })
+    res.status(201).json(order._id)
   } else {
     res.status(404)
     throw new Error('Order not found')

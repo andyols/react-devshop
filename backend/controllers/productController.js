@@ -6,7 +6,7 @@ import Product from '../models/product.js'
  *  @route   GET /api/products
  *  @access  Public
  */
-const allProducts = asyncHandler(async (req, res) => {
+export const allProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({})
   res.json(products)
 })
@@ -16,7 +16,7 @@ const allProducts = asyncHandler(async (req, res) => {
  *  @route   GET /api/product/:id
  *  @access  Public
  */
-const productById = asyncHandler(async (req, res) => {
+export const productById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id)
 
   if (product) {
@@ -26,5 +26,3 @@ const productById = asyncHandler(async (req, res) => {
     throw new Error('Product not found')
   }
 })
-
-export { allProducts, productById }

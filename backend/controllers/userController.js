@@ -7,7 +7,7 @@ import generateToken from '../utils/token.js'
  *  @route   POST /api/users/login
  *  @access  Public
  */
-const loginUser = asyncHandler(async (req, res) => {
+export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
   const user = await User.findOne({ email })
@@ -28,7 +28,7 @@ const loginUser = asyncHandler(async (req, res) => {
  *  @route   POST /api/users
  *  @access  Public
  */
-const registerUser = asyncHandler(async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body
 
   const userExists = await User.findOne({ email })
@@ -59,7 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
  *  @route   GET /api/users/profile
  *  @access  Public
  */
-const getProfile = asyncHandler(async (req, res) => {
+export const getProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
   // check if user was found
@@ -79,7 +79,7 @@ const getProfile = asyncHandler(async (req, res) => {
  *  @route   PUT /api/users/profile
  *  @access  Private
  */
-const updateProfile = asyncHandler(async (req, res) => {
+export const updateProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
   // check if user was found
@@ -108,7 +108,7 @@ const updateProfile = asyncHandler(async (req, res) => {
  *  @route   GET /api/users/verify
  *  @access  Private
  */
-const verifyPassword = asyncHandler(async (req, res) => {
+export const verifyPassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id)
 
   if (!user) {
@@ -126,5 +126,3 @@ const verifyPassword = asyncHandler(async (req, res) => {
 
   res.status(200).json('success')
 })
-
-export { loginUser, registerUser, getProfile, updateProfile, verifyPassword }
