@@ -1,6 +1,12 @@
 import { Box, Divider, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { requestProducts } from 'api'
-import { Alert, PrimaryHeading, ProductCard, Subtitle } from 'components/Shared'
+import {
+  Alert,
+  Loader,
+  PrimaryHeading,
+  ProductCard,
+  Subtitle
+} from 'components/Shared'
 import { useQuery } from 'react-query'
 
 const Home = () => {
@@ -8,8 +14,10 @@ const Home = () => {
     'products',
     requestProducts
   )
-  const loaded = !isLoading
-  return (
+
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Stack>
       <PrimaryHeading text='Welcome to dev-shop' />
       <Subtitle
@@ -30,11 +38,7 @@ const Home = () => {
         ) : (
           <SimpleGrid columns={[1, 2, 3, 4]} spacing={3} pt={3}>
             {products?.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-                loaded={loaded}
-              />
+              <ProductCard key={product._id} product={product} />
             ))}
           </SimpleGrid>
         )}

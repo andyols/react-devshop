@@ -2,7 +2,6 @@ import {
   Box,
   Heading,
   Image,
-  Skeleton,
   Text,
   useColorModeValue,
   Wrap,
@@ -11,7 +10,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 import { ProductRating } from '..'
 
-const ProductCard = ({ product, loaded }) => {
+const ProductCard = ({ product }) => {
   return (
     <Box
       as={RouterLink}
@@ -22,44 +21,36 @@ const ProductCard = ({ product, loaded }) => {
       boxShadow='base'
       transition='ease-in-out 150ms'
     >
-      <Skeleton isLoaded={loaded}>
-        <Image
-          src={product.image}
-          alt={product.name}
-          borderTopRadius='md'
-          fallbackSrc='https://via.placeholder.com/500'
-        />
-      </Skeleton>
+      <Image
+        src={product.image}
+        alt={product.name}
+        borderTopRadius='md'
+        fallbackSrc='https://via.placeholder.com/500'
+      />
       <Box p={3}>
         <Wrap justify='space-between'>
           <WrapItem>
-            <Skeleton isLoaded={loaded}>
-              <Heading
-                size='sm'
-                fontWeight='semibold'
-                as='h3'
-                href={`/product/${product._id}`}
-              >
-                {product.name}
-              </Heading>
-            </Skeleton>
+            <Heading
+              size='sm'
+              fontWeight='semibold'
+              as='h3'
+              href={`/product/${product._id}`}
+            >
+              {product.name}
+            </Heading>
           </WrapItem>
 
           <WrapItem>
-            <Skeleton isLoaded={loaded}>
-              <ProductRating
-                value={product.rating}
-                text={`${product.reviewCount} reviews`}
-              />
-            </Skeleton>
+            <ProductRating
+              value={product.rating}
+              text={`${product.reviewCount} reviews`}
+            />
           </WrapItem>
 
           <WrapItem>
-            <Skeleton isLoaded={loaded}>
-              <Text fontSize='lg' fontWeight='bold'>
-                ${product.price}
-              </Text>
-            </Skeleton>
+            <Text fontSize='lg' fontWeight='bold'>
+              ${product.price}
+            </Text>
           </WrapItem>
         </Wrap>
       </Box>

@@ -6,7 +6,6 @@ const initialState = {
   error: null,
   created: false,
   paid: false,
-  toast: '',
   id: null
 }
 
@@ -21,17 +20,14 @@ const orderSlice = createSlice({
       state.id = action.payload
       state.error = null
       state.loading = false
-      state.toast = 'Order Created'
       state.created = true
     },
     pay(state) {
       state.error = null
       state.loading = false
-      state.toast = 'Payment Received'
       state.paid = true
     },
     cleanup(state) {
-      state.toast = ''
       state.created = false
     },
     failure(state, action) {
@@ -66,8 +62,6 @@ export const pay = (request, data, token) => async (dispatch) => {
   try {
     await request(data, token)
     await dispatch(pay())
-    dispatch(clear())
-    dispatch(cleanup())
   } catch (e) {
     const message =
       e.response && e.response.data.message

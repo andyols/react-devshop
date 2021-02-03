@@ -4,6 +4,7 @@ import {
   InputGroup,
   Radio,
   RadioGroup,
+  Skeleton,
   Stack
 } from '@chakra-ui/react'
 import { FormButtons, FormWrapper, PrimaryHeading } from 'components/Shared'
@@ -30,26 +31,33 @@ const PaymentForm = ({ setStep }) => {
       onSubmit={onSubmit}
       spacing={3}
       maxW='xl'
-      style={{ margin: '0 auto' }}
+      h='2xl'
+      margin='auto'
     >
-      <PrimaryHeading text='Payment Method' />
-      <Divider />
-      <InputGroup>
-        <RadioGroup onChange={setPaymentMethod} value={paymentMethod}>
-          <FormLabel>Select a payment method</FormLabel>
-          <Stack>
-            <Radio value='PayPal'>PayPal or Credit Card</Radio>
-            {/* <Radio value='Stripe'>Stripe</Radio> */}
-          </Stack>
-        </RadioGroup>
-      </InputGroup>
       <FormButtons
         primaryLabel='Next'
         primaryIcon={<FiChevronRight />}
         secondaryLabel='Back'
         secondaryIcon={<FiChevronLeft />}
         secondaryAction={() => setStep(0)}
+        variant='ghost'
+        pt={0}
       />
+      <Skeleton isLoaded>
+        <Stack>
+          <PrimaryHeading text='Payment Method' />
+          <Divider />
+          <InputGroup>
+            <RadioGroup onChange={setPaymentMethod} value={paymentMethod}>
+              <FormLabel>Select a payment method</FormLabel>
+              <Stack>
+                <Radio value='PayPal'>PayPal or Credit Card</Radio>
+                {/* <Radio value='Stripe'>Stripe</Radio> */}
+              </Stack>
+            </RadioGroup>
+          </InputGroup>
+        </Stack>
+      </Skeleton>
     </FormWrapper>
   )
 }

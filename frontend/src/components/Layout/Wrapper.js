@@ -1,9 +1,9 @@
-import { Container, Stack } from '@chakra-ui/react'
+import { Container, Flex } from '@chakra-ui/react'
 
 const MainWrapper = ({ children }) => (
-  <Stack flex='1 1 0%' as='main' pt={6}>
+  <Flex flex='1 1 0%' as='main' pt={6}>
     <Container maxW='5xl'>{children}</Container>
-  </Stack>
+  </Flex>
 )
 
 export default MainWrapper

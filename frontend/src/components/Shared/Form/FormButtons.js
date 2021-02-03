@@ -6,6 +6,7 @@ const FormButtons = ({
   justify,
   isLoading,
   disabled,
+  hidePrimary,
   primaryIcon,
   primaryLabel,
   primaryAction,
@@ -35,14 +36,17 @@ const FormButtons = ({
           disabled={disabled}
         />
       )}
-      <PrimaryButton
-        type={primaryAction ? 'button' : 'submit'}
-        label={primaryLabel}
-        onClick={primaryAction && primaryAction}
-        rightIcon={primaryIcon}
-        isLoading={isLoading}
-        disabled={disabled}
-      />
+
+      {!hidePrimary && (
+        <PrimaryButton
+          type={primaryAction ? 'button' : 'submit'}
+          label={primaryLabel}
+          onClick={primaryAction && primaryAction}
+          rightIcon={primaryIcon}
+          isLoading={isLoading}
+          disabled={disabled}
+        />
+      )}
     </ButtonGroup>
   )
 }

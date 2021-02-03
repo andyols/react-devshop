@@ -1,4 +1,4 @@
-import { Divider } from '@chakra-ui/react'
+import { Divider, Skeleton, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   FormButtons,
@@ -45,45 +45,51 @@ const ShippingForm = ({ setStep }) => {
       onSubmit={handleSubmit(onSubmit)}
       spacing={3}
       maxW='xl'
-      style={{ margin: '0 auto' }}
+      margin='auto'
     >
-      <PrimaryHeading text='Shipping Information' />
-      <Divider />
-      <FormInput
-        id='address'
-        type='text'
-        label='Shipping Address'
-        error={errors.address}
-        ref={register}
-      />
-      <FormInput
-        id='city'
-        type='text'
-        label='City'
-        error={errors.city}
-        ref={register}
-      />
-      <FormInput
-        id='postalcode'
-        type='text'
-        label='Postal Code'
-        error={errors.postalcode}
-        ref={register}
-      />
-      <FormInput
-        id='country'
-        type='text'
-        label='Country'
-        error={errors.country}
-        ref={register}
-      />
       <FormButtons
         primaryLabel='Next'
         primaryIcon={<FiChevronRight />}
         secondaryLabel='Back'
         secondaryIcon={<FiChevronLeft />}
         secondaryAction={() => history.push('/cart')}
+        variant='ghost'
+        pt={0}
       />
+      <Skeleton isLoaded>
+        <Stack>
+          <PrimaryHeading text='Shipping Information' />
+          <Divider />
+          <FormInput
+            id='address'
+            type='text'
+            label='Shipping Address'
+            error={errors.address}
+            ref={register}
+          />
+          <FormInput
+            id='city'
+            type='text'
+            label='City'
+            error={errors.city}
+            ref={register}
+          />
+          <FormInput
+            id='postalcode'
+            type='text'
+            label='Postal Code'
+            error={errors.postalcode}
+            ref={register}
+          />
+          <FormInput
+            id='country'
+            type='text'
+            label='Country'
+            error={errors.country}
+            ref={register}
+          />
+        </Stack>
+      </Skeleton>
     </FormWrapper>
   )
 }

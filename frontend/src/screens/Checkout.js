@@ -2,14 +2,12 @@ import {
   Container,
   HStack,
   Progress,
-  Skeleton,
   Stack,
   TabPanel,
   TabPanels,
   Tabs
 } from '@chakra-ui/react'
-import CheckoutSummary from 'components/CheckoutSummary'
-import { PaymentForm, ShippingForm } from 'components/Forms/Checkout'
+import { PaymentForm, ShippingForm, Summary } from 'components/Forms/Checkout'
 import { Subtitle } from 'components/Shared'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -57,20 +55,14 @@ const Checkout = () => {
         </Container>
 
         <TabPanels>
-          <TabPanel px={0}>
-            <Skeleton isLoaded>
-              <ShippingForm setStep={handleStepChange} />
-            </Skeleton>
+          <TabPanel p={0}>
+            <ShippingForm setStep={handleStepChange} />
           </TabPanel>
-          <TabPanel px={0}>
-            <Skeleton isLoaded>
-              <PaymentForm setStep={handleStepChange} />
-            </Skeleton>
+          <TabPanel p={0}>
+            <PaymentForm setStep={handleStepChange} />
           </TabPanel>
-          <TabPanel px={0}>
-            <Skeleton isLoaded>
-              <CheckoutSummary setStep={handleStepChange} />
-            </Skeleton>
+          <TabPanel p={0}>
+            <Summary setStep={handleStepChange} />
           </TabPanel>
         </TabPanels>
       </Stack>

@@ -4,8 +4,6 @@ import {
   HStack,
   Image,
   Select,
-  Skeleton,
-  SkeletonText,
   Stack,
   Stat,
   StatHelpText,
@@ -18,6 +16,7 @@ import { requestProduct } from 'api'
 import { EqualColumns } from 'components/Layout'
 import {
   Alert,
+  Loader,
   PrimaryButton,
   PrimaryHeading,
   ProductRating
@@ -60,7 +59,9 @@ const Product = ({ match, history }) => {
     }
   }, [cart, id])
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <Stack>
       {isError ? (
         <Alert
@@ -71,67 +72,51 @@ const Product = ({ match, history }) => {
       ) : (
         <EqualColumns>
           {/* Product Image */}
-          <Skeleton h='200px' isLoaded={loaded}>
-            <Image
-              src={product?.image}
-              alt={product?.name}
-              borderRadius='md'
-              ignoreFallback
-            />
-          </Skeleton>
+          <Image
+            src={product?.image}
+            alt={product?.name}
+            borderRadius='md'
+            ignoreFallback
+          />
           {/* Product Overview */}
           <Stack spacing={3}>
-            <Skeleton isLoaded={loaded}>
-              <PrimaryHeading text={product?.name} />
-            </Skeleton>
+            <PrimaryHeading text={product?.name} />
             <Divider />
-            <Skeleton isLoaded={loaded}>
-              <ProductRating
-                value={product?.rating}
-                text={`${product?.reviewCount} reviews`}
-              />
-            </Skeleton>
-            <Skeleton isLoaded={loaded}>
-              <Text fontWeight='semibold'>Price: ${product?.price}</Text>
-            </Skeleton>
+            <ProductRating
+              value={product?.rating}
+              text={`${product?.reviewCount} reviews`}
+            />
+            <Text fontWeight='semibold'>Price: ${product?.price}</Text>
             <Divider />
-            <SkeletonText isLoaded={loaded}>
-              <Text>{product?.description}</Text>
-            </SkeletonText>
+            <Text>{product?.description}</Text>
           </Stack>
           {/* Product Purchase Information */}
           <Stack d='block' spacing={5} boxShadow='base' p={3}>
             <HStack spacing={12}>
               <Stat>
-                <Skeleton isLoaded={loaded}>
-                  <StatLabel>Total Price</StatLabel>
-                  <StatNumber>${product?.price}</StatNumber>
-                  <StatHelpText
-                    color={inStock ? inStockColor : outOfStockColor}
-                  >
-                    {inCart
-                      ? `In Cart (${qty})`
-                      : inStock
-                      ? 'In Stock'
-                      : 'Out of Stock'}
-                  </StatHelpText>
-                </Skeleton>
+                <StatLabel>Total Price</StatLabel>
+                <StatNumber>${product?.price}</StatNumber>
+                <StatHelpText color={inStock ? inStockColor : outOfStockColor}>
+                  {inCart
+                    ? `In Cart (${qty})`
+                    : inStock
+                    ? 'In Stock'
+                    : 'Out of Stock'}
+                </StatHelpText>
               </Stat>
               {inStock && (
                 <FormControl>
-                  <Skeleton isLoaded={loaded}>
-                    <Select
-                      value={qty}
-                      disabled={inCart}
-                      onChange={(e) => setQty(Number(e.target.value))}
-                    >
-                      {[...Array(product?.stockCount).keys()].map((o) => (
-                        <option key={o + 1} value={o + 1}>
-                          {o + 1}
-                        </option>
-                      ))}
-                    </Select>
-                  </Skeleton>
+                  <Select
+                    value={qty}
+                    disabled={inCart}
+                    onChange={(e) => setQty(Number(e.target.value))}
+                  >
+                    {[...Array(product?.stockCount).keys()].map((o) => (
+                      <option key={o + 1} value={o + 1}>
+                        {o + 1}
+                      </option>
+                    ))}
+                  </Select>
                 </FormControl>
               )}
             </HStack>
