@@ -126,3 +126,13 @@ export const verifyPassword = asyncHandler(async (req, res) => {
 
   res.status(200).json('success')
 })
+
+/**
+ *  @desc    Get all users
+ *  @route   GET /api/users
+ *  @access  Private and Admin
+ */
+export const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+  res.json(users)
+})
