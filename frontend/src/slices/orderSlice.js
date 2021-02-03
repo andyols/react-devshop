@@ -56,7 +56,7 @@ export const create = (request, data, token) => async (dispatch) => {
   }
 }
 export const pay = (request, data, token) => async (dispatch) => {
-  const { loading, pay, cleanup, failure } = orderSlice.actions
+  const { loading, pay, failure } = orderSlice.actions
 
   dispatch(loading())
   try {

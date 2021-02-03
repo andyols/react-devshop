@@ -8,7 +8,7 @@ import {
   WrapItem
 } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-import { ProductRating } from '..'
+import { ProductRating } from '.'
 
 const ProductCard = ({ product }) => {
   return (

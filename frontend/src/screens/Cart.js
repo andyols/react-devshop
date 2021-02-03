@@ -14,7 +14,8 @@ import {
   Text
 } from '@chakra-ui/react'
 import { ContentSidebar } from 'components/Layout'
-import { PrimaryButton, PrimaryHeading, Subtitle } from 'components/Shared'
+import { PrimaryButton } from 'components/Shared/Buttons'
+import { PrimaryHeading, Subtitle } from 'components/Shared/Typography'
 import { FiCreditCard, FiShoppingBag, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'

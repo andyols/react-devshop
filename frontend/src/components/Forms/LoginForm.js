@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestUserLogin } from 'api'
-import { Alert, FormButtons, FormInput, FormWrapper } from 'components/Shared'
+import { Alert } from 'components/Shared/Feedback'
+import { FormButtons, FormInput, FormWrapper } from 'components/Shared/Form'
 import { useForm } from 'react-hook-form'
 import { FiLogIn } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'

@@ -1,12 +1,8 @@
 import { Box, Divider, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { requestProducts } from 'api'
-import {
-  Alert,
-  Loader,
-  PrimaryHeading,
-  ProductCard,
-  Subtitle
-} from 'components/Shared'
+import { Alert, Loader } from 'components/Shared/Feedback'
+import { ProductCard } from 'components/Shared/Product'
+import { PrimaryHeading, Subtitle } from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
 
 const Home = () => {

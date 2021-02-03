@@ -1,12 +1,8 @@
 import { Divider } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestUserUpdate } from 'api'
-import {
-  FormButtons,
-  FormInput,
-  FormWrapper,
-  SecondaryHeading
-} from 'components/Shared'
+import { FormButtons, FormInput, FormWrapper } from 'components/Shared/Form'
+import { SecondaryHeading } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiMail, FiUser } from 'react-icons/fi'

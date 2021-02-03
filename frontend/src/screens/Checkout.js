@@ -8,7 +8,7 @@ import {
   Tabs
 } from '@chakra-ui/react'
 import { PaymentForm, ShippingForm, Summary } from 'components/Forms/Checkout'
-import { Subtitle } from 'components/Shared'
+import { Subtitle } from 'components/Shared/Typography'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'

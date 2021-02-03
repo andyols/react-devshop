@@ -1,11 +1,7 @@
 import { Divider, Skeleton, Stack } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  FormButtons,
-  FormInput,
-  FormWrapper,
-  PrimaryHeading
-} from 'components/Shared'
+import { FormButtons, FormInput, FormWrapper } from 'components/Shared/Form'
+import { PrimaryHeading } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'

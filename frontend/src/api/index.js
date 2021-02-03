@@ -97,6 +97,17 @@ export const requestOrderById = async ({ queryKey }) => {
   return data
 }
 
+export const requestUserOrders = async ({ queryKey }) => {
+  // eslint-disable-next-line
+  const [_key, { token }] = queryKey
+  const { data } = await axios({
+    url: '/api/orders',
+    method: 'GET',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
+  })
+  return data
+}
+
 export const requestOrderUpdate = async ({ paymentResult, id }, token) => {
   const { data } = await axios({
     url: `/api/orders/${id}/pay`,

@@ -13,14 +13,13 @@ import {
   requestPaypalClientId
 } from 'api'
 import { ContentSidebar } from 'components/Layout'
+import { ItemList } from 'components/Shared'
+import { Alert, Loader } from 'components/Shared/Feedback'
 import {
-  Alert,
-  ItemList,
-  Loader,
   PrimaryHeading,
   SecondaryHeading,
   Subtitle
-} from 'components/Shared'
+} from 'components/Shared/Typography'
 import { useEffect, useState } from 'react'
 import { FiCreditCard, FiHome, FiMail, FiUser } from 'react-icons/fi'
 import { PayPalButton } from 'react-paypal-button-v2'

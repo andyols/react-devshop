@@ -7,7 +7,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { LoginForm } from 'components/Forms'
-import { PrimaryHeading } from 'components/Shared'
+import { PrimaryHeading } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import {

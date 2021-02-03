@@ -1,6 +1,6 @@
 import { ButtonGroup, useBreakpointValue } from '@chakra-ui/react'
-import { PrimaryButton, SecondaryButton } from 'components/Shared'
 import React from 'react'
+import { PrimaryButton, SecondaryButton } from '../Buttons'
 
 const FormButtons = ({
   justify,

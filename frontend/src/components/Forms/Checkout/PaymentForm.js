@@ -7,7 +7,8 @@ import {
   Skeleton,
   Stack
 } from '@chakra-ui/react'
-import { FormButtons, FormWrapper, PrimaryHeading } from 'components/Shared'
+import { FormButtons, FormWrapper } from 'components/Shared/Form'
+import { PrimaryHeading } from 'components/Shared/Typography'
 import { useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import { useDispatch } from 'react-redux'

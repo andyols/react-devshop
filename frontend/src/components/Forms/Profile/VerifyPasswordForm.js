@@ -1,12 +1,8 @@
 import { Divider } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestPasswordVerificaton } from 'api'
-import {
-  FormButtons,
-  FormWrapper,
-  PasswordInput,
-  SecondaryHeading
-} from 'components/Shared'
+import { FormButtons, FormWrapper, PasswordInput } from 'components/Shared/Form'
+import { SecondaryHeading } from 'components/Shared/Typography'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'

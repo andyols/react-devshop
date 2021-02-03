@@ -1,19 +1,16 @@
 import { Divider, Flex, HStack, Skeleton, Stack, Text } from '@chakra-ui/react'
 import { requestCreateOrder } from 'api'
+import { ItemList } from 'components/Shared'
+import { SecondaryButton } from 'components/Shared/Buttons'
+import { Alert } from 'components/Shared/Feedback'
+import { FormButtons } from 'components/Shared/Form'
+import { SecondaryHeading, Subtitle } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { FiChevronLeft, FiCreditCard, FiEdit, FiHome } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { create } from 'slices/orderSlice'
 import { formatPrice } from 'utils/functions'
-import {
-  Alert,
-  FormButtons,
-  ItemList,
-  SecondaryButton,
-  SecondaryHeading,
-  Subtitle
-} from '../../Shared'
 
 const Summary = ({ setStep }) => {
   // redux

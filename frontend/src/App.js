@@ -1,7 +1,7 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { Layout } from 'components/Layout'
-import { Toast } from 'components/Shared'
-import PrivateRoute from 'PrivateRoute'
+import PrivateRoute from 'components/Router/PrivateRoute'
+import { Toast } from 'components/Shared/Feedback'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import {

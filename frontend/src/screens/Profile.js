@@ -1,15 +1,25 @@
 import { Divider, Stack } from '@chakra-ui/react'
+import { requestUserOrders } from 'api'
 import {
   PasswordFormSwapper,
   UpdateProfileForm
 } from 'components/Forms/Profile'
 import { ContentSidebar } from 'components/Layout'
-import { PrimaryHeading, Subtitle } from 'components/Shared'
+import { Alert, Loader } from 'components/Shared/Feedback'
+import { PrimaryHeading, Subtitle } from 'components/Shared/Typography'
+import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 const Profile = () => {
   const auth = useSelector((state) => state.auth)
+  const { token } = auth.user
+
+  const { data, isLoading, isError } = useQuery(
+    ['userOrders', { token }],
+    requestUserOrders,
+    { retry: 3, refetchOnWindowFocus: false, enabled: !!token }
+  )
 
   const Content = () => (
     <Stack w='90%'>
@@ -26,10 +36,15 @@ const Profile = () => {
       <PrimaryHeading text='My Orders' as='h2' />
       <Subtitle text='See the status of all your orders' />
       <Divider />
+      {isError && (
+        <Alert status='error' title='Oops!' description='Server error' />
+      )}
     </Stack>
   )
 
-  return (
+  return isLoading ? (
+    <Loader />
+  ) : (
     <ContentSidebar
       content={<Content />}
       sidebar={<Sidebar />}

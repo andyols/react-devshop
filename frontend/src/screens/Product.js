@@ -14,13 +14,10 @@ import {
 } from '@chakra-ui/react'
 import { requestProduct } from 'api'
 import { EqualColumns } from 'components/Layout'
-import {
-  Alert,
-  Loader,
-  PrimaryButton,
-  PrimaryHeading,
-  ProductRating
-} from 'components/Shared'
+import { PrimaryButton } from 'components/Shared/Buttons'
+import { Alert, Loader } from 'components/Shared/Feedback'
+import { ProductRating } from 'components/Shared/Product'
+import { PrimaryHeading } from 'components/Shared/Typography'
 import { useEffect, useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
