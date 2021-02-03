@@ -6,16 +6,21 @@ import {
 } from 'components/Forms/Profile'
 import { ContentSidebar } from 'components/Layout'
 import { Alert, Loader } from 'components/Shared/Feedback'
-import { PrimaryHeading, Subtitle } from 'components/Shared/Typography'
+import {
+  PrimaryHeading,
+  SecondaryHeading,
+  Subtitle
+} from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
+import { OrderTable } from './components'
 
 const Profile = () => {
   const auth = useSelector((state) => state.auth)
   const { token } = auth.user
 
-  const { data, isLoading, isError } = useQuery(
+  const { data: orders, isLoading, isError } = useQuery(
     ['userOrders', { token }],
     requestUserOrders,
     { retry: 3, refetchOnWindowFocus: false, enabled: !!token }
@@ -33,12 +38,11 @@ const Profile = () => {
 
   const Sidebar = () => (
     <Stack w='100%'>
-      <PrimaryHeading text='My Orders' as='h2' />
-      <Subtitle text='See the status of all your orders' />
-      <Divider />
+      <SecondaryHeading text='My Orders' as='h2' />
       {isError && (
         <Alert status='error' title='Oops!' description='Server error' />
       )}
+      <OrderTable {...{ orders }} />
     </Stack>
   )
 
@@ -47,8 +51,11 @@ const Profile = () => {
   ) : (
     <ContentSidebar
       content={<Content />}
+      contentW='35%'
+      maxContentW={['100%', '70%']}
       sidebar={<Sidebar />}
-      minSidebarW='30ch'
+      sidebarW='65%'
+      maxContentW={['100%', '70%']}
     />
   )
 }

@@ -87,7 +87,7 @@ const Order = () => {
       <Divider />
       <HStack>
         <SecondaryHeading text='Shipping' />
-        <Badge colorScheme={data.isDelivered ? 'green' : 'yellow'}>
+        <Badge colorScheme={data.isDelivered ? 'green' : 'orange'}>
           {data.isDelivered ? 'delivered' : 'in transit'}
         </Badge>
       </HStack>

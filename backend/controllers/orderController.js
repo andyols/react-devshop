@@ -38,6 +38,16 @@ export const createOrder = asyncHandler(async (req, res) => {
 })
 
 /**
+ *  @desc    Get all orders for a user
+ *  @route   GET /api/orders/user
+ *  @access  Private
+ */
+export const getUserOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({ user: req.user._id })
+  res.json(orders)
+})
+
+/**
  *  @desc    Get order by id
  *  @route   GET /api/orders/:id
  *  @access  Private
