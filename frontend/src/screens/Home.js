@@ -1,6 +1,6 @@
 import { Box, Divider, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { requestProducts } from 'api'
-import { Alert, Loader } from 'components/Shared/Feedback'
+import { Alert } from 'components/Shared/Feedback'
 import { ProductCard } from 'components/Shared/Product'
 import { PrimaryHeading, Subtitle } from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
@@ -11,9 +11,7 @@ const Home = () => {
     requestProducts
   )
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return (
     <Stack>
       <PrimaryHeading text='Welcome to dev-shop' />
       <Subtitle
@@ -24,7 +22,7 @@ const Home = () => {
         Latest Products
       </Heading>
       <Divider />
-      <Box pt={3} alignSelf='center'>
+      <Box alignSelf='center'>
         {isError ? (
           <Alert
             status='error'
@@ -32,11 +30,13 @@ const Home = () => {
             description='It looks like something went wrong with the server'
           />
         ) : (
-          <SimpleGrid columns={[1, 2, 3, 4]} spacing={3} pt={3}>
-            {products?.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </SimpleGrid>
+          !isLoading && (
+            <SimpleGrid columns={[1, 2, 3, 4]} spacing={3} pt={3}>
+              {products?.map(product => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </SimpleGrid>
+          )
         )}
       </Box>
     </Stack>

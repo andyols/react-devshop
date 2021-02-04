@@ -5,7 +5,7 @@ import {
   UpdateProfileForm
 } from 'components/Forms/Profile'
 import { ContentSidebar } from 'components/Layout'
-import { Alert, Loader } from 'components/Shared/Feedback'
+import { Alert } from 'components/Shared/Feedback'
 import {
   PrimaryHeading,
   SecondaryHeading,
@@ -17,7 +17,7 @@ import { withRouter } from 'react-router-dom'
 import { OrderTable } from './components'
 
 const Profile = () => {
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector(state => state.auth)
   const { token } = auth.user
 
   const { data: orders, isLoading, isError } = useQuery(
@@ -53,9 +53,7 @@ const Profile = () => {
     </Stack>
   )
 
-  return isLoading ? (
-    <Loader />
-  ) : (
+  return isLoading ? null : (
     <ContentSidebar
       content={<Content />}
       contentW='35%'

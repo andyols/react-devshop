@@ -13,7 +13,6 @@ const Header = () => {
       align='center'
       px='5%'
       py={3}
-      mb={3}
       boxShadow='base'
       color={'gray.50'}
       direction={['column', 'row']}

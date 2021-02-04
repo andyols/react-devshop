@@ -1,13 +1,13 @@
 import { Stack } from '@chakra-ui/react'
 import { requestAllUsers } from 'api'
-import { Alert, Loader } from 'components/Shared/Feedback'
+import { Alert } from 'components/Shared/Feedback'
 import { PrimaryHeading } from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
 import { UserTable } from './components'
 
 const Users = () => {
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector(state => state.auth)
   const { token } = auth.user
 
   const { data: users, isLoading, isError, error } = useQuery(
@@ -15,20 +15,20 @@ const Users = () => {
     requestAllUsers,
     { retry: 3, refetchOnWindowFocus: false, enabled: !!token }
   )
-  return isLoading ? (
-    <Loader />
-  ) : isError ? (
+  return isError ? (
     <Alert
       status='error'
       title='Oops!'
       description={error.response.data.message}
     />
   ) : (
-    <Stack>
-      <PrimaryHeading text='Users' />
+    !isLoading && (
+      <Stack>
+        <PrimaryHeading text='Users' />
 
-      {!isError && <UserTable {...{ users }} />}
-    </Stack>
+        {!isError && <UserTable {...{ users }} />}
+      </Stack>
+    )
   )
 }
 
