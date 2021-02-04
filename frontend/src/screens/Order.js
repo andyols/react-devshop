@@ -13,8 +13,8 @@ import {
   requestPaypalClientId
 } from 'api'
 import { ContentSidebar } from 'components/Layout'
-import { ItemList } from 'components/Shared'
 import { Alert } from 'components/Shared/Feedback'
+import { ItemList } from 'components/Shared/Orders'
 import {
   PrimaryHeading,
   SecondaryHeading,

@@ -1,9 +1,9 @@
 import { Divider, Flex, HStack, Skeleton, Stack, Text } from '@chakra-ui/react'
 import { requestCreateOrder } from 'api'
-import { ItemList } from 'components/Shared'
 import { SecondaryButton } from 'components/Shared/Buttons'
 import { Alert } from 'components/Shared/Feedback'
 import { FormButtons } from 'components/Shared/Form'
+import { ItemList } from 'components/Shared/Orders'
 import { SecondaryHeading, Subtitle } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { FiChevronLeft, FiCreditCard, FiEdit, FiHome } from 'react-icons/fi'
@@ -15,11 +15,11 @@ import { formatPrice } from 'utils/functions'
 const Summary = ({ setStep }) => {
   // redux
   const dispatch = useDispatch()
-  const checkout = useSelector((state) => state.checkout)
+  const checkout = useSelector(state => state.checkout)
   const { address, city, postalcode, country } = checkout.shipping
-  const cart = useSelector((state) => state.cart)
-  const user = useSelector((state) => state.auth.user)
-  const order = useSelector((state) => state.order)
+  const cart = useSelector(state => state.cart)
+  const user = useSelector(state => state.auth.user)
+  const order = useSelector(state => state.order)
 
   // router
   const history = useHistory()
