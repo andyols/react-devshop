@@ -6,7 +6,8 @@ const initialState = {
   error: null,
   created: false,
   paid: false,
-  id: null
+  id: null,
+  toast: ''
 }
 
 const orderSlice = createSlice({
@@ -26,9 +27,11 @@ const orderSlice = createSlice({
       state.error = null
       state.loading = false
       state.paid = true
+      state.toast = 'Payment received'
     },
     cleanup(state) {
       state.created = false
+      state.toast = ''
     },
     failure(state, action) {
       state.error = action.payload
@@ -37,7 +40,7 @@ const orderSlice = createSlice({
   }
 })
 
-export const create = (request, data, token) => async (dispatch) => {
+export const create = (request, data, token) => async dispatch => {
   const { loading, create, cleanup, failure } = orderSlice.actions
 
   dispatch(loading())
@@ -55,7 +58,7 @@ export const create = (request, data, token) => async (dispatch) => {
     dispatch(failure(message))
   }
 }
-export const pay = (request, data, token) => async (dispatch) => {
+export const pay = (request, data, token) => async dispatch => {
   const { loading, pay, failure } = orderSlice.actions
 
   dispatch(loading())
@@ -71,5 +74,7 @@ export const pay = (request, data, token) => async (dispatch) => {
     dispatch(failure(message))
   }
 }
+
+export const { cleanup } = orderSlice.actions
 
 export const orderReducer = orderSlice.reducer

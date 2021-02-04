@@ -14,7 +14,7 @@ import {
 } from 'api'
 import { ContentSidebar } from 'components/Layout'
 import { ItemList } from 'components/Shared'
-import { Alert, Loader } from 'components/Shared/Feedback'
+import { Alert } from 'components/Shared/Feedback'
 import {
   PrimaryHeading,
   SecondaryHeading,
@@ -26,7 +26,7 @@ import { PayPalButton } from 'react-paypal-button-v2'
 import { useQuery, useQueryClient } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { pay } from 'slices/orderSlice'
+import { cleanup, pay } from 'slices/orderSlice'
 import { formatPrice } from 'utils/functions'
 import { generatePaypalSDKScript } from 'utils/paypal'
 
@@ -36,27 +36,24 @@ const Order = () => {
 
   // redux
   const dispatch = useDispatch()
-  const token = useSelector((state) => state.auth.user.token)
-  const order = useSelector((state) => state.order)
+  const token = useSelector(state => state.auth.user.token)
+  const order = useSelector(state => state.order)
 
   // local state
   const [paypalReady, setPaypalReady] = useState(false)
 
   // use react-query to fetch/cache order data
   const queryClient = useQueryClient()
-  const { data, status } = useQuery(
+  const { data, isLoading, isError, error } = useQuery(
     ['order', { id, token }],
     requestOrderById,
     { retry: 3, refetchOnWindowFocus: false }
   )
 
-  // invalidate order data upon payment success
-  useEffect(() => {
-    if (order.paid) queryClient.invalidateQueries('order')
-  }, [order, queryClient])
-
-  const handlePaymentSuccess = async (paymentResult) => {
+  const handlePaymentSuccess = async paymentResult => {
     dispatch(pay(requestOrderUpdate, { paymentResult, id }, token))
+    await queryClient.invalidateQueries('order')
+    dispatch(cleanup())
   }
 
   // build paypal script if order has not been paid
@@ -76,10 +73,6 @@ const Order = () => {
       }
     }
   }, [data])
-
-  const error = status === 'error'
-  const isLoaded = status !== 'loading' && !error && !order.loading
-  // const isLoaded = false
 
   const Content = () => (
     <Stack w='90%' spacing={3}>
@@ -147,7 +140,7 @@ const Order = () => {
       {!data.isPaid && (
         <Stack py={3} px={3}>
           {!paypalReady ? (
-            <Spinner alignSelf='center' />
+            <Spinner alignSelf='center' color='yellow.500' />
           ) : (
             <PayPalButton
               amount={data.totalPrice}
@@ -159,21 +152,21 @@ const Order = () => {
     </Stack>
   )
 
-  return error ? (
+  return isError ? (
     <Alert
       status='error'
       title='Oops!'
-      description="We couldn't seem to find your order..."
-    />
-  ) : isLoaded ? (
-    <ContentSidebar
-      content={<Content />}
-      sidebar={<Sidebar />}
-      minSidebarW='30ch'
-      pt={3}
+      description={error.response.data.message}
     />
   ) : (
-    <Loader />
+    !isLoading && (
+      <ContentSidebar
+        content={<Content />}
+        sidebar={<Sidebar />}
+        minSidebarW='30ch'
+        pt={3}
+      />
+    )
   )
 }
 
