@@ -13,20 +13,20 @@ import {
 } from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import { OrderTable } from './components'
+import { OrderList } from './components'
 
 const Profile = () => {
   const auth = useSelector(state => state.auth)
   const { token } = auth.user
 
   const { data: orders, isLoading, isError, error } = useQuery(
-    ['profile', { token }],
+    ['orders', { token }],
     requestUserOrders,
     { retry: 3, refetchOnWindowFocus: false, enabled: !!token }
   )
 
   const Content = () => (
-    <Stack w='90%'>
+    <Stack w={['100%', '90%']}>
       <PrimaryHeading text={`Hello, ${auth.user.name.split(' ')[0]}`} />
       <Divider />
       <UpdateProfileForm />
@@ -37,9 +37,8 @@ const Profile = () => {
   const Sidebar = () => (
     <Stack w='100%' mt={3}>
       <SecondaryHeading text='My Orders' as='h2' />
-      <Divider />
       {orders.length ? (
-        <OrderTable {...{ orders }} />
+        <OrderList {...{ orders }} />
       ) : (
         <>
           <Divider />
@@ -60,7 +59,8 @@ const Profile = () => {
       <ContentSidebar
         content={<Content />}
         contentW='35%'
-        maxContentW={['100%', '70%']}
+        maxContentW={['100%', '100%', '70%']}
+        minContentW='30ch'
         sidebar={<Sidebar />}
         sidebarW='65%'
       />
