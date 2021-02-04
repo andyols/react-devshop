@@ -10,11 +10,11 @@ import {
   Text
 } from '@chakra-ui/react'
 import { PrimaryButton } from 'components/Shared/Buttons'
-import { ItemList } from 'components/Shared/Orders'
+import { ItemList } from 'components/Shared/Lists'
 import { FiArrowRightCircle } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
 
-const OrderList = ({ orders }) => {
+const OrderAccordion = ({ orders }) => {
   //router
   const history = useHistory()
 
@@ -68,4 +68,4 @@ const OrderList = ({ orders }) => {
   )
 }
 
-export default OrderList
+export default OrderAccordion

@@ -13,7 +13,7 @@ import {
 } from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import { OrderList } from './components'
+import { OrderAccordion } from './components'
 
 const Profile = () => {
   const auth = useSelector(state => state.auth)
@@ -38,7 +38,7 @@ const Profile = () => {
     <Stack w='100%' mt={3}>
       <SecondaryHeading text='My Orders' as='h2' />
       {orders.length ? (
-        <OrderList {...{ orders }} />
+        <OrderAccordion orders={orders} />
       ) : (
         <>
           <Divider />

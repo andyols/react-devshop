@@ -14,7 +14,7 @@ import {
 } from 'api'
 import { ContentSidebar } from 'components/Layout'
 import { Alert } from 'components/Shared/Feedback'
-import { ItemList } from 'components/Shared/Orders'
+import { ItemList } from 'components/Shared/Lists'
 import {
   PrimaryHeading,
   SecondaryHeading,
