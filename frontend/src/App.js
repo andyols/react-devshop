@@ -12,7 +12,8 @@ import {
   Order,
   Product,
   Profile,
-  Register
+  Register,
+  Users
 } from './screens'
 import appTheme from './theme'
 
@@ -53,6 +54,10 @@ function App() {
 
           <PrivateRoute path='/profile'>
             <Profile />
+          </PrivateRoute>
+
+          <PrivateRoute path='/users'>
+            <Users />
           </PrivateRoute>
 
           <Toast />

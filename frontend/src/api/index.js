@@ -125,3 +125,14 @@ export const requestPaypalClientId = async () => {
   })
   return data
 }
+
+export const requestAllUsers = async ({ queryKey }) => {
+  // eslint-disable-next-line
+  const [_key, { token }] = queryKey
+  const { data } = await axios({
+    url: '/api/users',
+    method: 'GET',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
+  })
+  return data
+}
