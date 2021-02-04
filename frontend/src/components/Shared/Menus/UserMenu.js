@@ -20,7 +20,7 @@ import { FiChevronDown, FiLogIn, FiLogOut } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
 import { logoutRequest } from 'slices/authSlice'
-import { NavButton } from './Buttons'
+import { NavButton } from '../Buttons'
 
 const UserMenu = () => {
   const cancelRef = useRef()

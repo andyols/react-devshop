@@ -8,7 +8,8 @@ import {
   Td,
   Th,
   Thead,
-  Tr
+  Tr,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { SecondaryButton } from 'components/Shared/Buttons'
 import { FiCheck, FiEdit, FiTrash, FiX } from 'react-icons/fi'
@@ -17,6 +18,8 @@ import { useHistory } from 'react-router-dom'
 const UserTable = ({ users }) => {
   // router
   const history = useHistory()
+
+  const deleteBorderColor = useColorModeValue('gray.200', 'gray.700')
 
   return (
     <Table size='sm'>
@@ -55,7 +58,12 @@ const UserTable = ({ users }) => {
                     leftIcon={<FiEdit />}
                     label='Edit'
                   />
-                  <SecondaryButton rightIcon={<FiTrash />} colorScheme='red' />
+                  <SecondaryButton
+                    rightIcon={<FiTrash />}
+                    colorScheme='red'
+                    variant='outline'
+                    borderColor={deleteBorderColor}
+                  />
                 </ButtonGroup>
               </HStack>
             </Td>

@@ -56,7 +56,7 @@ function App() {
             <Profile />
           </PrivateRoute>
 
-          <PrivateRoute path='/users'>
+          <PrivateRoute admin path='/admin/users'>
             <Users />
           </PrivateRoute>
 
