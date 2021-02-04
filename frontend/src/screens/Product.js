@@ -22,13 +22,19 @@ import { useEffect, useState } from 'react'
 import { FiShoppingCart } from 'react-icons/fi'
 import { useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { cartAction } from 'slices/cartSlice'
 
-const Product = ({ match, history }) => {
+const Product = () => {
+  // router
+  const history = useHistory()
+  const { id } = useParams()
+
+  // redux
   const dispatch = useDispatch()
   const cart = useSelector(state => state.cart)
-  const id = match.params.id
+
+  // query the product
   const { data: product, isLoading, isError } = useQuery(
     ['product', id],
     () => requestProduct(id),
@@ -137,4 +143,4 @@ const Product = ({ match, history }) => {
   )
 }
 
-export default withRouter(Product)
+export default Product

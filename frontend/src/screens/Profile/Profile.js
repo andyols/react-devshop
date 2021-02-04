@@ -13,15 +13,14 @@ import {
 } from 'components/Shared/Typography'
 import { useQuery } from 'react-query'
 import { useSelector } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { OrderTable } from './components'
 
 const Profile = () => {
   const auth = useSelector(state => state.auth)
   const { token } = auth.user
 
-  const { data: orders, isLoading, isError } = useQuery(
-    ['userOrders', { token }],
+  const { data: orders, isLoading, isError, error } = useQuery(
+    ['profile', { token }],
     requestUserOrders,
     { retry: 3, refetchOnWindowFocus: false, enabled: !!token }
   )
@@ -29,7 +28,6 @@ const Profile = () => {
   const Content = () => (
     <Stack w='90%'>
       <PrimaryHeading text={`Hello, ${auth.user.name.split(' ')[0]}`} />
-      <Subtitle text='Here you can view and customize your profile.' />
       <Divider />
       <UpdateProfileForm />
       <PasswordFormSwapper />
@@ -37,11 +35,9 @@ const Profile = () => {
   )
 
   const Sidebar = () => (
-    <Stack w='100%'>
+    <Stack w='100%' mt={3}>
       <SecondaryHeading text='My Orders' as='h2' />
-      {isError && (
-        <Alert status='error' title='Oops!' description='Server error' />
-      )}
+      <Divider />
       {orders.length ? (
         <OrderTable {...{ orders }} />
       ) : (
@@ -53,15 +49,23 @@ const Profile = () => {
     </Stack>
   )
 
-  return isLoading ? null : (
-    <ContentSidebar
-      content={<Content />}
-      contentW='35%'
-      maxContentW={['100%', '70%']}
-      sidebar={<Sidebar />}
-      sidebarW='65%'
+  return isError ? (
+    <Alert
+      status='error'
+      title='Oops!'
+      description={error.response.data.message}
     />
+  ) : (
+    !isLoading && (
+      <ContentSidebar
+        content={<Content />}
+        contentW='35%'
+        maxContentW={['100%', '70%']}
+        sidebar={<Sidebar />}
+        sidebarW='65%'
+      />
+    )
   )
 }
 
-export default withRouter(Profile)
+export default Profile

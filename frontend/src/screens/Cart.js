@@ -18,12 +18,11 @@ import { PrimaryButton } from 'components/Shared/Buttons'
 import { PrimaryHeading, Subtitle } from 'components/Shared/Typography'
 import { FiCreditCard, FiShoppingBag, FiTrash } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { cartAction } from 'slices/cartSlice'
 
 const Cart = ({ history }) => {
   const dispatch = useDispatch()
-  const cart = useSelector((state) => state.cart)
+  const cart = useSelector(state => state.cart)
   const emptyCart = cart.items.length === 0
 
   const handleCheckout = () => {
@@ -34,7 +33,7 @@ const Cart = ({ history }) => {
     <Stack spacing={3} divider={<Divider />} w='90%' mb={5}>
       <PrimaryHeading text='Shopping Cart' />
       {emptyCart && <Subtitle text='Your shopping cart is empty.' />}
-      {cart.items.map((item) => (
+      {cart.items.map(item => (
         <SimpleGrid minChildWidth='25ch' gap={8} key={item._id}>
           {/* COL 1 */}
           <HStack spacing={3} maxW='35ch'>
@@ -58,11 +57,11 @@ const Cart = ({ history }) => {
             <FormControl>
               <Select
                 value={item.qty}
-                onChange={(e) =>
+                onChange={e =>
                   dispatch(cartAction({ ...item, qty: Number(e.target.value) }))
                 }
               >
-                {[...Array(item?.stockCount).keys()].map((o) => (
+                {[...Array(item?.stockCount).keys()].map(o => (
                   <option key={o + 1} value={o + 1}>
                     {o + 1}
                   </option>
@@ -113,4 +112,4 @@ const Cart = ({ history }) => {
   return <ContentSidebar content={<Content />} sidebar={<Sidebar />} />
 }
 
-export default withRouter(Cart)
+export default Cart

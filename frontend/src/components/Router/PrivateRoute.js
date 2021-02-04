@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 
 const PrivateRoute = ({ admin, children, ...rest }) => {
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector(state => state.auth)
   return admin ? (
     <Route
       {...rest}
@@ -23,7 +23,7 @@ const PrivateRoute = ({ admin, children, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) =>
-        auth.user.id ? (
+        auth.user._id ? (
           children
         ) : (
           <Redirect

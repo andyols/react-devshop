@@ -16,7 +16,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (user && (await user.match(password))) {
     const { _id, name, email, isAdmin } = user
     // data to send back to client
-    res.json({ id: _id, name, email, isAdmin, token: generateToken(_id) })
+    res.json({ _id, name, email, isAdmin, token: generateToken(_id) })
   } else {
     res.status(401)
     throw new Error('Invalid email or password')
@@ -51,9 +51,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const { _id, isAdmin } = user
 
   // data to send back to client
-  res
-    .status(201)
-    .json({ id: _id, name, email, isAdmin, token: generateToken(_id) })
+  res.status(201).json({ _id, name, email, isAdmin, token: generateToken(_id) })
 })
 
 /**

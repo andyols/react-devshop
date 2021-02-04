@@ -10,16 +10,11 @@ import { LoginForm } from 'components/Forms'
 import { PrimaryHeading } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  Link as RouterLink,
-  useHistory,
-  useLocation,
-  withRouter
-} from 'react-router-dom'
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
 
 const Login = () => {
   // redux
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector(state => state.auth)
 
   // react-router
   const history = useHistory()
@@ -55,4 +50,4 @@ const Login = () => {
   )
 }
 
-export default withRouter(Login)
+export default Login

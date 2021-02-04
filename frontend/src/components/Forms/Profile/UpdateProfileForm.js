@@ -1,8 +1,6 @@
-import { Divider } from '@chakra-ui/react'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { requestUserUpdate } from 'api'
 import { FormButtons, FormInput, FormWrapper } from 'components/Shared/Form'
-import { SecondaryHeading } from 'components/Shared/Typography'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiMail, FiUser } from 'react-icons/fi'
@@ -12,7 +10,7 @@ import { authRequest } from 'slices/authSlice'
 
 const UpdateProfileForm = () => {
   const dispatch = useDispatch()
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector(state => state.auth)
   const { name, email } = auth.user
 
   const { register, handleSubmit, errors, reset } = useForm({
@@ -20,7 +18,7 @@ const UpdateProfileForm = () => {
     resolver: yupResolver(updateProfileSchema)
   })
 
-  const onSubmit = async (data) =>
+  const onSubmit = async data =>
     dispatch(authRequest(requestUserUpdate, data, auth.user.token))
 
   useEffect(() => {
@@ -31,8 +29,6 @@ const UpdateProfileForm = () => {
 
   return (
     <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-      <SecondaryHeading text='Public Profile' fontSize='lg' pt={3} />
-      <Divider />
       <FormInput
         id='name'
         error={errors.name}
