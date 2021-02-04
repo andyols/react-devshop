@@ -30,5 +30,5 @@ const PORT = process.env.PORT || 5000
 
 app.listen(
   PORT,
-  logInfo('express', `running on port ${PORT} (${process.env.NODE_ENV})`)
+  logInfo(`express__running on port ${PORT} (${process.env.NODE_ENV})`)
 )
