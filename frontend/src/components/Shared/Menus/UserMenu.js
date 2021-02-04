@@ -18,20 +18,24 @@ import {
 import { useRef, useState } from 'react'
 import { FiChevronDown, FiLogIn, FiLogOut } from 'react-icons/fi'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { logoutRequest } from 'slices/authSlice'
 import { NavButton } from '../Buttons'
 
 const UserMenu = () => {
-  const cancelRef = useRef()
+  // router
   const history = useHistory()
-  const location = useLocation()
+
+  // redux
   const dispatch = useDispatch()
+  const auth = useSelector(state => state.auth)
+  const cartLength = useSelector(state => state.cart.items.length)
+  const cartEmpty = cartLength === 0
+
+  // chakra dark/light mode styling
   const menuColor = useColorModeValue('gray.900', 'gray.50')
   const menuExpandedColor = useColorModeValue('gray.200', 'gray.400')
-  const auth = useSelector((state) => state.auth)
-  const cartLength = useSelector((state) => state.cart.items.length)
-  const cartEmpty = cartLength === 0
+
   const [logoutAlert, setLogoutAlert] = useState(false)
 
   const handleCloseAlert = () => setLogoutAlert(false)
@@ -41,6 +45,7 @@ const UserMenu = () => {
     setLogoutAlert(false)
   }
 
+  const cancelRef = useRef()
   const LogoutAlert = () =>
     cartEmpty ? null : (
       <AlertDialog
@@ -79,25 +84,14 @@ const UserMenu = () => {
               <Button ref={cancelRef} onClick={handleCloseAlert}>
                 Cancel
               </Button>
-              {location.pathname.includes('product') ? (
-                <Button
-                  colorScheme='purple'
-                  onClick={handleConfirmLogout}
-                  rightIcon={<FiLogOut />}
-                >
-                  Sure am!
-                </Button>
-              ) : (
-                <Button
-                  as={RouterLink}
-                  to='/'
-                  colorScheme='purple'
-                  onClick={handleConfirmLogout}
-                  rightIcon={<FiLogOut />}
-                >
-                  Sure am!
-                </Button>
-              )}
+
+              <Button
+                colorScheme='purple'
+                onClick={handleConfirmLogout}
+                rightIcon={<FiLogOut />}
+              >
+                Sure am!
+              </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>

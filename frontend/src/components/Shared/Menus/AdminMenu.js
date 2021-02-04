@@ -15,11 +15,16 @@ import { logoutRequest } from 'slices/authSlice'
 import { NavButton } from '../Buttons'
 
 const AdminMenu = () => {
+  // router
   const history = useHistory()
+
+  // redux
   const dispatch = useDispatch()
+  const auth = useSelector(state => state.auth)
+
+  // chakra dark/light mode styling
   const menuColor = useColorModeValue('gray.900', 'gray.50')
   const menuExpandedColor = useColorModeValue('gray.200', 'gray.400')
-  const auth = useSelector((state) => state.auth)
 
   if (!auth.user.token)
     return <NavButton label='Sign In' rightIcon={<FiLogIn />} to='/login' />
