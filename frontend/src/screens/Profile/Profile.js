@@ -42,7 +42,14 @@ const Profile = () => {
       {isError && (
         <Alert status='error' title='Oops!' description='Server error' />
       )}
-      <OrderTable {...{ orders }} />
+      {orders.length ? (
+        <OrderTable {...{ orders }} />
+      ) : (
+        <>
+          <Divider />
+          <Subtitle text='You do not have any orders yet.' />
+        </>
+      )}
     </Stack>
   )
 
@@ -55,7 +62,6 @@ const Profile = () => {
       maxContentW={['100%', '70%']}
       sidebar={<Sidebar />}
       sidebarW='65%'
-      maxContentW={['100%', '70%']}
     />
   )
 }

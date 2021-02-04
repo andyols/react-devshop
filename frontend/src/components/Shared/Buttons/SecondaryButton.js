@@ -17,6 +17,7 @@ const SecondaryButton = ({
       leftIcon={leftIcon && leftIcon}
       rightIcon={rightIcon && rightIcon}
       lineHeight={0}
+      iconSpacing={label ? 3 : 0}
       {...rest}
     >
       {label}

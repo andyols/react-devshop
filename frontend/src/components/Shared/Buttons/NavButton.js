@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
 const NavButton = forwardRef((props, ref) => {
-  const { leftIcon, rightIcon, label, to, color, ...rest } = props
+  const { leftIcon, rightIcon, label, to, ...rest } = props
   return (
     <Button
       ref={ref}
@@ -12,7 +12,7 @@ const NavButton = forwardRef((props, ref) => {
       variant='link'
       leftIcon={leftIcon && leftIcon}
       rightIcon={rightIcon && rightIcon}
-      color={color || 'gray.50'}
+      color='gray.50'
       _focus={{ outline: 0, textDecor: 'underline' }}
       {...rest}
     >
