@@ -11,7 +11,7 @@ const Users = () => {
   const { token } = auth.user
 
   const { data: users, isLoading, isError, error } = useQuery(
-    ['allUsers', { token }],
+    ['users', { token }],
     requestAllUsers,
     { retry: 3, refetchOnWindowFocus: false, enabled: !!token }
   )

@@ -136,3 +136,12 @@ export const requestAllUsers = async ({ queryKey }) => {
   })
   return data
 }
+
+export const requestDeleteUser = async ({ token, id }) => {
+  const { data } = await axios({
+    url: `/api/users/${id}`,
+    method: 'DELETE',
+    headers: { ...headers, Authorization: `Bearer ${token}` }
+  })
+  return data
+}

@@ -11,14 +11,29 @@ import {
   Tr,
   useColorModeValue
 } from '@chakra-ui/react'
+import { requestDeleteUser } from 'api'
 import { SecondaryButton } from 'components/Shared/Buttons'
 import { FiCheck, FiEdit, FiTrash, FiX } from 'react-icons/fi'
+import { useMutation, useQueryClient } from 'react-query'
+import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 const UserTable = ({ users }) => {
   // router
   const history = useHistory()
 
+  // redux
+  const token = useSelector((state) => state.auth.user.token)
+
+  // react-query
+  const queryClient = useQueryClient()
+  const { mutateAsync, isLoading } = useMutation(requestDeleteUser)
+  const handleDelete = async (id) => {
+    await mutateAsync({ token, id })
+    queryClient.invalidateQueries('users')
+  }
+
+  // color mode styles
   const deleteBorderColor = useColorModeValue('gray.200', 'gray.700')
 
   return (
@@ -54,15 +69,17 @@ const UserTable = ({ users }) => {
               <HStack>
                 <ButtonGroup size='sm' isAttached>
                   <SecondaryButton
-                    onClick={() => history.push(`/users/${user._id}/edit`)}
                     leftIcon={<FiEdit />}
                     label='Edit'
+                    onClick={() => history.push(`/users/${user._id}/edit`)}
                   />
                   <SecondaryButton
                     rightIcon={<FiTrash />}
                     colorScheme='red'
                     variant='outline'
                     borderColor={deleteBorderColor}
+                    isLoading={isLoading}
+                    onClick={() => handleDelete(user._id)}
                   />
                 </ButtonGroup>
               </HStack>
